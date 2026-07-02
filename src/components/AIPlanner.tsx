@@ -4,9 +4,9 @@ import { generatePlan, type TravelPlan } from "@/lib/planner.functions";
 import { resorts } from "@/data/resorts";
 
 const EXAMPLES = [
-  "Имам бюджет 1500 лв. за двама за 5 дни.",
-  "3000 лв. за семейство от 4 души, 7 нощувки, все едно къде.",
-  "Евтина ваканция за 2 души с 800 лв., 4 нощувки в България.",
+  "Имам бюджет 800€ за двама за 5 дни.",
+  "1500€ за семейство от 4 души, 7 нощувки, все едно къде.",
+  "Евтина ваканция за 2 души с 400€, 4 нощувки в България.",
 ];
 
 export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => void }) {
@@ -62,7 +62,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Напр.: Имам бюджет 1500 лв. за двама за 5 дни."
+              placeholder="Напр.: Имам бюджет 800€ за двама за 5 дни."
               rows={5}
               className="w-full bg-parchment/5 border border-gold/30 focus:border-gold outline-none text-parchment placeholder:text-parchment/35 font-mono text-sm p-4 rounded-none resize-none transition-colors"
               disabled={loading}
@@ -140,19 +140,19 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
                       {plan.within_budget ? "В бюджета" : "Над бюджета"}
                     </div>
                     <div className="font-serif text-[28px] font-medium leading-none mt-1">
-                      {Math.round(plan.grand_total)} <span className="text-sm text-parchment/50">лв.</span>
+                      {Math.round(plan.grand_total)} <span className="text-sm text-parchment/50">€</span>
                     </div>
                     <div className="font-mono text-[10px] text-parchment/40 mt-1">
-                      бюджет: {Math.round(plan.budget)} лв.
+                      бюджет: {Math.round(plan.budget)} €
                     </div>
                   </div>
                 </div>
 
                 {/* Breakdown */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-gold/20 pt-4">
-                  <Stat label="Хотел" value={plan.hotel_total} note={`${plan.nights} нощ. × ${plan.hotel_price_per_night} лв.`} />
+                  <Stat label="Хотел" value={plan.hotel_total} note={`${plan.nights} нощ. × ${plan.hotel_price_per_night}€`} />
                   <Stat label="Транспорт" value={plan.transport_total} note={`${plan.people} души`} />
-                  <Stat label="Ресторанти" value={plan.restaurants_total} />
+                  <Stat label="Ресторанти" value={plan.restaurants_total} note="фиксирана цена/курорт" />
                   <Stat label="Атракции" value={plan.attractions_total} />
                 </div>
 
@@ -169,7 +169,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
                             <div className="text-parchment/50 text-xs mt-0.5">{a.description}</div>
                           </div>
                           <div className="font-mono text-xs text-gold-soft whitespace-nowrap">
-                            {a.estimated_price_per_person} лв/чов.
+                            {a.estimated_price_per_person}€/чов.
                           </div>
                         </li>
                       ))}
@@ -187,7 +187,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
                         <li key={i} className="flex justify-between border-b border-parchment/10 pb-1">
                           <span className="text-parchment/85">{r.name}</span>
                           <span className="font-mono text-xs text-parchment/55">
-                            ~{r.avg_price_per_person} лв/чов.
+                            ~{r.avg_price_per_person}€/чов. · фиксирано
                           </span>
                         </li>
                       ))}
@@ -220,7 +220,7 @@ function Stat({ label, value, note }: { label: string; value: number; note?: str
   return (
     <div>
       <div className="font-mono text-[10px] tracking-wider uppercase text-parchment/50">{label}</div>
-      <div className="font-serif text-lg mt-0.5">{Math.round(value)} <span className="text-xs text-parchment/50">лв</span></div>
+      <div className="font-serif text-lg mt-0.5">{Math.round(value)} <span className="text-xs text-parchment/50">€</span></div>
       {note && <div className="font-mono text-[10px] text-parchment/40 mt-0.5">{note}</div>}
     </div>
   );

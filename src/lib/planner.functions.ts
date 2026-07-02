@@ -5,7 +5,7 @@ import { resorts } from "@/data/resorts";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 
 const planSchema = z.object({
-  resort_id: z.string().describe("id на избрания курорт от списъка"),
+  resort_id: z.string(),
   resort_name: z.string(),
   hotel_name: z.string(),
   hotel_price_per_night: z.number(),
@@ -32,7 +32,7 @@ const planSchema = z.object({
   grand_total: z.number(),
   budget: z.number(),
   within_budget: z.boolean(),
-  summary: z.string().describe("Кратко обяснение на плана на български"),
+  summary: z.string(),
 });
 
 export type TravelPlan = z.infer<typeof planSchema>;
@@ -49,29 +49,39 @@ export const generatePlan = createServerFn({ method: "POST" })
       id: r.id,
       name: r.name,
       country: r.country,
-      hotels: r.hotels.map((h) => ({ name: h.name, price: h.price, meta: h.meta, board: h.board })),
-      restaurants: r.restaurants,
-      transport: r.transport,
+      hotels: r.hotels.map((h) => ({ name: h.name, price_eur: h.price, meta: h.meta, board: h.board })),
+      avg_meal_eur_per_person: r.avgMealEUR,
+      transport_eur: r.transport,
     }));
 
     const gateway = createLovableAiGatewayProvider(key);
     const system = `Ти си AI планер за морска почивка. Отговаряш САМО на български език.
-Избираш ЕДИН курорт и хотел от предоставения каталог, който най-добре пасва на бюджета.
-Всички цени са в лева (BGN). Смятай реалистично:
+ВСИЧКИ цени са в ЕВРО (€). Не използвай лева.
+Избираш ЕДИН курорт и хотел от предоставения каталог, който най-добре пасва на бюджета (в €).
+
+ВАЖНО ЗА РЕСТОРАНТИТЕ:
+- Средната цена за ресторант на човек е ФИКСИРАНА за всеки курорт: полето "avg_meal_eur_per_person" в каталога.
+- НЕ измисляй, НЕ променяй тази цена. Използвай точната стойност от каталога.
+- В "restaurants" върни 2-3 примерни ресторанта за избрания курорт, като avg_price_per_person = avg_meal_eur_per_person на курорта (една и съща цена).
+- restaurants_total = avg_meal_eur_per_person * people * nights (по една вечеря навън на ден).
+
+Пресмятания:
 - hotel_total = hotel_price_per_night * nights
-- transport_total = цена за посочения старт * people (двупосочно, ако е разумно)
-- restaurants_total = средна цена * people * (nights ~ вечери навън)
+- transport_total = цена за избрания старт (най-разумният от каталога) * people (двупосочно, ако е разумно)
 - attractions_total = сума на estimated_price_per_person * people
-Предложи 3-5 реални атракции за избрания курорт (плажове, забележителности, ексурсии).
-grand_total трябва да е <= budget когато е възможно. Ако бюджетът е твърде малък, избери най-евтината опция и постави within_budget=false.`;
+- grand_total = hotel_total + transport_total + restaurants_total + attractions_total
+
+Предложи 3-5 реални атракции за курорта (плажове, забележителности, екскурзии) с реалистична цена в €.
+grand_total трябва да е <= budget когато е възможно. Ако бюджетът е малък, избери най-евтината комбинация и постави within_budget=false.`;
 
     const userPrompt = `Заявка на потребителя: "${data.prompt}"
+(Ако потребителят е дал бюджет в лева, преобразувай в евро с курс 1€ = 1.95583 лв.)
 
-Каталог с курорти (JSON):
+Каталог с курорти (JSON, всички цени в €):
 ${JSON.stringify(catalog, null, 2)}
 
-Върни САМО валиден JSON обект (без markdown, без \`\`\`) със следните полета:
-resort_id, resort_name, hotel_name, hotel_price_per_night (number), nights (number), people (number), hotel_total (number), transport_total (number), transport_note (string), restaurants (array of {name, avg_price_per_person}), restaurants_total (number), attractions (array of {name, description, estimated_price_per_person}), attractions_total (number), grand_total (number), budget (number), within_budget (boolean), summary (string).`;
+Върни САМО валиден JSON обект (без markdown), всички суми в €:
+resort_id, resort_name, hotel_name, hotel_price_per_night, nights, people, hotel_total, transport_total, transport_note, restaurants (array of {name, avg_price_per_person}), restaurants_total, attractions (array of {name, description, estimated_price_per_person}), attractions_total, grand_total, budget, within_budget, summary.`;
 
     const { text } = await generateText({
       model: gateway("google/gemini-3-flash-preview"),
@@ -97,5 +107,21 @@ resort_id, resort_name, hotel_name, hotel_price_per_night (number), nights (numb
       console.error("Plan validation failed:", result.error.message, jsonText.slice(0, 500));
       throw new Error("AI планът не съответства на схемата. Опитай отново.");
     }
-    return result.data;
+
+    // Server-side lock: enforce the fixed per-resort restaurant price.
+    // The user cannot change it and the AI cannot invent a different value.
+    const plan = result.data;
+    const resort = resorts.find((r) => r.id === plan.resort_id);
+    if (resort) {
+      const fixed = resort.avgMealEUR;
+      plan.restaurants = plan.restaurants.map((r) => ({
+        ...r,
+        avg_price_per_person: fixed,
+      }));
+      plan.restaurants_total = fixed * plan.people * plan.nights;
+      plan.grand_total =
+        plan.hotel_total + plan.transport_total + plan.restaurants_total + plan.attractions_total;
+      plan.within_budget = plan.grand_total <= plan.budget;
+    }
+    return plan;
   });
