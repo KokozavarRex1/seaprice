@@ -23,6 +23,17 @@ export interface Transport {
   time: string;
 }
 
+export interface TaxiRates {
+  /** Такса пуск / повикване (€) */
+  start: number;
+  /** Дневна тарифа (€/км) */
+  dayPerKm: number;
+  /** Нощна тарифа (€/км), обикновено 22:00–06:00 */
+  nightPerKm: number;
+  /** Кратък източник за прозрачност */
+  source?: string;
+}
+
 export interface Resort {
   id: string;
   name: string;
@@ -31,6 +42,7 @@ export interface Resort {
   lng: number;
   hotels: Hotel[];
   taxi: PriceItem[];
+  taxiRates: TaxiRates;
   parking: PriceItem[];
   restaurants: PriceItem[];
   /** Фиксирана средна цена за човек в приличен ресторант (основно + напитка), €. Не се променя от потребителя. */
@@ -69,6 +81,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
       { name: "На километър", price: 1.2, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 1.0, dayPerKm: 0.5, nightPerKm: 0.65, source: "Общински тарифи Слънчев бряг / Numbeo BG" },
     parking: [
       { name: "Централен паркинг", price: 3, meta: "на час" },
       { name: "Хотелски паркинг", price: 15, meta: "на ден" },
@@ -98,6 +111,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
       { name: "На километър", price: 1.3, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 1.0, dayPerKm: 0.55, nightPerKm: 0.7, source: "Такси Созопол / Numbeo BG" },
     parking: [
       { name: "Паркинг стар град", price: 4, meta: "на час" },
       { name: "Извън центъра", price: 10, meta: "на ден" },
@@ -127,6 +141,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
       { name: "На километър", price: 1.2, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 1.0, dayPerKm: 0.5, nightPerKm: 0.65, source: "Такси Несебър / Numbeo BG" },
     parking: [{ name: "Паркинг вход стар град", price: 3.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 22, meta: "средна цена" }],
     avgMealEUR: 22,
@@ -150,6 +165,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 3.5, meta: "такса пуск" },
       { name: "На километър", price: 1.0, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 1.3, dayPerKm: 0.9, nightPerKm: 1.25, source: "Такси Кавала / Numbeo GR" },
     parking: [
       { name: "Централен паркинг", price: 2, meta: "на час" },
       { name: "Хотелски паркинг", price: 12, meta: "на ден" },
@@ -176,6 +192,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 3.5, meta: "такса пуск" },
       { name: "На километър", price: 1.1, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 1.3, dayPerKm: 0.9, nightPerKm: 1.25, source: "Такси Тасос / Numbeo GR" },
     parking: [{ name: "Пристанищен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Рибен ресторант", price: 20, meta: "средна цена" }],
     avgMealEUR: 20,
@@ -199,6 +216,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 3.5, meta: "такса пуск" },
       { name: "На километър", price: 1.1, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 1.3, dayPerKm: 0.9, nightPerKm: 1.25, source: "Такси Ситония / Numbeo GR" },
     parking: [{ name: "Плажен паркинг", price: 3, meta: "на ден" }],
     restaurants: [{ name: "Основно ястие", price: 16, meta: "средна цена" }],
     avgMealEUR: 22,
@@ -222,6 +240,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 2.0, meta: "такса пуск" },
       { name: "На километър", price: 0.8, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 0.7, dayPerKm: 0.55, nightPerKm: 0.6, source: "Такси Кушадасъ / Numbeo TR" },
     parking: [{ name: "Централен паркинг", price: 2, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 10, meta: "средна цена" }],
     avgMealEUR: 12,
@@ -245,6 +264,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 2.0, meta: "такса пуск" },
       { name: "На километър", price: 0.8, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 0.7, dayPerKm: 0.55, nightPerKm: 0.6, source: "Такси Мармарис / Numbeo TR" },
     parking: [{ name: "Пристанищен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 11, meta: "средна цена" }],
     avgMealEUR: 13,
@@ -268,6 +288,7 @@ export const resorts: Resort[] = [
       { name: "Старт", price: 2.2, meta: "такса пуск" },
       { name: "На километър", price: 0.9, meta: "дневна тарифа" },
     ],
+    taxiRates: { start: 0.75, dayPerKm: 0.6, nightPerKm: 0.65, source: "Такси Бодрум / Numbeo TR" },
     parking: [{ name: "Централен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 13, meta: "средна цена" }],
     avgMealEUR: 18,
