@@ -50,7 +50,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
           <span className="h-px flex-1 bg-gold/25" />
         </div>
         <h2 className="font-serif text-[32px] sm:text-[40px] font-medium leading-tight max-w-2xl">
-          Кажете ни бюджета — ще Ви скроим ваканцията.
+          Кажете ни бюджета —&nbsp; ние ще Ви планираме ваканцията.
         </h2>
         <p className="text-parchment/60 text-sm mt-3 max-w-xl leading-relaxed">
           Хотел, транспорт, ресторанти и атракции — всичко в едно, съобразено с парите Ви.
