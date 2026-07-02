@@ -12,7 +12,7 @@ import {
   fmt,
 } from "@/data/resorts";
 import { AIPlanner } from "@/components/AIPlanner";
-import { getHybridPrice, type HybridPriceResult } from "@/lib/booking-price.functions";
+import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
 
 export const Route = createFileRoute("/")({
   component: Index,
