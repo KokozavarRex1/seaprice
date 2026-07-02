@@ -601,7 +601,7 @@ function ResortPanel({
                   </a>
                 </div>
                 <div className="mt-1.5 font-mono text-[10.5px] text-muted-foreground leading-relaxed">
-                  Въведи цената, която реално виждаш в Booking (или на офертата), за да съвпадне точно с калкулатора.
+                  Въведете цената, която реално виждате в Booking (или на офертата), за да съвпадне точно с калкулатора.
                 </div>
               </>
             ) : (
