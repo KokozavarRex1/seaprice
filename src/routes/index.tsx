@@ -445,28 +445,23 @@ function ResortPanel({
           </div>
           <div className="sm:col-span-2">
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Реална цена от Booking (по избор)
+              Хотелска цена (фиксирана)
             </label>
             <div className="flex gap-2">
-              <input
-                type="number"
-                min={1}
-                placeholder={`€/нощ · примерна: ${hotel ? fmt(hotel.price) : "0"}€`}
-                value={calcRealPrice}
-                onChange={(e) => setCalcRealPrice(e.target.value)}
-                className="flex-1 font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
-              />
+              <div className="flex-1 font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
+                <span>{hotel ? `${fmt(hotel.price)}€ / нощ` : "—"}</span>
+                <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
+                  фиксирана
+                </span>
+              </div>
               <a
                 href={hotel ? bookingLink(resort.name, hotel.name) : "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
               >
-                Отвори Booking →
+                Виж на Booking →
               </a>
-            </div>
-            <div className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
-              Кликни линка, виж истинската цена там, върни се и я въведи тук. Ако полето е празно, ползваме примерната цена от таблицата.
             </div>
           </div>
           <div>
@@ -484,15 +479,14 @@ function ResortPanel({
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Средна цена в ресторант тук
+              Ресторант / човек (фиксирана)
             </label>
-            <input
-              type="number"
-              min={1}
-              value={calcMealPrice}
-              onChange={(e) => setCalcMealPrice(parseFloat(e.target.value) || 0)}
-              className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
-            />
+            <div className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
+              <span>{fmt(resort.avgMealEUR)}€</span>
+              <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
+                фиксирана
+              </span>
+            </div>
           </div>
         </div>
 
