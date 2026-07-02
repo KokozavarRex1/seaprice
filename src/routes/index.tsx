@@ -680,7 +680,7 @@ function ResortPanel({
             {roomsResult && roomsResult.rooms.length > 0 && (
               <div className="mt-2.5">
                 <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1.5">
-                  Избери тип стая ({roomsResult.rooms.length})
+                  Изберете тип стая ({roomsResult.rooms.length})
                 </div>
                 <div className="flex flex-col gap-1.5 max-h-[240px] overflow-y-auto pr-1">
                   {roomsResult.rooms.map((room, i) => {
