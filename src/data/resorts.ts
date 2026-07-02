@@ -23,6 +23,17 @@ export interface Transport {
   time: string;
 }
 
+export interface TaxiRates {
+  /** Такса пуск / повикване (€) */
+  start: number;
+  /** Дневна тарифа (€/км) */
+  dayPerKm: number;
+  /** Нощна тарифа (€/км), обикновено 22:00–06:00 */
+  nightPerKm: number;
+  /** Кратък източник за прозрачност */
+  source?: string;
+}
+
 export interface Resort {
   id: string;
   name: string;
@@ -31,6 +42,7 @@ export interface Resort {
   lng: number;
   hotels: Hotel[];
   taxi: PriceItem[];
+  taxiRates: TaxiRates;
   parking: PriceItem[];
   restaurants: PriceItem[];
   /** Фиксирана средна цена за човек в приличен ресторант (основно + напитка), €. Не се променя от потребителя. */
