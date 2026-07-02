@@ -1,8 +1,14 @@
 export interface Hotel {
   name: string;
+  /** Базова цена/нощ в € (използва се като fallback при неуспешен scrape и за сезонна оценка). */
   price: number;
   meta: string;
   board: "all_inclusive" | "half_board" | "breakfast" | "none";
+  /** Директен URL към обявата в Booking (по избор). Ако е зададен, се използва за scraping. */
+  bookingUrl?: string;
+  stars?: 1 | 2 | 3 | 4 | 5;
+  description?: string;
+  images?: string[];
 }
 
 export interface PriceItem {
