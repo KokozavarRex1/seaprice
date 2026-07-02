@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useCallback, Suspense, lazy } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import type * as Leaflet from "leaflet";
 import {
   resorts,
   tabs,
@@ -10,8 +11,6 @@ import {
   fmt,
 } from "@/data/resorts";
 
-const CompassMap = lazy(() => import("@/components/CompassMap"));
-
 export const Route = createFileRoute("/")({
   component: Index,
 });
@@ -20,6 +19,7 @@ function Index() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>("hotels");
   const [showResult, setShowResult] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
 
   const currentResort = selectedId ? resorts.find((r) => r.id === selectedId) : null;
 
@@ -30,6 +30,75 @@ function Index() {
   const [calcRealPrice, setCalcRealPrice] = useState("");
   const [calcExtraMeals, setCalcExtraMeals] = useState(2);
   const [calcMealPrice, setCalcMealPrice] = useState(0);
+
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<Leaflet.Map | null>(null);
+  const markersRef = useRef<Record<string, Leaflet.Marker>>({});
+
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+
+    let cancelled = false;
+
+    const initMap = async () => {
+      const L = await import("leaflet");
+      if (cancelled || !mapContainerRef.current) return;
+
+      const map = L.map(mapContainerRef.current, {
+        scrollWheelZoom: false,
+        zoomControl: false,
+      }).setView([40.9, 26.5], 6);
+
+      L.control.zoom({ position: "bottomright" }).addTo(map);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 18,
+      }).addTo(map);
+
+      const tilePane = map.getPane("tilePane");
+      if (tilePane) {
+        tilePane.style.filter = "grayscale(0.35) sepia(0.15) brightness(0.9) contrast(1.05)";
+      }
+
+      const pinIcon = () =>
+        L.divIcon({
+          className: "",
+          html: '<div class="compass-pin"></div>',
+          iconSize: [16, 16],
+          iconAnchor: [8, 8],
+        });
+
+      resorts.forEach((r) => {
+        const marker = L.marker([r.lat, r.lng], { icon: pinIcon() }).addTo(map);
+        marker.bindTooltip(r.name, { direction: "top", offset: [0, -10] });
+        marker.on("click", () => setSelectedId(r.id));
+        markersRef.current[r.id] = marker;
+      });
+
+      mapRef.current = map;
+      setMapReady(true);
+    };
+
+    initMap();
+
+    return () => {
+      cancelled = true;
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+      markersRef.current = {};
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedId || !mapRef.current) return;
+    const resort = resorts.find((r) => r.id === selectedId);
+    if (resort) {
+      mapRef.current.setView([resort.lat, resort.lng], 9, { animate: true });
+    }
+  }, [selectedId]);
 
   useEffect(() => {
     if (currentResort) {
@@ -126,15 +195,27 @@ function Index() {
       <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] border-x border-parchment-line">
         {/* Map */}
         <div className="relative border-r border-parchment-line h-[400px] lg:h-[680px]">
-          <Suspense
-            fallback={
-              <div className="h-full w-full bg-ink flex items-center justify-center">
-                <span className="font-mono text-gold-soft text-xs tracking-wider uppercase">Зареждане на карта...</span>
-              </div>
-            }
-          >
-            <CompassMap onSelectResort={handleSelectResort} selectedId={selectedId} />
-          </Suspense>
+          <div className="absolute top-3.5 left-3.5 z-[500] pointer-events-none">
+            <span className="font-mono text-[10.5px] tracking-wider uppercase text-parchment bg-ink/80 border border-gold px-2.5 py-1.5">
+              42.6°N 27.7°E — черно море
+            </span>
+          </div>
+          <div className="absolute top-2 left-2 w-4 h-4 z-[500] pointer-events-none border-t-[1.5px] border-l-[1.5px] border-gold" />
+          <div className="absolute top-2 right-2 w-4 h-4 z-[500] pointer-events-none border-t-[1.5px] border-r-[1.5px] border-gold" />
+          <div className="absolute bottom-2 left-2 w-4 h-4 z-[500] pointer-events-none border-b-[1.5px] border-l-[1.5px] border-gold" />
+          <div className="absolute bottom-2 right-2 w-4 h-4 z-[500] pointer-events-none border-b-[1.5px] border-r-[1.5px] border-gold" />
+          <div
+            ref={mapContainerRef}
+            className="h-full w-full bg-ink"
+            style={{ opacity: mapReady ? 1 : 0, transition: "opacity 0.3s" }}
+          />
+          {!mapReady && (
+            <div className="absolute inset-0 flex items-center justify-center bg-ink">
+              <span className="font-mono text-gold-soft text-xs tracking-wider uppercase">
+                Зареждане на карта...
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Panel */}
