@@ -531,7 +531,7 @@ function ResortPanel({
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Избери хотел
+              Изберете хотел
             </label>
             <select
               value={calcHotelIdx}
