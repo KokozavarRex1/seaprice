@@ -479,6 +479,82 @@ function ResortPanel({
               </div>
             ))}
           </div>
+        ) : activeTab === "taxi" ? (
+          <div>
+            <div className="grid grid-cols-3 gap-2 py-3.5 border-b border-parchment-line">
+              <div>
+                <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">Такса пуск</div>
+                <div className="font-mono text-[15px] font-medium text-ink mt-0.5">{resort.taxiRates.start.toFixed(2)}€</div>
+              </div>
+              <div>
+                <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">Дневна ⛅</div>
+                <div className="font-mono text-[15px] font-medium text-ink mt-0.5">{resort.taxiRates.dayPerKm.toFixed(2)}€/км</div>
+              </div>
+              <div>
+                <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">Нощна 🌙</div>
+                <div className="font-mono text-[15px] font-medium text-ink mt-0.5">{resort.taxiRates.nightPerKm.toFixed(2)}€/км</div>
+              </div>
+            </div>
+
+            <div className="py-3.5 border-b border-parchment-line grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
+                  Км/ден
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={taxiKmPerDay}
+                  onChange={(e) => setTaxiKmPerDay(parseFloat(e.target.value) || 0)}
+                  className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
+                />
+              </div>
+              <div>
+                <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
+                  Дял нощни курсове ({taxiNightShare}%)
+                </label>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={5}
+                  value={taxiNightShare}
+                  onChange={(e) => setTaxiNightShare(parseInt(e.target.value))}
+                  className="w-full"
+                />
+              </div>
+            </div>
+
+            {(() => {
+              const km = taxiKmPerDay;
+              const nightKm = (km * taxiNightShare) / 100;
+              const dayKm = km - nightKm;
+              const perDay =
+                resort.taxiRates.start + dayKm * resort.taxiRates.dayPerKm + nightKm * resort.taxiRates.nightPerKm;
+              const perWeek = perDay * 7;
+              return (
+                <div className="py-3.5 grid grid-cols-2 gap-3">
+                  <div className="p-2.5 bg-parchment border border-parchment-line">
+                    <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">Прогноза / ден</div>
+                    <div className="font-serif text-[22px] font-medium text-ink mt-0.5">{fmt(perDay)}€</div>
+                    <div className="font-mono text-[10.5px] text-muted-foreground mt-0.5">
+                      {fmt(dayKm)}км дневна + {fmt(nightKm)}км нощна + пуск
+                    </div>
+                  </div>
+                  <div className="p-2.5 bg-parchment border border-parchment-line">
+                    <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">За 7 дни</div>
+                    <div className="font-serif text-[22px] font-medium text-ink mt-0.5">{fmt(perWeek)}€</div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {resort.taxiRates.source && (
+              <div className="font-mono text-[10.5px] text-muted-foreground pt-1 pb-2">
+                Източник: {resort.taxiRates.source}
+              </div>
+            )}
+          </div>
         ) : (
           <div>
             {(resort[activeTab as keyof typeof resort] as { name: string; price: number; meta: string }[]).map(
