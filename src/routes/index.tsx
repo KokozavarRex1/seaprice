@@ -399,6 +399,10 @@ function ResortPanel({
   setManualPriceMode: (v: boolean) => void;
   manualPriceTotal: string;
   setManualPriceTotal: (v: string) => void;
+  taxiKmPerDay: number;
+  setTaxiKmPerDay: (v: number) => void;
+  taxiNightShare: number;
+  setTaxiNightShare: (v: number) => void;
 }) {
   const covered = boardMeals[resort.hotels[calcHotelIdx]?.board ?? "none"] ?? 0;
   const hotel = resort.hotels[calcHotelIdx];
