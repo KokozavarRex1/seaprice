@@ -55,14 +55,14 @@ export const generatePlan = createServerFn({ method: "POST" })
     }));
 
     const gateway = createLovableAiGatewayProvider(key);
-    const system = `Ти си AI планер за морска почивка. Отговаряш САМО на български език.
-ВСИЧКИ цени са в ЕВРО (€). Не използвай лева.
-Избираш ЕДИН курорт и хотел от предоставения каталог, който най-добре пасва на бюджета (в €).
+    const system = `Вие сте AI планер за морска почивка. Отговаряте САМО на български език.
+ВСИЧКИ цени са в ЕВРО (€). Не използвайте лева.
+Избирате ЕДИН курорт и хотел от предоставения каталог, който най-добре пасва на бюджета (в €).
 
 ВАЖНО ЗА РЕСТОРАНТИТЕ:
 - Средната цена за ресторант на човек е ФИКСИРАНА за всеки курорт: полето "avg_meal_eur_per_person" в каталога.
-- НЕ измисляй, НЕ променяй тази цена. Използвай точната стойност от каталога.
-- В "restaurants" върни 2-3 примерни ресторанта за избрания курорт, като avg_price_per_person = avg_meal_eur_per_person на курорта (една и съща цена).
+- НЕ измисляйте, НЕ променяйте тази цена. Използвайте точната стойност от каталога.
+- Върнете в "restaurants" 2-3 примерни ресторанта за избрания курорт, като avg_price_per_person = avg_meal_eur_per_person на курорта (една и съща цена).
 - restaurants_total = avg_meal_eur_per_person * people * nights (по една вечеря навън на ден).
 
 Пресмятания:
@@ -71,8 +71,8 @@ export const generatePlan = createServerFn({ method: "POST" })
 - attractions_total = сума на estimated_price_per_person * people
 - grand_total = hotel_total + transport_total + restaurants_total + attractions_total
 
-Предложи 3-5 реални атракции за курорта (плажове, забележителности, екскурзии) с реалистична цена в €.
-grand_total трябва да е <= budget когато е възможно. Ако бюджетът е малък, избери най-евтината комбинация и постави within_budget=false.`;
+Предложете 3-5 реални атракции за курорта (плажове, забележителности, екскурзии) с реалистична цена в €.
+grand_total трябва да е <= budget когато е възможно. Ако бюджетът е малък, изберете най-евтината комбинация и поставете within_budget=false.`;
 
     const userPrompt = `Заявка на потребителя: "${data.prompt}"
 (Ако потребителят е дал бюджет в лева, преобразувай в евро с курс 1€ = 1.95583 лв.)
@@ -93,19 +93,19 @@ resort_id, resort_name, hotel_name, hotel_price_per_night, nights, people, hotel
     const start = cleaned.search(/[\{\[]/);
     const end = cleaned.lastIndexOf("}");
     if (start === -1 || end === -1) {
-      throw new Error("AI не върна валиден JSON. Опитай отново.");
+      throw new Error("AI не върна валиден JSON. Опитайте отново.");
     }
     const jsonText = cleaned.substring(start, end + 1);
     let parsed: unknown;
     try {
       parsed = JSON.parse(jsonText);
     } catch {
-      throw new Error("AI не върна валиден JSON. Опитай отново.");
+      throw new Error("AI не върна валиден JSON. Опитайте отново.");
     }
     const result = planSchema.safeParse(parsed);
     if (!result.success) {
       console.error("Plan validation failed:", result.error.message, jsonText.slice(0, 500));
-      throw new Error("AI планът не съответства на схемата. Опитай отново.");
+      throw new Error("AI планът не съответства на схемата. Опитайте отново.");
     }
 
     // Server-side lock: enforce the fixed per-resort restaurant price.

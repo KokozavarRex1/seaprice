@@ -285,11 +285,11 @@ function Index() {
           {!currentResort ? (
             <div className="px-8 sm:px-10 py-16 text-center">
               <div className="font-mono text-[11px] tracking-[1.8px] uppercase text-coral-dark font-medium">
-                Избери дестинация
+                Изберете дестинация
               </div>
-              <h2 className="font-serif text-[26px] font-medium mt-3 mb-2">Кликни курорт на картата</h2>
+              <h2 className="font-serif text-[26px] font-medium mt-3 mb-2">Кликнете върху курорт на картата</h2>
               <p className="text-muted-foreground text-sm max-w-[320px] mx-auto leading-relaxed">
-                Ще видиш хотели, таксита, паркинг, ресторанти и колко струва да стигнеш дотам — плюс калкулатор за целия бюджет.
+                Ще видите хотели, таксита, паркинг, ресторанти и колко струва да стигнете дотам — плюс калкулатор за целия бюджет.
               </p>
             </div>
           ) : (
@@ -531,7 +531,7 @@ function ResortPanel({
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Избери хотел
+              Изберете хотел
             </label>
             <select
               value={calcHotelIdx}
@@ -572,7 +572,7 @@ function ResortPanel({
                     : "border-parchment-line text-muted-foreground hover:border-gold hover:text-ink"
                 }`}
               >
-                {manualPriceMode ? "✓ Ръчно" : "Въведи ръчно"}
+                {manualPriceMode ? "✓ Ръчно" : "Въведете ръчно"}
               </button>
             </div>
 
@@ -601,7 +601,7 @@ function ResortPanel({
                   </a>
                 </div>
                 <div className="mt-1.5 font-mono text-[10.5px] text-muted-foreground leading-relaxed">
-                  Въведи цената, която реално виждаш в Booking (или на офертата), за да съвпадне точно с калкулатора.
+                  Въведете цената, която реално виждате в Booking (или на офертата), за да съвпадне точно с калкулатора.
                 </div>
               </>
             ) : (
@@ -648,7 +648,7 @@ function ResortPanel({
                     <>
                       <span>{hotel ? `${fmt(hotel.price * calcNights)}€ (базова)` : "—"}</span>
                       <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
-                        натисни „провери"
+                        натиснете „провери"
                       </span>
                     </>
                   );
@@ -668,7 +668,7 @@ function ResortPanel({
                 rel="noopener noreferrer"
                 className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
               >
-                Отвори →
+                Отворете →
               </a>
             </div>
             {roomsResult && (
@@ -680,7 +680,7 @@ function ResortPanel({
             {roomsResult && roomsResult.rooms.length > 0 && (
               <div className="mt-2.5">
                 <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1.5">
-                  Избери тип стая ({roomsResult.rooms.length})
+                  Изберете тип стая ({roomsResult.rooms.length})
                 </div>
                 <div className="flex flex-col gap-1.5 max-h-[240px] overflow-y-auto pr-1">
                   {roomsResult.rooms.map((room, i) => {
@@ -755,7 +755,7 @@ function ResortPanel({
             <b>{boardLabels[hotel.board] || "Без данни за хранене"}</b>
             <br />
             Хотелът покрива {covered} от 3 хранения на ден. Останалите{" "}
-            {Math.max(0, 3 - covered)} по подразбиране са сметнати като излизане навън — може да промениш числото по-горе.
+            {Math.max(0, 3 - covered)} по подразбиране са сметнати като излизане навън — може да промените числото по-горе.
           </div>
         )}
 

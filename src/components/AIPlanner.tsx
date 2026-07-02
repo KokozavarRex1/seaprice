@@ -50,10 +50,10 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
           <span className="h-px flex-1 bg-gold/25" />
         </div>
         <h2 className="font-serif text-[32px] sm:text-[40px] font-medium leading-tight max-w-2xl">
-          Кажи ми бюджета — ще ти скроя ваканцията.
+          Кажете ни бюджета — ще Ви скроим ваканцията.
         </h2>
         <p className="text-parchment/60 text-sm mt-3 max-w-xl leading-relaxed">
-          Хотел, транспорт, ресторанти и атракции — всичко в едно, съобразено с парите ти.
+          Хотел, транспорт, ресторанти и атракции — всичко в едно, съобразено с парите Ви.
         </p>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8">
@@ -86,7 +86,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
               disabled={loading || prompt.trim().length < 3}
               className="mt-5 w-full bg-gold text-ink font-mono text-xs tracking-[2px] uppercase py-4 hover:bg-gold-soft transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              {loading ? "Планирам…" : "Направи ми план"}
+              {loading ? "Планирам…" : "Направете план"}
             </button>
             {error && (
               <div className="mt-4 border border-coral/60 bg-coral/10 text-coral-light font-mono text-xs p-3">
@@ -105,7 +105,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
                     <div className="absolute left-1/2 top-[10%] bottom-[10%] w-px bg-gold -translate-x-1/2" />
                   </div>
                   <p className="font-mono text-[11px] tracking-wider uppercase text-parchment/50">
-                    Планът ти ще се появи тук
+                    Вашият план ще се появи тук
                   </p>
                 </div>
               </div>
@@ -205,7 +205,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
                   onClick={openResort}
                   className="w-full border border-gold text-gold hover:bg-gold hover:text-ink font-mono text-[11px] tracking-[2px] uppercase py-3 transition-colors"
                 >
-                  Отвори {plan.resort_name} на картата →
+                  Отворете {plan.resort_name} на картата →
                 </button>
               </div>
             )}

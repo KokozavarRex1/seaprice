@@ -284,7 +284,7 @@ export const tabs = [
   { key: "taxi", label: "Таксита" },
   { key: "parking", label: "Паркинг" },
   { key: "restaurants", label: "Ресторанти" },
-  { key: "transport", label: "Как да стигна" },
+  { key: "transport", label: "Транспорт" },
 ] as const;
 
 export const boardMeals: Record<string, number> = {
