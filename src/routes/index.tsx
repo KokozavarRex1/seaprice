@@ -251,8 +251,11 @@ function Index() {
               onTabChange={setActiveTab}
               calcStart={calcStart}
               setCalcStart={setCalcStart}
+              calcCheckin={calcCheckin}
+              setCalcCheckin={setCalcCheckin}
+              calcCheckout={calcCheckout}
+              setCalcCheckout={setCalcCheckout}
               calcNights={calcNights}
-              setCalcNights={setCalcNights}
               calcHotelIdx={calcHotelIdx}
               setCalcHotelIdx={setCalcHotelIdx}
               calcPeople={calcPeople}
@@ -262,6 +265,9 @@ function Index() {
               showResult={showResult}
               budget={budget}
               onCalc={handleCalc}
+              hybridPrice={hybridPrice}
+              checkingPrice={checkingPrice}
+              onCheckPrice={handleCheckPrice}
             />
           )}
         </div>
