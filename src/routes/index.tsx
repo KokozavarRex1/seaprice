@@ -475,14 +475,24 @@ function ResortPanel({
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Нощувки
+              Настаняване
             </label>
             <input
-              type="number"
-              min={1}
-              max={21}
-              value={calcNights}
-              onChange={(e) => setCalcNights(parseInt(e.target.value) || 1)}
+              type="date"
+              value={calcCheckin}
+              onChange={(e) => setCalcCheckin(e.target.value)}
+              className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
+            />
+          </div>
+          <div className="sm:col-start-2">
+            <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
+              Освобождаване ({calcNights} {calcNights === 1 ? "нощ" : "нощи"})
+            </label>
+            <input
+              type="date"
+              value={calcCheckout}
+              min={calcCheckin}
+              onChange={(e) => setCalcCheckout(e.target.value)}
               className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
             />
           </div>
