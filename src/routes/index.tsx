@@ -366,6 +366,10 @@ function ResortPanel({
   setManualPriceMode,
   manualPriceTotal,
   setManualPriceTotal,
+  taxiKmPerDay,
+  setTaxiKmPerDay,
+  taxiNightShare,
+  setTaxiNightShare,
 }: {
   resort: (typeof resorts)[0];
   activeTab: string;
