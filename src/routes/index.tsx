@@ -341,7 +341,9 @@ function ResortPanel({
   showResult,
   budget,
   onCalc,
-  hybridPrice,
+  roomsResult,
+  selectedRoomIdx,
+  onSelectRoomIdx,
   checkingPrice,
   onCheckPrice,
 }: {
@@ -364,7 +366,9 @@ function ResortPanel({
   showResult: boolean;
   budget: { grandTotal: number; segments: { label: string; value: number; color: string }[] } | null;
   onCalc: () => void;
-  hybridPrice: HybridPriceResult | null;
+  roomsResult: BookingRoomsResult | null;
+  selectedRoomIdx: number;
+  onSelectRoomIdx: (idx: number) => void;
   checkingPrice: boolean;
   onCheckPrice: () => void;
 }) {
