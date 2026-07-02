@@ -721,6 +721,8 @@ function ResortPanel({
                 </div>
               </div>
             )}
+            </>
+            )}
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
