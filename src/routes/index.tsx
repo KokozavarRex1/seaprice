@@ -668,7 +668,7 @@ function ResortPanel({
                 rel="noopener noreferrer"
                 className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
               >
-                Отвори →
+                Отворете →
               </a>
             </div>
             {roomsResult && (
