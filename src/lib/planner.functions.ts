@@ -55,7 +55,7 @@ export const generatePlan = createServerFn({ method: "POST" })
     }));
 
     const gateway = createLovableAiGatewayProvider(key);
-    const system = `Ти си AI планер за морска почивка. Отговаряш САМО на български език.
+    const system = `Вие сте AI планер за морска почивка. Отговаряте САМО на български език.
 ВСИЧКИ цени са в ЕВРО (€). Не използвай лева.
 Избираш ЕДИН курорт и хотел от предоставения каталог, който най-добре пасва на бюджета (в €).
 
