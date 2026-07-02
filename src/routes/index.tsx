@@ -356,6 +356,10 @@ function ResortPanel({
   onSelectRoomIdx,
   checkingPrice,
   onCheckPrice,
+  manualPriceMode,
+  setManualPriceMode,
+  manualPriceTotal,
+  setManualPriceTotal,
 }: {
   resort: (typeof resorts)[0];
   activeTab: string;
@@ -381,6 +385,10 @@ function ResortPanel({
   onSelectRoomIdx: (idx: number) => void;
   checkingPrice: boolean;
   onCheckPrice: () => void;
+  manualPriceMode: boolean;
+  setManualPriceMode: (v: boolean) => void;
+  manualPriceTotal: string;
+  setManualPriceTotal: (v: string) => void;
 }) {
   const covered = boardMeals[resort.hotels[calcHotelIdx]?.board ?? "none"] ?? 0;
   const hotel = resort.hotels[calcHotelIdx];
