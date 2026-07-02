@@ -559,9 +559,57 @@ function ResortPanel({
             />
           </div>
           <div className="sm:col-span-2">
-            <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Цена на хотела за престоя
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">
+                Цена на хотела за престоя
+              </label>
+              <button
+                type="button"
+                onClick={() => setManualPriceMode(!manualPriceMode)}
+                className={`font-mono text-[10.5px] tracking-wider uppercase px-2 py-0.5 border transition-colors cursor-pointer ${
+                  manualPriceMode
+                    ? "border-coral text-coral-dark bg-parchment"
+                    : "border-parchment-line text-muted-foreground hover:border-gold hover:text-ink"
+                }`}
+              >
+                {manualPriceMode ? "✓ Ръчно" : "Въведи ръчно"}
+              </button>
+            </div>
+
+            {manualPriceMode ? (
+              <>
+                <div className="flex flex-wrap gap-2">
+                  <div className="flex-1 min-w-[180px] flex items-center border border-parchment-line bg-parchment focus-within:border-gold">
+                    <input
+                      type="number"
+                      min={0}
+                      inputMode="decimal"
+                      value={manualPriceTotal}
+                      onChange={(e) => setManualPriceTotal(e.target.value)}
+                      placeholder={`напр. ${roomsResult?.rooms[selectedRoomIdx]?.totalEUR ?? (resort.hotels[calcHotelIdx]?.price ?? 0) * calcNights}`}
+                      className="w-full font-sans text-sm text-ink bg-transparent px-2.5 py-2 focus:outline-none"
+                    />
+                    <span className="font-mono text-sm text-muted-foreground pr-2.5">€ общо</span>
+                  </div>
+                  <a
+                    href={roomsResult?.bookingUrlWithDates ?? (resort.hotels[calcHotelIdx] ? bookingLink(resort.name, resort.hotels[calcHotelIdx].name) : "#")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
+                  >
+                    Виж в Booking →
+                  </a>
+                </div>
+                <div className="mt-1.5 font-mono text-[10.5px] text-muted-foreground leading-relaxed">
+                  Въведи цената, която реално виждаш в Booking (или на офертата), за да съвпадне точно с калкулатора.
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+            {!manualPriceMode && (
+            <>
+            <label className="sr-only">Цена</label>
             <div className="flex flex-wrap gap-2">
               <div className="flex-1 min-w-[180px] font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
                 {(() => {
