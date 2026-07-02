@@ -73,13 +73,13 @@ ${JSON.stringify(catalog, null, 2)}
 Върни пълен план според схемата.`;
 
     try {
-      const { experimental_output } = await generateText({
+      const { output } = await generateText({
         model: gateway("google/gemini-3-flash-preview"),
-        experimental_output: Output.object({ schema: planSchema }),
+        output: Output.object({ schema: planSchema }),
         system,
         prompt: userPrompt,
       });
-      return experimental_output;
+      return output;
     } catch (err) {
       if (NoObjectGeneratedError.isInstance(err)) {
         throw new Error("AI не успя да генерира валиден план. Опитай отново.");
