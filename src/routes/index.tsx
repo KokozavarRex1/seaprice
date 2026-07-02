@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState, useEffect, useCallback, useRef } from "react";
 import type * as Leaflet from "leaflet";
 import {
@@ -11,6 +12,7 @@ import {
   fmt,
 } from "@/data/resorts";
 import { AIPlanner } from "@/components/AIPlanner";
+import { getHybridPrice, type HybridPriceResult } from "@/lib/booking-price.functions";
 
 export const Route = createFileRoute("/")({
   component: Index,
