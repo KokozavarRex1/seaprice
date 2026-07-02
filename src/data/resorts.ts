@@ -52,7 +52,7 @@ export const resorts: Resort[] = [
         meta: "5★ · закуска включена",
         board: "breakfast",
         stars: 5,
-        bookingUrl: "https://www.booking.com/Share-H7ba0h",
+        bookingUrl: "https://www.booking.com/hotel/bg/galeon-apart-complex.html",
         description:
           "Galeon Residence & SPA се намира в Слънчев бряг, на 200 м от Черно море. Комплексът предлага климатизирани помещения с достъп до отопляем открит басейн и фитнес зона. Всички единици са самостоятелни и разполагат с балкон и мини-бар.",
         images: [
