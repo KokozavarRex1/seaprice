@@ -28,9 +28,7 @@ function Index() {
   const [calcNights, setCalcNights] = useState(5);
   const [calcHotelIdx, setCalcHotelIdx] = useState(0);
   const [calcPeople, setCalcPeople] = useState(2);
-  const [calcRealPrice, setCalcRealPrice] = useState("");
   const [calcExtraMeals, setCalcExtraMeals] = useState(2);
-  const [calcMealPrice, setCalcMealPrice] = useState(0);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Leaflet.Map | null>(null);
@@ -103,10 +101,8 @@ function Index() {
 
   useEffect(() => {
     if (currentResort) {
-      setCalcMealPrice(currentResort.restaurants[0]?.price ?? 0);
       setCalcExtraMeals(Math.max(0, 3 - (boardMeals[currentResort.hotels[0]?.board ?? "none"] ?? 0)));
       setCalcHotelIdx(0);
-      setCalcRealPrice("");
     }
   }, [currentResort]);
 
@@ -134,13 +130,12 @@ function Index() {
     if (!transport) return null;
 
     const covered = boardMeals[hotel.board] ?? 0;
-    const realPriceNum = parseFloat(calcRealPrice);
-    const usingRealPrice = !isNaN(realPriceNum) && realPriceNum > 0;
-    const nightlyPrice = usingRealPrice ? realPriceNum : hotel.price;
+    const nightlyPrice = hotel.price;
+    const mealPrice = currentResort.avgMealEUR;
 
     const hotelTotal = nightlyPrice * calcNights;
     const transportTotal = transport.price * calcPeople;
-    const foodTotal = calcExtraMeals * calcMealPrice * calcNights * calcPeople;
+    const foodTotal = calcExtraMeals * mealPrice * calcNights * calcPeople;
     const extrasTotal =
       (currentResort.taxi[0]?.price ?? 0) +
       (currentResort.taxi[1]?.price ?? 0) * 5 +
@@ -148,10 +143,7 @@ function Index() {
     const grandTotal = hotelTotal + transportTotal + foodTotal + extrasTotal;
 
     const hotelLabel =
-      "Хотел (" +
-      (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") +
-      (usingRealPrice ? " · цена от Booking" : " · примерна цена") +
-      ")";
+      "Хотел (" + (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") + ")";
 
     const segments = [
       { label: hotelLabel, value: hotelTotal, color: "#145C5A" },
@@ -244,12 +236,8 @@ function Index() {
               setCalcHotelIdx={setCalcHotelIdx}
               calcPeople={calcPeople}
               setCalcPeople={setCalcPeople}
-              calcRealPrice={calcRealPrice}
-              setCalcRealPrice={setCalcRealPrice}
               calcExtraMeals={calcExtraMeals}
               setCalcExtraMeals={setCalcExtraMeals}
-              calcMealPrice={calcMealPrice}
-              setCalcMealPrice={setCalcMealPrice}
               showResult={showResult}
               budget={budget}
               onCalc={handleCalc}
@@ -274,12 +262,8 @@ function ResortPanel({
   setCalcHotelIdx,
   calcPeople,
   setCalcPeople,
-  calcRealPrice,
-  setCalcRealPrice,
   calcExtraMeals,
   setCalcExtraMeals,
-  calcMealPrice,
-  setCalcMealPrice,
   showResult,
   budget,
   onCalc,
@@ -295,12 +279,8 @@ function ResortPanel({
   setCalcHotelIdx: (v: number) => void;
   calcPeople: number;
   setCalcPeople: (v: number) => void;
-  calcRealPrice: string;
-  setCalcRealPrice: (v: string) => void;
   calcExtraMeals: number;
   setCalcExtraMeals: (v: number) => void;
-  calcMealPrice: number;
-  setCalcMealPrice: (v: number) => void;
   showResult: boolean;
   budget: { grandTotal: number; segments: { label: string; value: number; color: string }[] } | null;
   onCalc: () => void;
@@ -465,28 +445,23 @@ function ResortPanel({
           </div>
           <div className="sm:col-span-2">
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Реална цена от Booking (по избор)
+              Хотелска цена (фиксирана)
             </label>
             <div className="flex gap-2">
-              <input
-                type="number"
-                min={1}
-                placeholder={`€/нощ · примерна: ${hotel ? fmt(hotel.price) : "0"}€`}
-                value={calcRealPrice}
-                onChange={(e) => setCalcRealPrice(e.target.value)}
-                className="flex-1 font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
-              />
+              <div className="flex-1 font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
+                <span>{hotel ? `${fmt(hotel.price)}€ / нощ` : "—"}</span>
+                <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
+                  фиксирана
+                </span>
+              </div>
               <a
                 href={hotel ? bookingLink(resort.name, hotel.name) : "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
               >
-                Отвори Booking →
+                Виж на Booking →
               </a>
-            </div>
-            <div className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
-              Кликни линка, виж истинската цена там, върни се и я въведи тук. Ако полето е празно, ползваме примерната цена от таблицата.
             </div>
           </div>
           <div>
@@ -504,15 +479,14 @@ function ResortPanel({
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Средна цена в ресторант тук
+              Ресторант / човек (фиксирана)
             </label>
-            <input
-              type="number"
-              min={1}
-              value={calcMealPrice}
-              onChange={(e) => setCalcMealPrice(parseFloat(e.target.value) || 0)}
-              className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
-            />
+            <div className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
+              <span>{fmt(resort.avgMealEUR)}€</span>
+              <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
+                фиксирана
+              </span>
+            </div>
           </div>
         </div>
 
@@ -570,8 +544,7 @@ function ResortPanel({
         )}
 
         <div className="text-[11.5px] text-muted-foreground mt-5 leading-relaxed pt-4 border-t border-parchment-line">
-          Цените в таблицата са примерни. За реалния бюджет: кликни "Отвори Booking" в калкулатора, виж истинската цена
-          на хотела, върни се и я въведи в полето — тогава изчислението използва реалната цена вместо примерната.
+          Цените са фиксирани за курорта — хотел, транспорт и ресторант. За реалния хотел кликни "Виж на Booking".
         </div>
       </div>
     </>

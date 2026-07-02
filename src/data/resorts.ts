@@ -40,9 +40,9 @@ export const resorts: Resort[] = [
     lat: 42.685,
     lng: 27.7,
     hotels: [
-      { name: "Хотел Марина", price: 65, meta: "3★ · закуска включена", board: "breakfast" },
-      { name: "Аква Резорт", price: 110, meta: "4★ · all inclusive", board: "all_inclusive" },
-      { name: "Бриз Апартаменти", price: 42, meta: "студио · без храна", board: "none" },
+      { name: "Хотел Марина", price: 85, meta: "3★ · закуска включена", board: "breakfast" },
+      { name: "Аква Резорт", price: 150, meta: "4★ · all inclusive", board: "all_inclusive" },
+      { name: "Бриз Апартаменти", price: 55, meta: "студио · без храна", board: "none" },
     ],
     taxi: [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
@@ -53,10 +53,10 @@ export const resorts: Resort[] = [
       { name: "Хотелски паркинг", price: 15, meta: "на ден" },
     ],
     restaurants: [
-      { name: "Основно ястие", price: 12, meta: "средна цена" },
-      { name: "Обяд край плажа", price: 8, meta: "средна цена" },
+      { name: "Основно ястие", price: 20, meta: "средна цена" },
+      { name: "Обяд край плажа", price: 14, meta: "средна цена" },
     ],
-    avgMealEUR: 14,
+    avgMealEUR: 20,
     transport: {
       sofia: { mode: "автобус", price: 25, time: "7ч" },
       plovdiv: { mode: "автобус", price: 20, time: "5ч" },
@@ -70,8 +70,8 @@ export const resorts: Resort[] = [
     lat: 42.417,
     lng: 27.7,
     hotels: [
-      { name: "Стара къща", price: 55, meta: "3★ · бутиков", board: "none" },
-      { name: "Морски бриз", price: 80, meta: "4★ · закуска включена", board: "breakfast" },
+      { name: "Стара къща", price: 75, meta: "3★ · бутиков", board: "none" },
+      { name: "Морски бриз", price: 115, meta: "4★ · закуска включена", board: "breakfast" },
     ],
     taxi: [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
@@ -82,10 +82,10 @@ export const resorts: Resort[] = [
       { name: "Извън центъра", price: 10, meta: "на ден" },
     ],
     restaurants: [
-      { name: "Рибен ресторант", price: 18, meta: "средна цена" },
-      { name: "Таверна", price: 11, meta: "средна цена" },
+      { name: "Рибен ресторант", price: 28, meta: "средна цена" },
+      { name: "Таверна", price: 18, meta: "средна цена" },
     ],
-    avgMealEUR: 18,
+    avgMealEUR: 25,
     transport: {
       sofia: { mode: "автобус", price: 27, time: "7.5ч" },
       plovdiv: { mode: "автобус", price: 22, time: "5.5ч" },
@@ -99,16 +99,16 @@ export const resorts: Resort[] = [
     lat: 42.659,
     lng: 27.736,
     hotels: [
-      { name: "Стар град Резиденс", price: 70, meta: "3★ · полупансион", board: "half_board" },
-      { name: "Панорама Хотел", price: 95, meta: "4★ · закуска включена", board: "breakfast" },
+      { name: "Стар град Резиденс", price: 95, meta: "3★ · полупансион", board: "half_board" },
+      { name: "Панорама Хотел", price: 130, meta: "4★ · закуска включена", board: "breakfast" },
     ],
     taxi: [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
       { name: "На километър", price: 1.2, meta: "дневна тарифа" },
     ],
     parking: [{ name: "Паркинг вход стар град", price: 3.5, meta: "на час" }],
-    restaurants: [{ name: "Основно ястие", price: 13, meta: "средна цена" }],
-    avgMealEUR: 16,
+    restaurants: [{ name: "Основно ястие", price: 22, meta: "средна цена" }],
+    avgMealEUR: 22,
     transport: {
       sofia: { mode: "автобус", price: 25, time: "7ч" },
       plovdiv: { mode: "автобус", price: 20, time: "5ч" },
