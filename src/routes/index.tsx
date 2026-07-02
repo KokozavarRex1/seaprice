@@ -318,6 +318,10 @@ function Index() {
               onSelectRoomIdx={setSelectedRoomIdx}
               checkingPrice={checkingPrice}
               onCheckPrice={handleCheckPrice}
+              manualPriceMode={manualPriceMode}
+              setManualPriceMode={setManualPriceMode}
+              manualPriceTotal={manualPriceTotal}
+              setManualPriceTotal={setManualPriceTotal}
             />
           )}
         </div>
