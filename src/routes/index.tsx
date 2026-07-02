@@ -12,7 +12,7 @@ import {
   fmt,
 } from "@/data/resorts";
 import { AIPlanner } from "@/components/AIPlanner";
-import { getHybridPrice, type HybridPriceResult } from "@/lib/booking-price.functions";
+import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -37,7 +37,8 @@ function Index() {
   const [calcHotelIdx, setCalcHotelIdx] = useState(0);
   const [calcPeople, setCalcPeople] = useState(2);
   const [calcExtraMeals, setCalcExtraMeals] = useState(2);
-  const [hybridPrice, setHybridPrice] = useState<HybridPriceResult | null>(null);
+  const [roomsResult, setRoomsResult] = useState<BookingRoomsResult | null>(null);
+  const [selectedRoomIdx, setSelectedRoomIdx] = useState<number>(0);
   const [checkingPrice, setCheckingPrice] = useState(false);
 
   const calcNights = Math.max(
@@ -49,7 +50,7 @@ function Index() {
     ),
   );
 
-  const fetchHybridPrice = useServerFn(getHybridPrice);
+  const fetchRooms = useServerFn(getBookingRooms);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Leaflet.Map | null>(null);
@@ -144,9 +145,12 @@ function Index() {
 
   // Инвалидираме реалната цена при промяна на хотел/дати/хора
   useEffect(() => {
-    setHybridPrice(null);
+    setRoomsResult(null);
+    setSelectedRoomIdx(0);
     setShowResult(false);
   }, [calcHotelIdx, calcCheckin, calcCheckout, calcPeople, selectedId]);
+
+  const selectedRoom = roomsResult?.rooms[selectedRoomIdx] ?? null;
 
   const budget = (() => {
     if (!currentResort) return null;
@@ -159,8 +163,12 @@ function Index() {
     const covered = boardMeals[hotel.board] ?? 0;
     const mealPrice = currentResort.avgMealEUR;
 
-    // Хибрид: ако имаме реална цена → използваме нея, иначе базова × нощи
-    const hotelTotal = hybridPrice ? hybridPrice.total : hotel.price * calcNights;
+    // Точна цена от Booking (избраната стая) → иначе оценка от roomsResult → иначе базова × нощи
+    const hotelTotal = selectedRoom
+      ? selectedRoom.totalEUR
+      : roomsResult
+        ? roomsResult.estimateTotal
+        : hotel.price * calcNights;
     const transportTotal = transport.price * calcPeople;
     const foodTotal = calcExtraMeals * mealPrice * calcNights * calcPeople;
     const extrasTotal =
@@ -169,7 +177,7 @@ function Index() {
       (currentResort.parking.length ? (currentResort.parking[0]?.price ?? 0) * calcNights : 0);
     const grandTotal = hotelTotal + transportTotal + foodTotal + extrasTotal;
 
-    const priceLabel = hybridPrice?.source === "booking" ? " · Booking" : "";
+    const priceLabel = selectedRoom ? " · Booking" : "";
     const hotelLabel =
       "Хотел (" + (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") + priceLabel + ")";
 
@@ -193,7 +201,7 @@ function Index() {
     if (!hotel) return;
     setCheckingPrice(true);
     try {
-      const result = await fetchHybridPrice({
+      const result = await fetchRooms({
         data: {
           hotelName: hotel.name,
           resortName: currentResort.name,
@@ -204,7 +212,8 @@ function Index() {
           adults: calcPeople,
         },
       });
-      setHybridPrice(result);
+      setRoomsResult(result);
+      setSelectedRoomIdx(0);
       setShowResult(true);
     } catch (err) {
       console.error("[handleCheckPrice]", err);
@@ -298,7 +307,9 @@ function Index() {
               showResult={showResult}
               budget={budget}
               onCalc={handleCalc}
-              hybridPrice={hybridPrice}
+              roomsResult={roomsResult}
+              selectedRoomIdx={selectedRoomIdx}
+              onSelectRoomIdx={setSelectedRoomIdx}
               checkingPrice={checkingPrice}
               onCheckPrice={handleCheckPrice}
             />
@@ -330,7 +341,9 @@ function ResortPanel({
   showResult,
   budget,
   onCalc,
-  hybridPrice,
+  roomsResult,
+  selectedRoomIdx,
+  onSelectRoomIdx,
   checkingPrice,
   onCheckPrice,
 }: {
@@ -353,7 +366,9 @@ function ResortPanel({
   showResult: boolean;
   budget: { grandTotal: number; segments: { label: string; value: number; color: string }[] } | null;
   onCalc: () => void;
-  hybridPrice: HybridPriceResult | null;
+  roomsResult: BookingRoomsResult | null;
+  selectedRoomIdx: number;
+  onSelectRoomIdx: (idx: number) => void;
   checkingPrice: boolean;
   onCheckPrice: () => void;
 }) {
@@ -531,30 +546,47 @@ function ResortPanel({
             </label>
             <div className="flex flex-wrap gap-2">
               <div className="flex-1 min-w-[180px] font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
-                {hybridPrice ? (
-                  <>
-                    <span>
-                      <b>{fmt(hybridPrice.total)}€</b>{" "}
-                      <span className="text-muted-foreground">
-                        ({fmt(hybridPrice.perNight)}€/нощ × {hybridPrice.nights})
+                {(() => {
+                  const selected = roomsResult?.rooms[selectedRoomIdx] ?? null;
+                  if (selected) {
+                    return (
+                      <>
+                        <span>
+                          <b>{fmt(selected.totalEUR)}€</b>{" "}
+                          <span className="text-muted-foreground">
+                            ({fmt(selected.perNightEUR)}€/нощ × {roomsResult!.nights})
+                          </span>
+                        </span>
+                        <span className="font-mono text-[10.5px] tracking-wider uppercase text-teal font-semibold">
+                          ● Booking
+                        </span>
+                      </>
+                    );
+                  }
+                  if (roomsResult) {
+                    return (
+                      <>
+                        <span>
+                          <b>{fmt(roomsResult.estimateTotal)}€</b>{" "}
+                          <span className="text-muted-foreground">
+                            ({fmt(roomsResult.estimatePerNight)}€/нощ × {roomsResult.nights})
+                          </span>
+                        </span>
+                        <span className="font-mono text-[10.5px] tracking-wider uppercase text-coral-dark">
+                          оценка
+                        </span>
+                      </>
+                    );
+                  }
+                  return (
+                    <>
+                      <span>{hotel ? `${fmt(hotel.price * calcNights)}€ (базова)` : "—"}</span>
+                      <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
+                        натисни „провери"
                       </span>
-                    </span>
-                    <span
-                      className={`font-mono text-[10.5px] tracking-wider uppercase ${
-                        hybridPrice.source === "booking" ? "text-teal font-semibold" : "text-coral-dark"
-                      }`}
-                    >
-                      {hybridPrice.source === "booking" ? "● Booking" : "оценка"}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <span>{hotel ? `${fmt(hotel.price * calcNights)}€ (базова)` : "—"}</span>
-                    <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
-                      натисни „провери"
-                    </span>
-                  </>
-                )}
+                    </>
+                  );
+                })()}
               </div>
               <button
                 type="button"
@@ -565,7 +597,7 @@ function ResortPanel({
                 {checkingPrice ? "Проверявам..." : "Провери в Booking"}
               </button>
               <a
-                href={hybridPrice?.bookingUrlWithDates ?? (hotel ? bookingLink(resort.name, hotel.name) : "#")}
+                href={roomsResult?.bookingUrlWithDates ?? (hotel ? bookingLink(resort.name, hotel.name) : "#")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
@@ -573,9 +605,54 @@ function ResortPanel({
                 Отвори →
               </a>
             </div>
-            {hybridPrice && (
+            {roomsResult && (
               <div className="mt-1.5 font-mono text-[10.5px] text-muted-foreground">
-                {hybridPrice.note}
+                {roomsResult.note}
+              </div>
+            )}
+
+            {roomsResult && roomsResult.rooms.length > 0 && (
+              <div className="mt-2.5">
+                <div className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1.5">
+                  Избери тип стая ({roomsResult.rooms.length})
+                </div>
+                <div className="flex flex-col gap-1.5 max-h-[240px] overflow-y-auto pr-1">
+                  {roomsResult.rooms.map((room, i) => {
+                    const active = i === selectedRoomIdx;
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => onSelectRoomIdx(i)}
+                        className={`text-left border px-3 py-2 transition-colors cursor-pointer ${
+                          active
+                            ? "border-teal bg-parchment shadow-[inset_3px_0_0_0_#145C5A]"
+                            : "border-parchment-line bg-parchment/60 hover:border-gold"
+                        }`}
+                      >
+                        <div className="flex justify-between items-start gap-3">
+                          <div className="min-w-0">
+                            <div className="text-[13px] font-medium text-ink truncate">
+                              {room.roomType}
+                            </div>
+                            <div className="text-[11px] text-muted-foreground mt-0.5 flex flex-wrap gap-x-2 gap-y-0.5">
+                              <span>{room.guests} възр.</span>
+                              {room.mealPlan && <span>· {room.mealPlan}</span>}
+                              {room.refundable && <span className="text-teal">· безпл. отказ</span>}
+                              {room.dealLabel && <span className="text-coral-dark">· {room.dealLabel}</span>}
+                            </div>
+                          </div>
+                          <div className="font-mono text-[13.5px] font-medium text-ink whitespace-nowrap">
+                            {fmt(room.totalEUR)}€
+                            <div className="text-[10px] text-muted-foreground font-normal text-right">
+                              {fmt(room.perNightEUR)}€/нощ
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
