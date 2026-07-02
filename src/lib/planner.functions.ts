@@ -93,19 +93,19 @@ resort_id, resort_name, hotel_name, hotel_price_per_night, nights, people, hotel
     const start = cleaned.search(/[\{\[]/);
     const end = cleaned.lastIndexOf("}");
     if (start === -1 || end === -1) {
-      throw new Error("AI не върна валиден JSON. Опитай отново.");
+      throw new Error("AI не върна валиден JSON. Опитайте отново.");
     }
     const jsonText = cleaned.substring(start, end + 1);
     let parsed: unknown;
     try {
       parsed = JSON.parse(jsonText);
     } catch {
-      throw new Error("AI не върна валиден JSON. Опитай отново.");
+      throw new Error("AI не върна валиден JSON. Опитайте отново.");
     }
     const result = planSchema.safeParse(parsed);
     if (!result.success) {
       console.error("Plan validation failed:", result.error.message, jsonText.slice(0, 500));
-      throw new Error("AI планът не съответства на схемата. Опитай отново.");
+      throw new Error("AI планът не съответства на схемата. Опитайте отново.");
     }
 
     // Server-side lock: enforce the fixed per-resort restaurant price.
