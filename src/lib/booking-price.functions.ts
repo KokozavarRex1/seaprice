@@ -131,33 +131,35 @@ export const getHybridPrice = createServerFn({ method: "POST" })
       };
     }
 
-    // Опит за scrape
+    // Опит за scrape чрез LLM JSON extraction (много по-точно от regex)
     try {
       const { default: Firecrawl } = await import("@mendable/firecrawl-js");
       const fc = new Firecrawl({ apiKey });
       const scrape = await fc.scrape(bookingUrlWithDates, {
-        formats: ["markdown"],
-        onlyMainContent: true,
-        waitFor: 2500,
+        formats: [
+          {
+            type: "json",
+            prompt: `From the Availability table on this Booking.com hotel page for the exact dates ${data.checkin} to ${data.checkout} (${nights} nights, ${data.adults} adults, 1 room), extract the LOWEST total price for the whole stay in EUR. Ignore per-night breakdowns, taxes shown separately, and prices for other date ranges. Return { totalEUR: number, roomType: string }. If no availability is shown for these exact dates, return { totalEUR: null }.`,
+          },
+        ],
+        onlyMainContent: false,
+        waitFor: 5000,
         location: { country: "BG", languages: ["bg", "en"] },
       });
-      const md =
-        (scrape as { markdown?: string }).markdown ||
-        (scrape as { data?: { markdown?: string } }).data?.markdown ||
-        "";
-      const price = extractPriceFromMarkdown(md, nights);
-      if (price !== null) {
-        // Booking често показва общата цена за престоя, но понякога и per-night.
-        // Ако извлеченото е под 3x базовата → най-вероятно е /нощ; иначе е total.
-        const looksPerNight = price < data.basePrice * 3;
-        const total = looksPerNight ? price * nights : price;
+      const json =
+        (scrape as { json?: { totalEUR?: number | null; roomType?: string } }).json ||
+        (scrape as { data?: { json?: { totalEUR?: number | null; roomType?: string } } }).data?.json;
+      const total = json?.totalEUR;
+      if (typeof total === "number" && total >= 20 && total <= nights * 2000) {
         const perNight = total / nights;
         return {
           total: Math.round(total),
           perNight: Math.round(perNight),
           nights,
           source: "booking",
-          note: "Реална цена от Booking за избраните дати.",
+          note: json?.roomType
+            ? `Реална цена от Booking · ${json.roomType}`
+            : "Реална цена от Booking за избраните дати.",
           bookingUrlWithDates,
         };
       }
@@ -166,7 +168,7 @@ export const getHybridPrice = createServerFn({ method: "POST" })
         perNight: Math.round(estimatePerNight),
         nights,
         source: "estimate",
-        note: "Booking не върна цена (може да е разпродадено). Показваме оценка.",
+        note: "Booking не върна цена за тези дати (може да е разпродадено). Показваме оценка.",
         bookingUrlWithDates,
       };
     } catch (err) {
