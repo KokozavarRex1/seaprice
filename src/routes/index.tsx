@@ -40,6 +40,8 @@ function Index() {
   const [roomsResult, setRoomsResult] = useState<BookingRoomsResult | null>(null);
   const [selectedRoomIdx, setSelectedRoomIdx] = useState<number>(0);
   const [checkingPrice, setCheckingPrice] = useState(false);
+  const [manualPriceMode, setManualPriceMode] = useState(false);
+  const [manualPriceTotal, setManualPriceTotal] = useState<string>("");
 
   const calcNights = Math.max(
     1,
@@ -163,12 +165,16 @@ function Index() {
     const covered = boardMeals[hotel.board] ?? 0;
     const mealPrice = currentResort.avgMealEUR;
 
-    // Точна цена от Booking (избраната стая) → иначе оценка от roomsResult → иначе базова × нощи
-    const hotelTotal = selectedRoom
-      ? selectedRoom.totalEUR
-      : roomsResult
-        ? roomsResult.estimateTotal
-        : hotel.price * calcNights;
+    // Приоритет: ръчна цена > Booking стая > сезонна оценка > базова × нощи
+    const manualTotal = manualPriceMode ? parseFloat(manualPriceTotal) : NaN;
+    const hasManual = manualPriceMode && isFinite(manualTotal) && manualTotal > 0;
+    const hotelTotal = hasManual
+      ? manualTotal
+      : selectedRoom
+        ? selectedRoom.totalEUR
+        : roomsResult
+          ? roomsResult.estimateTotal
+          : hotel.price * calcNights;
     const transportTotal = transport.price * calcPeople;
     const foodTotal = calcExtraMeals * mealPrice * calcNights * calcPeople;
     const extrasTotal =
@@ -177,7 +183,7 @@ function Index() {
       (currentResort.parking.length ? (currentResort.parking[0]?.price ?? 0) * calcNights : 0);
     const grandTotal = hotelTotal + transportTotal + foodTotal + extrasTotal;
 
-    const priceLabel = selectedRoom ? " · Booking" : "";
+    const priceLabel = hasManual ? " · ръчно" : selectedRoom ? " · Booking" : "";
     const hotelLabel =
       "Хотел (" + (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") + priceLabel + ")";
 
@@ -312,6 +318,10 @@ function Index() {
               onSelectRoomIdx={setSelectedRoomIdx}
               checkingPrice={checkingPrice}
               onCheckPrice={handleCheckPrice}
+              manualPriceMode={manualPriceMode}
+              setManualPriceMode={setManualPriceMode}
+              manualPriceTotal={manualPriceTotal}
+              setManualPriceTotal={setManualPriceTotal}
             />
           )}
         </div>
@@ -346,6 +356,10 @@ function ResortPanel({
   onSelectRoomIdx,
   checkingPrice,
   onCheckPrice,
+  manualPriceMode,
+  setManualPriceMode,
+  manualPriceTotal,
+  setManualPriceTotal,
 }: {
   resort: (typeof resorts)[0];
   activeTab: string;
@@ -371,6 +385,10 @@ function ResortPanel({
   onSelectRoomIdx: (idx: number) => void;
   checkingPrice: boolean;
   onCheckPrice: () => void;
+  manualPriceMode: boolean;
+  setManualPriceMode: (v: boolean) => void;
+  manualPriceTotal: string;
+  setManualPriceTotal: (v: string) => void;
 }) {
   const covered = boardMeals[resort.hotels[calcHotelIdx]?.board ?? "none"] ?? 0;
   const hotel = resort.hotels[calcHotelIdx];
@@ -541,9 +559,57 @@ function ResortPanel({
             />
           </div>
           <div className="sm:col-span-2">
-            <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Цена на хотела за престоя
-            </label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">
+                Цена на хотела за престоя
+              </label>
+              <button
+                type="button"
+                onClick={() => setManualPriceMode(!manualPriceMode)}
+                className={`font-mono text-[10.5px] tracking-wider uppercase px-2 py-0.5 border transition-colors cursor-pointer ${
+                  manualPriceMode
+                    ? "border-coral text-coral-dark bg-parchment"
+                    : "border-parchment-line text-muted-foreground hover:border-gold hover:text-ink"
+                }`}
+              >
+                {manualPriceMode ? "✓ Ръчно" : "Въведи ръчно"}
+              </button>
+            </div>
+
+            {manualPriceMode ? (
+              <>
+                <div className="flex flex-wrap gap-2">
+                  <div className="flex-1 min-w-[180px] flex items-center border border-parchment-line bg-parchment focus-within:border-gold">
+                    <input
+                      type="number"
+                      min={0}
+                      inputMode="decimal"
+                      value={manualPriceTotal}
+                      onChange={(e) => setManualPriceTotal(e.target.value)}
+                      placeholder={`напр. ${roomsResult?.rooms[selectedRoomIdx]?.totalEUR ?? (resort.hotels[calcHotelIdx]?.price ?? 0) * calcNights}`}
+                      className="w-full font-sans text-sm text-ink bg-transparent px-2.5 py-2 focus:outline-none"
+                    />
+                    <span className="font-mono text-sm text-muted-foreground pr-2.5">€ общо</span>
+                  </div>
+                  <a
+                    href={roomsResult?.bookingUrlWithDates ?? (resort.hotels[calcHotelIdx] ? bookingLink(resort.name, resort.hotels[calcHotelIdx].name) : "#")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
+                  >
+                    Виж в Booking →
+                  </a>
+                </div>
+                <div className="mt-1.5 font-mono text-[10.5px] text-muted-foreground leading-relaxed">
+                  Въведи цената, която реално виждаш в Booking (или на офертата), за да съвпадне точно с калкулатора.
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+            {!manualPriceMode && (
+            <>
+            <label className="sr-only">Цена</label>
             <div className="flex flex-wrap gap-2">
               <div className="flex-1 min-w-[180px] font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
                 {(() => {
@@ -655,6 +721,8 @@ function ResortPanel({
                 </div>
               </div>
             )}
+            </>
+            )}
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
@@ -735,8 +803,13 @@ function ResortPanel({
           </div>
         )}
 
-        <div className="text-[11.5px] text-muted-foreground mt-5 leading-relaxed pt-4 border-t border-parchment-line">
-          Натисни <b>„Провери в Booking"</b> за реалната цена по избраните дати. Ако не се извлече (капча / няма наличност), показваме сезонна оценка на база на базова цена × сезонен коефициент. Транспорт и ресторант остават фиксирани.
+        <div className="text-[11.5px] text-muted-foreground mt-5 leading-relaxed pt-4 border-t border-parchment-line space-y-2">
+          <p>
+            Натисни <b>„Провери в Booking"</b> за реалната цена по избраните дати — извличаме всички налични стаи и техните тотални цени.
+          </p>
+          <p>
+            <b>Защо понякога цените се разминават с Booking?</b> Booking няма отворено API — нямаме официално партньорство с тях, затова четем цените директно от страницата. Показаните суми зависят от типа стая, промоции (Genius, Getaway Deal), страна и текущата наличност, така че може да има малки разлики. Ако видиш друго число в Booking, натисни <b>„Въведи ръчно"</b> и въведи точната сума — калкулаторът ще я използва вместо оценката.
+          </p>
         </div>
       </div>
     </>
