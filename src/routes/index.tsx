@@ -187,6 +187,32 @@ function Index() {
     setShowResult(true);
   };
 
+  const handleCheckPrice = async () => {
+    if (!currentResort) return;
+    const hotel = currentResort.hotels[calcHotelIdx];
+    if (!hotel) return;
+    setCheckingPrice(true);
+    try {
+      const result = await fetchHybridPrice({
+        data: {
+          hotelName: hotel.name,
+          resortName: currentResort.name,
+          bookingUrl: hotel.bookingUrl,
+          basePrice: hotel.price,
+          checkin: calcCheckin,
+          checkout: calcCheckout,
+          adults: calcPeople,
+        },
+      });
+      setHybridPrice(result);
+      setShowResult(true);
+    } catch (err) {
+      console.error("[handleCheckPrice]", err);
+    } finally {
+      setCheckingPrice(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-parchment">
       {/* Masthead */}
