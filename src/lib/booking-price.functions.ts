@@ -171,7 +171,7 @@ export const getBookingRooms = createServerFn({ method: "POST" })
       return {
         nights,
         source: "booking",
-        note: `${rooms.length} налични ${rooms.length === 1 ? "стая" : "стаи"} от Booking · избери типа, за да съвпадне точно.`,
+        note: `${rooms.length} налични ${rooms.length === 1 ? "стая" : "стаи"} от Booking · изберете типа, за да съвпадне точно.`,
         bookingUrlWithDates,
         rooms,
         estimateTotal,
