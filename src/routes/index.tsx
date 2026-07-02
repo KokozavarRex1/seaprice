@@ -316,8 +316,11 @@ function ResortPanel({
   onTabChange,
   calcStart,
   setCalcStart,
+  calcCheckin,
+  setCalcCheckin,
+  calcCheckout,
+  setCalcCheckout,
   calcNights,
-  setCalcNights,
   calcHotelIdx,
   setCalcHotelIdx,
   calcPeople,
@@ -327,14 +330,20 @@ function ResortPanel({
   showResult,
   budget,
   onCalc,
+  hybridPrice,
+  checkingPrice,
+  onCheckPrice,
 }: {
   resort: (typeof resorts)[0];
   activeTab: string;
   onTabChange: (tab: string) => void;
   calcStart: string;
   setCalcStart: (v: string) => void;
+  calcCheckin: string;
+  setCalcCheckin: (v: string) => void;
+  calcCheckout: string;
+  setCalcCheckout: (v: string) => void;
   calcNights: number;
-  setCalcNights: (v: number) => void;
   calcHotelIdx: number;
   setCalcHotelIdx: (v: number) => void;
   calcPeople: number;
@@ -344,6 +353,9 @@ function ResortPanel({
   showResult: boolean;
   budget: { grandTotal: number; segments: { label: string; value: number; color: string }[] } | null;
   onCalc: () => void;
+  hybridPrice: HybridPriceResult | null;
+  checkingPrice: boolean;
+  onCheckPrice: () => void;
 }) {
   const covered = boardMeals[resort.hotels[calcHotelIdx]?.board ?? "none"] ?? 0;
   const hotel = resort.hotels[calcHotelIdx];
