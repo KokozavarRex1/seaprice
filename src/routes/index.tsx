@@ -26,11 +26,30 @@ function Index() {
 
   const currentResort = selectedId ? resorts.find((r) => r.id === selectedId) : null;
 
+  // Дати по подразбиране: след 14 дни, 5 нощувки
+  const today = new Date();
+  const defaultCheckin = new Date(today.getTime() + 14 * 86400_000).toISOString().slice(0, 10);
+  const defaultCheckout = new Date(today.getTime() + 19 * 86400_000).toISOString().slice(0, 10);
+
   const [calcStart, setCalcStart] = useState("sofia");
-  const [calcNights, setCalcNights] = useState(5);
+  const [calcCheckin, setCalcCheckin] = useState(defaultCheckin);
+  const [calcCheckout, setCalcCheckout] = useState(defaultCheckout);
   const [calcHotelIdx, setCalcHotelIdx] = useState(0);
   const [calcPeople, setCalcPeople] = useState(2);
   const [calcExtraMeals, setCalcExtraMeals] = useState(2);
+  const [hybridPrice, setHybridPrice] = useState<HybridPriceResult | null>(null);
+  const [checkingPrice, setCheckingPrice] = useState(false);
+
+  const calcNights = Math.max(
+    1,
+    Math.round(
+      (new Date(calcCheckout + "T00:00:00Z").getTime() -
+        new Date(calcCheckin + "T00:00:00Z").getTime()) /
+        86400_000,
+    ),
+  );
+
+  const fetchHybridPrice = useServerFn(getHybridPrice);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Leaflet.Map | null>(null);
