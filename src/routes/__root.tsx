@@ -77,12 +77,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Крайбрежие — ценови навигатор по морето" },
-      { name: "description", content: "Сравнявайте цени на хотели, транспорт, храна и таксита в курортите по Черноморието и Егейско море. Калкулатор за целия бюджет на почивката." },
-      { property: "og:title", content: "Крайбрежие — ценови навигатор по морето" },
-      { property: "og:description", content: "Сравнявайте цени на хотели, транспорт, храна и таксита в курортите по Черноморието и Егейско море." },
+      { title: "SeaPrice— ценови навигатор по морето" },
+      { name: "description", content: "Оринтировачен калкулатор за целия бюджет за вашата почивка" },
+      { property: "og:title", content: "SeaPrice— ценови навигатор по морето" },
+      { property: "og:description", content: "Оринтировачен калкулатор за целия бюджет за вашата почивка" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "SeaPrice— ценови навигатор по морето" },
+      { name: "twitter:description", content: "Оринтировачен калкулатор за целия бюджет за вашата почивка" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/sjiBfrtseRY4h807lUtilQXPj2J2/social-images/social-1782997077722-6610acf0-8663-49cd-966f-4096234a4743.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/sjiBfrtseRY4h807lUtilQXPj2J2/social-images/social-1782997077722-6610acf0-8663-49cd-966f-4096234a4743.webp" },
     ],
     links: [
       {
