@@ -28,9 +28,7 @@ function Index() {
   const [calcNights, setCalcNights] = useState(5);
   const [calcHotelIdx, setCalcHotelIdx] = useState(0);
   const [calcPeople, setCalcPeople] = useState(2);
-  const [calcRealPrice, setCalcRealPrice] = useState("");
   const [calcExtraMeals, setCalcExtraMeals] = useState(2);
-  const [calcMealPrice, setCalcMealPrice] = useState(0);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Leaflet.Map | null>(null);
@@ -103,10 +101,8 @@ function Index() {
 
   useEffect(() => {
     if (currentResort) {
-      setCalcMealPrice(currentResort.restaurants[0]?.price ?? 0);
       setCalcExtraMeals(Math.max(0, 3 - (boardMeals[currentResort.hotels[0]?.board ?? "none"] ?? 0)));
       setCalcHotelIdx(0);
-      setCalcRealPrice("");
     }
   }, [currentResort]);
 
@@ -134,13 +130,12 @@ function Index() {
     if (!transport) return null;
 
     const covered = boardMeals[hotel.board] ?? 0;
-    const realPriceNum = parseFloat(calcRealPrice);
-    const usingRealPrice = !isNaN(realPriceNum) && realPriceNum > 0;
-    const nightlyPrice = usingRealPrice ? realPriceNum : hotel.price;
+    const nightlyPrice = hotel.price;
+    const mealPrice = currentResort.avgMealEUR;
 
     const hotelTotal = nightlyPrice * calcNights;
     const transportTotal = transport.price * calcPeople;
-    const foodTotal = calcExtraMeals * calcMealPrice * calcNights * calcPeople;
+    const foodTotal = calcExtraMeals * mealPrice * calcNights * calcPeople;
     const extrasTotal =
       (currentResort.taxi[0]?.price ?? 0) +
       (currentResort.taxi[1]?.price ?? 0) * 5 +
@@ -148,10 +143,7 @@ function Index() {
     const grandTotal = hotelTotal + transportTotal + foodTotal + extrasTotal;
 
     const hotelLabel =
-      "Хотел (" +
-      (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") +
-      (usingRealPrice ? " · цена от Booking" : " · примерна цена") +
-      ")";
+      "Хотел (" + (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") + ")";
 
     const segments = [
       { label: hotelLabel, value: hotelTotal, color: "#145C5A" },
