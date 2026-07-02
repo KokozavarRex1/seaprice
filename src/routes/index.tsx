@@ -40,6 +40,8 @@ function Index() {
   const [roomsResult, setRoomsResult] = useState<BookingRoomsResult | null>(null);
   const [selectedRoomIdx, setSelectedRoomIdx] = useState<number>(0);
   const [checkingPrice, setCheckingPrice] = useState(false);
+  const [manualPriceMode, setManualPriceMode] = useState(false);
+  const [manualPriceTotal, setManualPriceTotal] = useState<string>("");
 
   const calcNights = Math.max(
     1,
