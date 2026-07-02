@@ -56,6 +56,7 @@ export const resorts: Resort[] = [
       { name: "Основно ястие", price: 12, meta: "средна цена" },
       { name: "Обяд край плажа", price: 8, meta: "средна цена" },
     ],
+    avgMealEUR: 14,
     transport: {
       sofia: { mode: "автобус", price: 25, time: "7ч" },
       plovdiv: { mode: "автобус", price: 20, time: "5ч" },
@@ -84,6 +85,7 @@ export const resorts: Resort[] = [
       { name: "Рибен ресторант", price: 18, meta: "средна цена" },
       { name: "Таверна", price: 11, meta: "средна цена" },
     ],
+    avgMealEUR: 18,
     transport: {
       sofia: { mode: "автобус", price: 27, time: "7.5ч" },
       plovdiv: { mode: "автобус", price: 22, time: "5.5ч" },
@@ -106,6 +108,7 @@ export const resorts: Resort[] = [
     ],
     parking: [{ name: "Паркинг вход стар град", price: 3.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 13, meta: "средна цена" }],
+    avgMealEUR: 16,
     transport: {
       sofia: { mode: "автобус", price: 25, time: "7ч" },
       plovdiv: { mode: "автобус", price: 20, time: "5ч" },
@@ -131,6 +134,7 @@ export const resorts: Resort[] = [
       { name: "Хотелски паркинг", price: 12, meta: "на ден" },
     ],
     restaurants: [{ name: "Основно ястие (тавернa)", price: 15, meta: "средна цена" }],
+    avgMealEUR: 15,
     transport: {
       sofia: { mode: "кола/бус", price: 35, time: "5ч" },
       plovdiv: { mode: "кола/бус", price: 30, time: "4ч" },
@@ -153,6 +157,7 @@ export const resorts: Resort[] = [
     ],
     parking: [{ name: "Пристанищен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Рибен ресторант", price: 20, meta: "средна цена" }],
+    avgMealEUR: 20,
     transport: {
       sofia: { mode: "кола + ферибот", price: 45, time: "6.5ч" },
       plovdiv: { mode: "кола + ферибот", price: 40, time: "5.5ч" },
@@ -175,6 +180,7 @@ export const resorts: Resort[] = [
     ],
     parking: [{ name: "Плажен паркинг", price: 3, meta: "на ден" }],
     restaurants: [{ name: "Основно ястие", price: 16, meta: "средна цена" }],
+    avgMealEUR: 22,
     transport: {
       sofia: { mode: "кола/бус", price: 55, time: "7ч" },
       plovdiv: { mode: "кола/бус", price: 50, time: "6ч" },
@@ -197,6 +203,7 @@ export const resorts: Resort[] = [
     ],
     parking: [{ name: "Централен паркинг", price: 2, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 10, meta: "средна цена" }],
+    avgMealEUR: 12,
     transport: {
       sofia: { mode: "самолет", price: 90, time: "3ч" },
       plovdiv: { mode: "самолет (през Истанбул)", price: 110, time: "5ч" },
@@ -219,6 +226,7 @@ export const resorts: Resort[] = [
     ],
     parking: [{ name: "Пристанищен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 11, meta: "средна цена" }],
+    avgMealEUR: 13,
     transport: {
       sofia: { mode: "самолет", price: 100, time: "3.5ч" },
       plovdiv: { mode: "самолет", price: 115, time: "4.5ч" },
@@ -241,6 +249,7 @@ export const resorts: Resort[] = [
     ],
     parking: [{ name: "Централен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 13, meta: "средна цена" }],
+    avgMealEUR: 18,
     transport: {
       sofia: { mode: "самолет", price: 105, time: "3.5ч" },
       plovdiv: { mode: "самолет", price: 120, time: "4.5ч" },
