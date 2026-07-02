@@ -23,6 +23,8 @@ function Index() {
   const [activeTab, setActiveTab] = useState<string>("hotels");
   const [showResult, setShowResult] = useState(false);
   const [mapReady, setMapReady] = useState(false);
+  const [taxiKmPerDay, setTaxiKmPerDay] = useState<number>(10);
+  const [taxiNightShare, setTaxiNightShare] = useState<number>(20); // %
 
   const currentResort = selectedId ? resorts.find((r) => r.id === selectedId) : null;
 
