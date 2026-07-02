@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { generateText, Output, NoObjectGeneratedError } from "ai";
+import { generateText } from "ai";
 import { z } from "zod";
 import { resorts } from "@/data/resorts";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
@@ -70,20 +70,32 @@ grand_total трябва да е <= budget когато е възможно. А�
 Каталог с курорти (JSON):
 ${JSON.stringify(catalog, null, 2)}
 
-Върни пълен план според схемата.`;
+Върни САМО валиден JSON обект (без markdown, без \`\`\`) със следните полета:
+resort_id, resort_name, hotel_name, hotel_price_per_night (number), nights (number), people (number), hotel_total (number), transport_total (number), transport_note (string), restaurants (array of {name, avg_price_per_person}), restaurants_total (number), attractions (array of {name, description, estimated_price_per_person}), attractions_total (number), grand_total (number), budget (number), within_budget (boolean), summary (string).`;
 
-    try {
-      const { output } = await generateText({
-        model: gateway("google/gemini-3-flash-preview"),
-        output: Output.object({ schema: planSchema }),
-        system,
-        prompt: userPrompt,
-      });
-      return output;
-    } catch (err) {
-      if (NoObjectGeneratedError.isInstance(err)) {
-        throw new Error("AI не успя да генерира валиден план. Опитай отново.");
-      }
-      throw err;
+    const { text } = await generateText({
+      model: gateway("google/gemini-3-flash-preview"),
+      system,
+      prompt: userPrompt,
+    });
+
+    const cleaned = text.replace(/```json\s*/gi, "").replace(/```/g, "").trim();
+    const start = cleaned.search(/[\{\[]/);
+    const end = cleaned.lastIndexOf("}");
+    if (start === -1 || end === -1) {
+      throw new Error("AI не върна валиден JSON. Опитай отново.");
     }
+    const jsonText = cleaned.substring(start, end + 1);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch {
+      throw new Error("AI не върна валиден JSON. Опитай отново.");
+    }
+    const result = planSchema.safeParse(parsed);
+    if (!result.success) {
+      console.error("Plan validation failed:", result.error.message, jsonText.slice(0, 500));
+      throw new Error("AI планът не съответства на схемата. Опитай отново.");
+    }
+    return result.data;
   });
