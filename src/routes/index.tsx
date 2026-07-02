@@ -142,6 +142,12 @@ function Index() {
     setShowResult(false);
   }, []);
 
+  // Инвалидираме реалната цена при промяна на хотел/дати/хора
+  useEffect(() => {
+    setHybridPrice(null);
+    setShowResult(false);
+  }, [calcHotelIdx, calcCheckin, calcCheckout, calcPeople, selectedId]);
+
   const budget = (() => {
     if (!currentResort) return null;
     const hotel = currentResort.hotels[calcHotelIdx];
@@ -151,10 +157,10 @@ function Index() {
     if (!transport) return null;
 
     const covered = boardMeals[hotel.board] ?? 0;
-    const nightlyPrice = hotel.price;
     const mealPrice = currentResort.avgMealEUR;
 
-    const hotelTotal = nightlyPrice * calcNights;
+    // Хибрид: ако имаме реална цена → използваме нея, иначе базова × нощи
+    const hotelTotal = hybridPrice ? hybridPrice.total : hotel.price * calcNights;
     const transportTotal = transport.price * calcPeople;
     const foodTotal = calcExtraMeals * mealPrice * calcNights * calcPeople;
     const extrasTotal =
@@ -163,8 +169,9 @@ function Index() {
       (currentResort.parking.length ? (currentResort.parking[0]?.price ?? 0) * calcNights : 0);
     const grandTotal = hotelTotal + transportTotal + foodTotal + extrasTotal;
 
+    const priceLabel = hybridPrice?.source === "booking" ? " · Booking" : "";
     const hotelLabel =
-      "Хотел (" + (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") + ")";
+      "Хотел (" + (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") + priceLabel + ")";
 
     const segments = [
       { label: hotelLabel, value: hotelTotal, color: "#145C5A" },
