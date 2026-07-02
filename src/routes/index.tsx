@@ -433,7 +433,7 @@ function ResortPanel({
                   <div className="font-medium text-[14.5px]">{item.name}</div>
                   <div className="text-[12px] text-muted-foreground mt-0.5">{item.meta}</div>
                   <a
-                    href={bookingLink(resort.name, item.name)}
+                    href={item.bookingUrl ?? bookingLink(resort.name, item.name)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block mt-1.5 font-mono text-[11px] tracking-wide text-teal border-b border-teal hover:text-coral-dark hover:border-coral-dark transition-colors"
