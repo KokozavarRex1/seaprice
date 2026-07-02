@@ -648,7 +648,7 @@ function ResortPanel({
                     <>
                       <span>{hotel ? `${fmt(hotel.price * calcNights)}€ (базова)` : "—"}</span>
                       <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
-                        натисни „провери"
+                        натиснете „провери"
                       </span>
                     </>
                   );
@@ -755,7 +755,7 @@ function ResortPanel({
             <b>{boardLabels[hotel.board] || "Без данни за хранене"}</b>
             <br />
             Хотелът покрива {covered} от 3 хранения на ден. Останалите{" "}
-            {Math.max(0, 3 - covered)} по подразбиране са сметнати като излизане навън — може да промениш числото по-горе.
+            {Math.max(0, 3 - covered)} по подразбиране са сметнати като излизане навън — може да промените числото по-горе.
           </div>
         )}
 
