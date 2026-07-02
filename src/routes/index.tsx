@@ -307,7 +307,9 @@ function Index() {
               showResult={showResult}
               budget={budget}
               onCalc={handleCalc}
-              hybridPrice={hybridPrice}
+              roomsResult={roomsResult}
+              selectedRoomIdx={selectedRoomIdx}
+              onSelectRoomIdx={setSelectedRoomIdx}
               checkingPrice={checkingPrice}
               onCheckPrice={handleCheckPrice}
             />
