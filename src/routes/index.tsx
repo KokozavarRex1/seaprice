@@ -10,6 +10,7 @@ import {
   bookingLink,
   fmt,
 } from "@/data/resorts";
+import { AIPlanner } from "@/components/AIPlanner";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -256,6 +257,7 @@ function Index() {
           )}
         </div>
       </div>
+      <AIPlanner onSelectResort={setSelectedId} />
     </div>
   );
 }
