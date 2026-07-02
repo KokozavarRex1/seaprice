@@ -37,7 +37,8 @@ function Index() {
   const [calcHotelIdx, setCalcHotelIdx] = useState(0);
   const [calcPeople, setCalcPeople] = useState(2);
   const [calcExtraMeals, setCalcExtraMeals] = useState(2);
-  const [hybridPrice, setHybridPrice] = useState<HybridPriceResult | null>(null);
+  const [roomsResult, setRoomsResult] = useState<BookingRoomsResult | null>(null);
+  const [selectedRoomIdx, setSelectedRoomIdx] = useState<number>(0);
   const [checkingPrice, setCheckingPrice] = useState(false);
 
   const calcNights = Math.max(
@@ -49,7 +50,7 @@ function Index() {
     ),
   );
 
-  const fetchHybridPrice = useServerFn(getHybridPrice);
+  const fetchRooms = useServerFn(getBookingRooms);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Leaflet.Map | null>(null);
