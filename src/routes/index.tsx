@@ -572,7 +572,7 @@ function ResortPanel({
                     : "border-parchment-line text-muted-foreground hover:border-gold hover:text-ink"
                 }`}
               >
-                {manualPriceMode ? "✓ Ръчно" : "Въведи ръчно"}
+                {manualPriceMode ? "✓ Ръчно" : "Въведете ръчно"}
               </button>
             </div>
 
