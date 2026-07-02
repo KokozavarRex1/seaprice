@@ -324,6 +324,10 @@ function Index() {
               setManualPriceMode={setManualPriceMode}
               manualPriceTotal={manualPriceTotal}
               setManualPriceTotal={setManualPriceTotal}
+              taxiKmPerDay={taxiKmPerDay}
+              setTaxiKmPerDay={setTaxiKmPerDay}
+              taxiNightShare={taxiNightShare}
+              setTaxiNightShare={setTaxiNightShare}
             />
           )}
         </div>
