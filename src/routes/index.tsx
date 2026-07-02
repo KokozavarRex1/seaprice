@@ -285,11 +285,11 @@ function Index() {
           {!currentResort ? (
             <div className="px-8 sm:px-10 py-16 text-center">
               <div className="font-mono text-[11px] tracking-[1.8px] uppercase text-coral-dark font-medium">
-                Избери дестинация
+                Изберете дестинация
               </div>
-              <h2 className="font-serif text-[26px] font-medium mt-3 mb-2">Кликни курорт на картата</h2>
+              <h2 className="font-serif text-[26px] font-medium mt-3 mb-2">Кликнете върху курорт на картата</h2>
               <p className="text-muted-foreground text-sm max-w-[320px] mx-auto leading-relaxed">
-                Ще видиш хотели, таксита, паркинг, ресторанти и колко струва да стигнеш дотам — плюс калкулатор за целия бюджет.
+                Ще видите хотели, таксита, паркинг, ресторанти и колко струва да стигнете дотам — плюс калкулатор за целия бюджет.
               </p>
             </div>
           ) : (
