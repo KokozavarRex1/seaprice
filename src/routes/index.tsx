@@ -165,12 +165,16 @@ function Index() {
     const covered = boardMeals[hotel.board] ?? 0;
     const mealPrice = currentResort.avgMealEUR;
 
-    // Точна цена от Booking (избраната стая) → иначе оценка от roomsResult → иначе базова × нощи
-    const hotelTotal = selectedRoom
-      ? selectedRoom.totalEUR
-      : roomsResult
-        ? roomsResult.estimateTotal
-        : hotel.price * calcNights;
+    // Приоритет: ръчна цена > Booking стая > сезонна оценка > базова × нощи
+    const manualTotal = manualPriceMode ? parseFloat(manualPriceTotal) : NaN;
+    const hasManual = manualPriceMode && isFinite(manualTotal) && manualTotal > 0;
+    const hotelTotal = hasManual
+      ? manualTotal
+      : selectedRoom
+        ? selectedRoom.totalEUR
+        : roomsResult
+          ? roomsResult.estimateTotal
+          : hotel.price * calcNights;
     const transportTotal = transport.price * calcPeople;
     const foodTotal = calcExtraMeals * mealPrice * calcNights * calcPeople;
     const extrasTotal =
@@ -179,7 +183,7 @@ function Index() {
       (currentResort.parking.length ? (currentResort.parking[0]?.price ?? 0) * calcNights : 0);
     const grandTotal = hotelTotal + transportTotal + foodTotal + extrasTotal;
 
-    const priceLabel = selectedRoom ? " · Booking" : "";
+    const priceLabel = hasManual ? " · ръчно" : selectedRoom ? " · Booking" : "";
     const hotelLabel =
       "Хотел (" + (boardLabels[hotel.board]?.split(" ·")?.[0] ?? "Без данни") + priceLabel + ")";
 
