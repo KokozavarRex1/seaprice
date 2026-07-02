@@ -262,12 +262,8 @@ function ResortPanel({
   setCalcHotelIdx,
   calcPeople,
   setCalcPeople,
-  calcRealPrice,
-  setCalcRealPrice,
   calcExtraMeals,
   setCalcExtraMeals,
-  calcMealPrice,
-  setCalcMealPrice,
   showResult,
   budget,
   onCalc,
@@ -283,12 +279,8 @@ function ResortPanel({
   setCalcHotelIdx: (v: number) => void;
   calcPeople: number;
   setCalcPeople: (v: number) => void;
-  calcRealPrice: string;
-  setCalcRealPrice: (v: string) => void;
   calcExtraMeals: number;
   setCalcExtraMeals: (v: number) => void;
-  calcMealPrice: number;
-  setCalcMealPrice: (v: number) => void;
   showResult: boolean;
   budget: { grandTotal: number; segments: { label: string; value: number; color: string }[] } | null;
   onCalc: () => void;
