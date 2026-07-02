@@ -527,24 +527,57 @@ function ResortPanel({
           </div>
           <div className="sm:col-span-2">
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Хотелска цена (фиксирана)
+              Цена на хотела за престоя
             </label>
-            <div className="flex gap-2">
-              <div className="flex-1 font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
-                <span>{hotel ? `${fmt(hotel.price)}€ / нощ` : "—"}</span>
-                <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
-                  фиксирана
-                </span>
+            <div className="flex flex-wrap gap-2">
+              <div className="flex-1 min-w-[180px] font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
+                {hybridPrice ? (
+                  <>
+                    <span>
+                      <b>{fmt(hybridPrice.total)}€</b>{" "}
+                      <span className="text-muted-foreground">
+                        ({fmt(hybridPrice.perNight)}€/нощ × {hybridPrice.nights})
+                      </span>
+                    </span>
+                    <span
+                      className={`font-mono text-[10.5px] tracking-wider uppercase ${
+                        hybridPrice.source === "booking" ? "text-teal font-semibold" : "text-coral-dark"
+                      }`}
+                    >
+                      {hybridPrice.source === "booking" ? "● Booking" : "оценка"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span>{hotel ? `${fmt(hotel.price * calcNights)}€ (базова)` : "—"}</span>
+                    <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
+                      натисни „провери"
+                    </span>
+                  </>
+                )}
               </div>
+              <button
+                type="button"
+                onClick={onCheckPrice}
+                disabled={checkingPrice || !hotel}
+                className="font-mono text-[11.5px] tracking-wide text-parchment bg-coral px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-coral-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {checkingPrice ? "Проверявам..." : "Провери в Booking"}
+              </button>
               <a
-                href={hotel ? bookingLink(resort.name, hotel.name) : "#"}
+                href={hybridPrice?.bookingUrlWithDates ?? (hotel ? bookingLink(resort.name, hotel.name) : "#")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-mono text-[11.5px] tracking-wide text-parchment bg-teal px-3.5 py-2 flex items-center whitespace-nowrap hover:bg-ink-soft transition-colors"
               >
-                Виж на Booking →
+                Отвори →
               </a>
             </div>
+            {hybridPrice && (
+              <div className="mt-1.5 font-mono text-[10.5px] text-muted-foreground">
+                {hybridPrice.note}
+              </div>
+            )}
           </div>
           <div>
             <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
