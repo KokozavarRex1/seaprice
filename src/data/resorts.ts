@@ -27,6 +27,8 @@ export interface Resort {
   taxi: PriceItem[];
   parking: PriceItem[];
   restaurants: PriceItem[];
+  /** Фиксирана средна цена за човек в приличен ресторант (основно + напитка), €. Не се променя от потребителя. */
+  avgMealEUR: number;
   transport: Record<string, Transport>;
 }
 
