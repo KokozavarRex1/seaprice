@@ -46,9 +46,24 @@ export const resorts: Resort[] = [
     lat: 42.685,
     lng: 27.7,
     hotels: [
-      { name: "Хотел Марина", price: 85, meta: "3★ · закуска включена", board: "breakfast" },
-      { name: "Аква Резорт", price: 150, meta: "4★ · all inclusive", board: "all_inclusive" },
-      { name: "Бриз Апартаменти", price: 55, meta: "студио · без храна", board: "none" },
+      {
+        name: "Galeon Residence & SPA",
+        price: 110,
+        meta: "4★ · закуска включена",
+        board: "breakfast",
+        stars: 4,
+        bookingUrl: "https://www.booking.com/hotel/bg/galeon-apart-complex.html",
+        description:
+          "Galeon Residence & SPA се намира в Слънчев бряг, на 200 м от Черно море. Комплексът предлага климатизирани помещения с достъп до отопляем открит басейн и фитнес зона. Всички единици са самостоятелни и разполагат с балкон и мини-бар.",
+        images: [
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/564463181.jpg?k=44d39e59eee5a35cda6d11364ef7b60c3807feb662125eb4378b136586082856&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/692077872.jpg?k=8256ddc2a8c210f67ac7d7456ff7a224cf893000a2484334c595e98ef98b3521&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/107725277.jpg?k=9415549776eacbf0932aa0bd21375bf5d5bd698c6edb390232b838f315c03899&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/700650195.jpg?k=1f9dfca9940f8fadc7ed7ae2164d295757b1a4432dee48454cf9551630d32461&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/707001450.jpg?k=118a79f0e0592918cfd02d49e8cd05d51e57f2167a0eee524b74dc4a3da6faab&o=",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/316864570.jpg?k=340a9318158d2dded4307a53e23803c44249596c1de2cbd88a7892cf628a7b73&o=",
+        ],
+      },
     ],
     taxi: [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
