@@ -201,7 +201,7 @@ function Index() {
     if (!hotel) return;
     setCheckingPrice(true);
     try {
-      const result = await fetchHybridPrice({
+      const result = await fetchRooms({
         data: {
           hotelName: hotel.name,
           resortName: currentResort.name,
@@ -212,7 +212,8 @@ function Index() {
           adults: calcPeople,
         },
       });
-      setHybridPrice(result);
+      setRoomsResult(result);
+      setSelectedRoomIdx(0);
       setShowResult(true);
     } catch (err) {
       console.error("[handleCheckPrice]", err);
