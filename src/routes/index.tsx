@@ -8,8 +8,11 @@ import {
   boardMeals,
   boardLabels,
   startLabels,
+  diningTierLabels,
+  diningTierDescriptions,
   bookingLink,
   fmt,
+  type DiningTiers,
 } from "@/data/resorts";
 import { AIPlanner } from "@/components/AIPlanner";
 import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
