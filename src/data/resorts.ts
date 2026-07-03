@@ -1,10 +1,8 @@
 export interface Hotel {
   name: string;
-  /** Базова цена/нощ в € (използва се като fallback при неуспешен scrape и за сезонна оценка). */
   price: number;
   meta: string;
   board: "all_inclusive" | "half_board" | "breakfast" | "none";
-  /** Директен URL към обявата в Booking (по избор). Ако е зададен, се използва за scraping. */
   bookingUrl?: string;
   stars?: 1 | 2 | 3 | 4 | 5;
   description?: string;
@@ -24,14 +22,17 @@ export interface Transport {
 }
 
 export interface TaxiRates {
-  /** Такса пуск / повикване (€) */
   start: number;
-  /** Дневна тарифа (€/км) */
   dayPerKm: number;
-  /** Нощна тарифа (€/км), обикновено 22:00–06:00 */
   nightPerKm: number;
-  /** Кратък източник за прозрачност */
   source?: string;
+}
+
+/** Три ценови нива за хранене на човек (€), базирани на средни цени за курорта. */
+export interface DiningTiers {
+  fastFood: number;
+  midRange: number;
+  fineDining: number;
 }
 
 export interface Resort {
@@ -43,12 +44,25 @@ export interface Resort {
   hotels: Hotel[];
   taxi: PriceItem[];
   taxiRates: TaxiRates;
-  parking: PriceItem[];
   restaurants: PriceItem[];
-  /** Фиксирана средна цена за човек в приличен ресторант (основно + напитка), €. Не се променя от потребителя. */
+  /** Три фиксирани ценови нива за ресторант (€/човек). */
+  dining: DiningTiers;
+  /** @deprecated Оставено за съвместимост — равно на dining.midRange. */
   avgMealEUR: number;
   transport: Record<string, Transport>;
 }
+
+export const diningTierLabels: Record<keyof DiningTiers, string> = {
+  fastFood: "Бързо хранене",
+  midRange: "Приличен ресторант",
+  fineDining: "Скъп ресторант",
+};
+
+export const diningTierDescriptions: Record<keyof DiningTiers, string> = {
+  fastFood: "Гирос, дюнер, пица на парче, стрийт фууд, бургер",
+  midRange: "Механа/таверна · основно + напитка",
+  fineDining: "Топ ресторант · вечеря с вино",
+};
 
 export const resorts: Resort[] = [
   {
@@ -101,14 +115,11 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 1.2, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 1.0, dayPerKm: 0.5, nightPerKm: 0.65, source: "Общински тарифи Слънчев бряг / Numbeo BG" },
-    parking: [
-      { name: "Централен паркинг", price: 3, meta: "на час" },
-      { name: "Хотелски паркинг", price: 15, meta: "на ден" },
-    ],
     restaurants: [
       { name: "Основно ястие", price: 20, meta: "средна цена" },
       { name: "Обяд край плажа", price: 14, meta: "средна цена" },
     ],
+    dining: { fastFood: 8, midRange: 20, fineDining: 45 },
     avgMealEUR: 20,
     transport: {
       sofia: { mode: "автобус", price: 25, time: "7ч" },
@@ -131,14 +142,11 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 1.3, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 1.0, dayPerKm: 0.55, nightPerKm: 0.7, source: "Такси Созопол / Numbeo BG" },
-    parking: [
-      { name: "Паркинг стар град", price: 4, meta: "на час" },
-      { name: "Извън центъра", price: 10, meta: "на ден" },
-    ],
     restaurants: [
       { name: "Рибен ресторант", price: 28, meta: "средна цена" },
       { name: "Таверна", price: 18, meta: "средна цена" },
     ],
+    dining: { fastFood: 10, midRange: 25, fineDining: 55 },
     avgMealEUR: 25,
     transport: {
       sofia: { mode: "автобус", price: 27, time: "7.5ч" },
@@ -161,8 +169,8 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 1.0, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 0.9, dayPerKm: 0.45, nightPerKm: 0.6, source: "Такси Златни пясъци / Numbeo BG" },
-    parking: [{ name: "Централен паркинг", price: 3, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 24, meta: "средна цена" }],
+    dining: { fastFood: 9, midRange: 24, fineDining: 50 },
     avgMealEUR: 24,
     transport: {
       sofia: { mode: "автобус", price: 28, time: "7ч" },
@@ -185,11 +193,8 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 1.0, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 1.3, dayPerKm: 0.9, nightPerKm: 1.25, source: "Такси Кавала / Numbeo GR" },
-    parking: [
-      { name: "Централен паркинг", price: 2, meta: "на час" },
-      { name: "Хотелски паркинг", price: 12, meta: "на ден" },
-    ],
     restaurants: [{ name: "Основно ястие (тавернa)", price: 15, meta: "средна цена" }],
+    dining: { fastFood: 7, midRange: 15, fineDining: 38 },
     avgMealEUR: 15,
     transport: {
       sofia: { mode: "кола/бус", price: 35, time: "5ч" },
@@ -212,8 +217,8 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 1.1, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 1.3, dayPerKm: 0.9, nightPerKm: 1.25, source: "Такси Тасос / Numbeo GR" },
-    parking: [{ name: "Пристанищен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Рибен ресторант", price: 20, meta: "средна цена" }],
+    dining: { fastFood: 9, midRange: 20, fineDining: 48 },
     avgMealEUR: 20,
     transport: {
       sofia: { mode: "кола + ферибот", price: 45, time: "6.5ч" },
@@ -236,8 +241,8 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 1.1, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 1.3, dayPerKm: 0.9, nightPerKm: 1.25, source: "Такси Ситония / Numbeo GR" },
-    parking: [{ name: "Плажен паркинг", price: 3, meta: "на ден" }],
     restaurants: [{ name: "Основно ястие", price: 16, meta: "средна цена" }],
+    dining: { fastFood: 10, midRange: 22, fineDining: 55 },
     avgMealEUR: 22,
     transport: {
       sofia: { mode: "кола/бус", price: 55, time: "7ч" },
@@ -260,8 +265,8 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 0.8, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 0.7, dayPerKm: 0.55, nightPerKm: 0.6, source: "Такси Кушадасъ / Numbeo TR" },
-    parking: [{ name: "Централен паркинг", price: 2, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 10, meta: "средна цена" }],
+    dining: { fastFood: 5, midRange: 12, fineDining: 32 },
     avgMealEUR: 12,
     transport: {
       sofia: { mode: "самолет", price: 90, time: "3ч" },
@@ -284,8 +289,8 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 0.8, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 0.7, dayPerKm: 0.55, nightPerKm: 0.6, source: "Такси Мармарис / Numbeo TR" },
-    parking: [{ name: "Пристанищен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 11, meta: "средна цена" }],
+    dining: { fastFood: 6, midRange: 13, fineDining: 35 },
     avgMealEUR: 13,
     transport: {
       sofia: { mode: "самолет", price: 100, time: "3.5ч" },
@@ -308,8 +313,8 @@ export const resorts: Resort[] = [
       { name: "На километър", price: 0.9, meta: "дневна тарифа" },
     ],
     taxiRates: { start: 0.75, dayPerKm: 0.6, nightPerKm: 0.65, source: "Такси Бодрум / Numbeo TR" },
-    parking: [{ name: "Централен паркинг", price: 2.5, meta: "на час" }],
     restaurants: [{ name: "Основно ястие", price: 13, meta: "средна цена" }],
+    dining: { fastFood: 7, midRange: 18, fineDining: 45 },
     avgMealEUR: 18,
     transport: {
       sofia: { mode: "самолет", price: 105, time: "3.5ч" },
@@ -322,7 +327,6 @@ export const resorts: Resort[] = [
 export const tabs = [
   { key: "hotels", label: "Хотели" },
   { key: "taxi", label: "Таксита" },
-  { key: "parking", label: "Паркинг" },
   { key: "restaurants", label: "Ресторанти" },
   { key: "transport", label: "Транспорт" },
 ] as const;
