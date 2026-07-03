@@ -85,7 +85,7 @@ export const resorts: Resort[] = [
         bookingUrl:
           "https://www.booking.com/hotel/bg/victoria-palace-sunny-beach.bg.html?aid=2311236&label=bg-bg-booking-desktop-bU08anLY8k2xF1ChP%2Aw6RAS652796015184%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-65526620%3Alp1001462%3Ali%3Adec%3Adm-Share-Eipho7%401783060290-Share-BvGdX8u%401783060367&sid=5773d5064d3a36c86d5ec231b21959af&dest_id=900039405&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1783060482&srpvid=7ab62e0a85720111&type=total&ucfs=1&",
         description:
-          "Imperial Palace Hotel се намира само на 30 м от плажа в Слънчев бряг и предлага релакс зона с масажи, сауна и турска баня. Всички стаи са с климатик, кабелна телевизия и балкон, като повечето разкриват гледка към Черно море. Комплексът разполага с открит басейн с безплатни шезлонги и чадъри, ресторант с национална и международна кухня и 5 бара. Старият град на Несебър е на около 7 км.",
+          "Imperial Palace Hotel се намира само на 30 м от плажа в Слънчев бряг и предлага релакс зона с масажи, сауна и турска баня. Всички стаи са с климатик, кабелна телевизия и балкон, като повечето разкриват гледка към Черно море. Комплексът разполага с открит басейн с безплатни шезлонги и чадъри, ресторант с национална и международна кухня и 5 бара. Златни пясъци е на около 100 км на север.",
         images: [
           "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816844.jpg",
           "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816853.jpg",
@@ -147,27 +147,27 @@ export const resorts: Resort[] = [
     },
   },
   {
-    id: "nessebar",
-    name: "Несебър",
+    id: "golden-sands",
+    name: "Златни пясъци",
     country: "България",
-    lat: 42.659,
-    lng: 27.736,
+    lat: 43.286,
+    lng: 28.043,
     hotels: [
-      { name: "Стар град Резиденс", price: 95, meta: "3★ · полупансион", board: "half_board" },
-      { name: "Панорама Хотел", price: 130, meta: "4★ · закуска включена", board: "breakfast" },
+      { name: "International Hotel", price: 105, meta: "4★ · all inclusive", board: "all_inclusive" },
+      { name: "Admiral Hotel", price: 140, meta: "5★ · all inclusive", board: "all_inclusive" },
     ],
     taxi: [
-      { name: "Старт", price: 2.5, meta: "такса пуск" },
-      { name: "На километър", price: 1.2, meta: "дневна тарифа" },
+      { name: "Старт", price: 2.0, meta: "такса пуск" },
+      { name: "На километър", price: 1.0, meta: "дневна тарифа" },
     ],
-    taxiRates: { start: 1.0, dayPerKm: 0.5, nightPerKm: 0.65, source: "Такси Несебър / Numbeo BG" },
-    parking: [{ name: "Паркинг вход стар град", price: 3.5, meta: "на час" }],
-    restaurants: [{ name: "Основно ястие", price: 22, meta: "средна цена" }],
-    avgMealEUR: 22,
+    taxiRates: { start: 0.9, dayPerKm: 0.45, nightPerKm: 0.6, source: "Такси Златни пясъци / Numbeo BG" },
+    parking: [{ name: "Централен паркинг", price: 3, meta: "на час" }],
+    restaurants: [{ name: "Основно ястие", price: 24, meta: "средна цена" }],
+    avgMealEUR: 24,
     transport: {
-      sofia: { mode: "автобус", price: 25, time: "7ч" },
-      plovdiv: { mode: "автобус", price: 20, time: "5ч" },
-      varna: { mode: "такси", price: 14, time: "1ч" },
+      sofia: { mode: "автобус", price: 28, time: "7ч" },
+      plovdiv: { mode: "автобус", price: 23, time: "5.5ч" },
+      varna: { mode: "бус", price: 5, time: "30мин" },
     },
   },
   {
