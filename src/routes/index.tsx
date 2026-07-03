@@ -142,19 +142,9 @@ function Index() {
 
   useEffect(() => {
     if (currentResort) {
-      setCalcExtraMeals(Math.max(0, 3 - (boardMeals[currentResort.hotels[0]?.board ?? "none"] ?? 0)));
       setCalcHotelIdx(0);
     }
   }, [currentResort]);
-
-  useEffect(() => {
-    if (currentResort) {
-      const hotel = currentResort.hotels[calcHotelIdx];
-      if (hotel) {
-        setCalcExtraMeals(Math.max(0, 3 - (boardMeals[hotel.board] ?? 0)));
-      }
-    }
-  }, [calcHotelIdx, currentResort]);
 
   const handleSelectResort = useCallback((id: string) => {
     setSelectedId(id);
@@ -171,6 +161,10 @@ function Index() {
 
   const selectedRoom = roomsResult?.rooms[selectedRoomIdx] ?? null;
 
+  // Общо дни хапване навън на човек (гарнирано с nights)
+  const mealDaysTotal = mealDays.fastFood + mealDays.midRange + mealDays.fineDining;
+  const mealDaysOverflow = mealDaysTotal > calcNights;
+
   const budget = (() => {
     if (!currentResort) return null;
     const hotel = currentResort.hotels[calcHotelIdx];
@@ -179,10 +173,8 @@ function Index() {
     const transport = currentResort.transport[calcStart];
     if (!transport) return null;
 
-    const covered = boardMeals[hotel.board] ?? 0;
-    const mealPrice = currentResort.avgMealEUR;
+    const dining = currentResort.dining;
 
-    // Приоритет: ръчна цена > Booking стая > сезонна оценка > базова × нощи
     const manualTotal = manualPriceMode ? parseFloat(manualPriceTotal) : NaN;
     const hasManual = manualPriceMode && isFinite(manualTotal) && manualTotal > 0;
     const hotelTotal = hasManual
@@ -193,11 +185,15 @@ function Index() {
           ? roomsResult.estimateTotal
           : hotel.price * calcNights;
     const transportTotal = transport.price * calcPeople;
-    const foodTotal = calcExtraMeals * mealPrice * calcNights * calcPeople;
+
+    const foodFast = mealDays.fastFood * dining.fastFood * calcPeople;
+    const foodMid = mealDays.midRange * dining.midRange * calcPeople;
+    const foodFine = mealDays.fineDining * dining.fineDining * calcPeople;
+    const foodTotal = foodFast + foodMid + foodFine;
+
     const extrasTotal =
       (currentResort.taxi[0]?.price ?? 0) +
-      (currentResort.taxi[1]?.price ?? 0) * 5 +
-      (currentResort.parking.length ? (currentResort.parking[0]?.price ?? 0) * calcNights : 0);
+      (currentResort.taxi[1]?.price ?? 0) * 5;
     const grandTotal = hotelTotal + transportTotal + foodTotal + extrasTotal;
 
     const priceLabel = hasManual ? " · ръчно" : selectedRoom ? " · Booking" : "";
@@ -207,8 +203,10 @@ function Index() {
     const segments = [
       { label: hotelLabel, value: hotelTotal, color: "#145C5A" },
       { label: "Транспорт", value: transportTotal, color: "#B98A3E" },
-      { label: `Храна навън (${covered} включени/ден)`, value: foodTotal, color: "#D1573A" },
-      { label: "Такси + паркинг", value: extrasTotal, color: "#1C3E42" },
+      { label: "Бързо хранене", value: foodFast, color: "#E8A94A" },
+      { label: "Приличен ресторант", value: foodMid, color: "#D1573A" },
+      { label: "Скъп ресторант", value: foodFine, color: "#8C3A7A" },
+      { label: "Такси (резерв)", value: extrasTotal, color: "#1C3E42" },
     ];
 
     return { grandTotal, segments };
