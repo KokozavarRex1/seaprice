@@ -603,7 +603,7 @@ function ResortPanel({
       </div>
 
       {/* Calculator */}
-      <div className="px-6 sm:px-8 pt-5 pb-8 mt-1 border-t border-parchment-line bg-[#F5EFDF]">
+      <div className="px-6 sm:px-8 pt-5 pb-8 mt-1 border-t border-parchment-line bg-[oklch(0.97_0.015_220)]">
         <div className="flex items-center gap-2 font-mono text-[11px] tracking-[1.6px] uppercase text-ink-soft mb-3.5">
           <span>Калкулатор на бюджета</span>
           <span className="flex-1 h-px bg-parchment-line" />
