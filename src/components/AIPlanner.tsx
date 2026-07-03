@@ -152,7 +152,7 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-gold/20 pt-4">
                   <Stat label="Хотел" value={plan.hotel_total} note={`${plan.nights} нощ. × ${plan.hotel_price_per_night}€`} />
                   <Stat label="Транспорт" value={plan.transport_total} note={`${plan.people} души`} />
-                  <Stat label="Ресторанти" value={plan.restaurants_total} note="фиксирана цена/курорт" />
+                  <Stat label="Ресторанти" value={plan.restaurants_total} note="по нива, вижте долу" />
                   <Stat label="Атракции" value={plan.attractions_total} />
                 </div>
 
@@ -177,23 +177,27 @@ export function AIPlanner({ onSelectResort }: { onSelectResort: (id: string) => 
                   </div>
                 )}
 
-                {plan.restaurants.length > 0 && (
-                  <div>
-                    <div className="font-mono text-[10.5px] tracking-[1.8px] uppercase text-gold-soft mb-2">
-                      Ресторанти
-                    </div>
-                    <ul className="text-sm space-y-1">
-                      {plan.restaurants.map((r, i) => (
-                        <li key={i} className="flex justify-between border-b border-parchment/10 pb-1">
-                          <span className="text-parchment/85">{r.name}</span>
-                          <span className="font-mono text-xs text-parchment/55">
-                            ~{r.avg_price_per_person}€/чов. · фиксирано
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                <div>
+                  <div className="font-mono text-[10.5px] tracking-[1.8px] uppercase text-gold-soft mb-2">
+                    План за ресторанти ({plan.nights} нощувки)
                   </div>
-                )}
+                  <ul className="text-sm space-y-1">
+                    {[
+                      { label: "Бързо хранене", days: plan.dining_plan.fast_food_days, price: plan.dining_plan.fast_food_price_per_person },
+                      { label: "Приличен ресторант", days: plan.dining_plan.mid_range_days, price: plan.dining_plan.mid_range_price_per_person },
+                      { label: "Скъп ресторант", days: plan.dining_plan.fine_dining_days, price: plan.dining_plan.fine_dining_price_per_person },
+                    ].map((row, i) => (
+                      <li key={i} className="flex justify-between border-b border-parchment/10 pb-1">
+                        <span className="text-parchment/85">
+                          {row.label} · <b>{row.days}</b> {row.days === 1 ? "ден" : "дни"}
+                        </span>
+                        <span className="font-mono text-xs text-parchment/55">
+                          {row.price}€/чов. · {Math.round(row.days * row.price * plan.people)}€ общо
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <p className="text-parchment/70 text-sm leading-relaxed border-l-2 border-gold pl-3 italic">
                   {plan.summary}
