@@ -403,8 +403,9 @@ function ResortPanel({
   setCalcHotelIdx: (v: number) => void;
   calcPeople: number;
   setCalcPeople: (v: number) => void;
-  calcExtraMeals: number;
-  setCalcExtraMeals: (v: number) => void;
+  mealDays: Record<keyof DiningTiers, number>;
+  setMealDays: React.Dispatch<React.SetStateAction<Record<keyof DiningTiers, number>>>;
+  mealDaysOverflow: boolean;
   showResult: boolean;
   budget: { grandTotal: number; segments: { label: string; value: number; color: string }[] } | null;
   onCalc: () => void;
