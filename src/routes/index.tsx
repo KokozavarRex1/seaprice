@@ -17,7 +17,7 @@ import {
 import { AIPlanner } from "@/components/AIPlanner";
 import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
 import palm2Asset from "@/assets/palm2.png.asset.json";
-import logoAsset from "@/assets/seaprice-logo.png.asset.json";
+import logoAsset from "@/assets/seaprice-logo-v2.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
@@ -250,8 +250,8 @@ function Index() {
       <header className="sea-hero text-parchment border-b border-gold/40">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8 py-5 sm:py-7 grid grid-cols-[minmax(0,1fr)_auto] sm:flex sm:flex-wrap sm:justify-between sm:items-end gap-3.5 relative z-10">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="w-[44px] h-[44px] rounded-full relative shrink-0 grid place-items-center bg-parchment/95 border border-gold/70 overflow-hidden shadow-[var(--shadow-sm)]">
-              <img src={logoAsset.url} alt="SeaPrice лого" className="w-full h-full object-contain p-0.5" />
+            <div className="w-[56px] h-[56px] relative shrink-0 grid place-items-center overflow-hidden">
+              <img src={logoAsset.url} alt="SeaPrice лого" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
               <h1 className="font-serif text-[22px] sm:text-[26px] font-medium tracking-wide leading-tight truncate">SeaPrice</h1>
