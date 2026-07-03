@@ -13,7 +13,7 @@ import {
 } from "@/data/resorts";
 import { AIPlanner } from "@/components/AIPlanner";
 import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
-import palmAsset from "@/assets/palm.png.asset.json";
+import palm2Asset from "@/assets/palm2.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
