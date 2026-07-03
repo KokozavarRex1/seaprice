@@ -231,37 +231,40 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-parchment">
+    <div className="min-h-screen">
       {/* Masthead */}
-      <header className="bg-ink text-parchment border-b border-gold">
-        <div className="max-w-[1280px] mx-auto px-6 sm:px-8 py-5 sm:py-6 flex flex-wrap justify-between items-end gap-3.5">
-          <div className="flex items-center gap-3">
-            <div className="w-[34px] h-[34px] border border-gold rounded-full relative flex-shrink-0">
+      <header className="sea-hero text-parchment border-b border-gold/40">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-8 py-5 sm:py-7 grid grid-cols-[minmax(0,1fr)_auto] sm:flex sm:flex-wrap sm:justify-between sm:items-end gap-3.5 relative z-10">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="w-[38px] h-[38px] border border-gold/70 rounded-full relative shrink-0 grid place-items-center bg-ink/30 backdrop-blur-sm">
               <div className="absolute top-1/2 left-[6%] right-[6%] h-px bg-gold -translate-y-1/2" />
               <div className="absolute left-1/2 top-[6%] bottom-[6%] w-px bg-gold -translate-x-1/2" />
             </div>
-            <div>
-              <h1 className="font-serif text-[25px] font-medium tracking-wide leading-tight">Крайбрежие</h1>
-              <div className="font-mono text-[11px] tracking-[1.4px] uppercase text-gold-soft mt-0.5">
-                Ценови навигатор · черноморие &amp; егейско
+            <div className="min-w-0">
+              <h1 className="font-serif text-[22px] sm:text-[26px] font-medium tracking-wide leading-tight truncate">SeaPrice</h1>
+              <div className="font-mono text-[10.5px] sm:text-[11px] tracking-[1.4px] uppercase text-gold-soft mt-0.5 truncate">
+                Ценови навигатор · море &amp; релакс
               </div>
             </div>
           </div>
-          <div className="flex gap-6 font-mono text-[11.5px] text-parchment/55 tracking-wide">
+          <div className="hidden sm:flex gap-6 font-mono text-[11.5px] text-parchment/70 tracking-wide">
             <span>Курорти: <b className="text-gold-soft font-medium">9</b></span>
             <span>Държави: <b className="text-gold-soft font-medium">3</b></span>
             <span>Обновено: <b className="text-gold-soft font-medium">02.07.2026</b></span>
+          </div>
+          <div className="flex sm:hidden font-mono text-[10px] text-parchment/70 tracking-wide items-center">
+            <span className="px-2 py-1 rounded-full border border-gold/40 bg-ink/30"><b className="text-gold-soft">9</b> курорта</span>
           </div>
         </div>
       </header>
 
       {/* Layout */}
-      <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] border-x border-parchment-line">
+      <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] lg:border-x border-parchment-line lg:mt-6 lg:rounded-2xl lg:overflow-hidden lg:shadow-[var(--shadow-elev)] bg-parchment">
         {/* Map */}
-        <div className="relative border-r border-parchment-line h-[400px] lg:h-[680px]">
+        <div className="relative lg:border-r border-parchment-line h-[320px] sm:h-[420px] lg:h-[680px]">
           <div className="absolute top-3.5 left-3.5 z-[500] pointer-events-none">
-            <span className="font-mono text-[10.5px] tracking-wider uppercase text-parchment bg-ink/80 border border-gold px-2.5 py-1.5">
-              42.6°N 27.7°E — черно море
+            <span className="font-mono text-[10px] sm:text-[10.5px] tracking-wider uppercase text-parchment bg-ink/70 border border-gold/60 backdrop-blur-md rounded-md px-2.5 py-1.5">
+              42.6°N 27.7°E — море
             </span>
           </div>
           <div className="absolute top-2 left-2 w-4 h-4 z-[500] pointer-events-none border-t-[1.5px] border-l-[1.5px] border-gold" />
@@ -274,8 +277,8 @@ function Index() {
             style={{ opacity: mapReady ? 1 : 0, transition: "opacity 0.3s" }}
           />
           {!mapReady && (
-            <div className="absolute inset-0 flex items-center justify-center bg-ink">
-              <span className="font-mono text-gold-soft text-xs tracking-wider uppercase">
+            <div className="absolute inset-0 flex items-center justify-center sea-hero">
+              <span className="font-mono text-gold-soft text-xs tracking-wider uppercase relative z-10">
                 Зареждане на карта...
               </span>
             </div>
@@ -283,7 +286,7 @@ function Index() {
         </div>
 
         {/* Panel */}
-        <div className="overflow-y-auto max-h-[680px] bg-parchment">
+        <div className="overflow-y-auto lg:max-h-[680px] bg-parchment">
           {!currentResort ? (
             <div className="px-8 sm:px-10 py-16 text-center">
               <div className="font-mono text-[11px] tracking-[1.8px] uppercase text-coral-dark font-medium">
