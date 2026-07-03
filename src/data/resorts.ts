@@ -404,7 +404,6 @@ export const startLabels: Record<string, string> = {
   plovdiv: "От Пловдив",
   varna: "От Варна",
 };
-hi;
 
 export function bookingLink(resortName: string, hotelName: string): string {
   const query = encodeURIComponent(hotelName + " " + resortName);
