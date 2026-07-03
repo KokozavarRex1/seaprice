@@ -288,20 +288,29 @@ input:focus, select:focus, textarea:focus {
 
 /* ==================== Palm-tree map pin ==================== */
 .palm-pin {
-  width: 34px;
+  width: 38px;
   height: 42px;
   display: block;
   position: relative;
-  filter: drop-shadow(0 3px 4px oklch(0.24 0.06 258 / 0.35));
+  filter: drop-shadow(0 4px 6px oklch(0.24 0.06 258 / 0.35));
   animation: float-y 4.5s ease-in-out infinite;
   cursor: pointer;
   transition: transform .18s ease, filter .18s ease;
 }
 .palm-pin:hover {
-  transform: scale(1.15);
-  filter: drop-shadow(0 6px 10px oklch(0.24 0.06 258 / 0.45));
+  transform: scale(1.18);
+  filter: drop-shadow(0 8px 12px oklch(0.24 0.06 258 / 0.5));
 }
-.palm-pin svg { width: 100%; height: 100%; display: block; }
+.palm-pin img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
 
 /* ==================== Leaflet polish ==================== */
 .leaflet-container { background: oklch(0.95 0.02 220) !important; font-family: var(--font-sans) !important; }
