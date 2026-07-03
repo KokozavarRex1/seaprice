@@ -13,7 +13,7 @@ import {
 } from "@/data/resorts";
 import { AIPlanner } from "@/components/AIPlanner";
 import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
-import palmAsset from "@/assets/palm.png.asset.json";
+import palm2Asset from "@/assets/palm2.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
@@ -91,7 +91,7 @@ function Index() {
       const pinIcon = () =>
         L.divIcon({
           className: "",
-          html: `<div class="palm-pin"><img src="${palmAsset.url}" alt="" draggable="false"/></div>`,
+          html: `<div class="palm-pin"><img src="${palm2Asset.url}" alt="" draggable="false"/></div>`,
           iconSize: [38, 42],
           iconAnchor: [19, 40],
           popupAnchor: [0, -36],
