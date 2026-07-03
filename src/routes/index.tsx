@@ -12,6 +12,7 @@ import {
   fmt,
 } from "@/data/resorts";
 import { AIPlanner } from "@/components/AIPlanner";
+import { BookingCityPicker } from "@/components/BookingCityPicker";
 import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
 
 export const Route = createFileRoute("/")({
@@ -459,6 +460,7 @@ function ResortPanel({
           </div>
         ) : activeTab === "hotels" ? (
           <div>
+            <BookingCityPicker resort={resort} />
             {resort.hotels.map((item, i) => (
               <div key={i} className="flex justify-between items-start py-4 border-b border-parchment-line last:border-b-0">
                 <div>

@@ -48,6 +48,8 @@ export interface Resort {
   /** Фиксирана средна цена за човек в приличен ресторант (основно + напитка), €. Не се променя от потребителя. */
   avgMealEUR: number;
   transport: Record<string, Transport>;
+  /** Booking.com Demand API city ID (по избор — предварителен автомапинг). */
+  bookingCityId?: number;
 }
 
 export const resorts: Resort[] = [

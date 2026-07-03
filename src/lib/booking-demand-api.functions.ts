@@ -97,3 +97,84 @@ export const findBookingCity = createServerFn({ method: "POST" })
     z.object({ name: z.string().min(2), country: z.string().length(2).optional() }).parse(input),
   )
   .handler(async ({ data }) => (await findCities(data)) as JsonValue);
+
+// -------- Автомапинг с оценка на увереност --------
+
+export interface CityCandidate {
+  id: number;
+  name: string;
+  country?: string;
+  region?: string;
+}
+
+export interface CityResolution {
+  candidates: CityCandidate[];
+  /** Ако има точно едно съвпадение или едно точно текстово съвпадение — селектиран автоматично. */
+  autoSelected: CityCandidate | null;
+  /** Причина за (не)автомапинг — за UI съобщение. */
+  reason: "single_match" | "exact_name_match" | "ambiguous" | "no_match" | "api_unavailable";
+  /** Ако API не е конфигуриран или е върнал грешка. */
+  error?: string;
+}
+
+function normalizeName(v: string): string {
+  return v
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zа-я0-9\s]/gi, "")
+    .trim();
+}
+
+export const resolveBookingCity = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        name: z.string().min(2),
+        country: z.string().length(2).optional(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data }): Promise<CityResolution> => {
+    let raw: unknown;
+    try {
+      raw = await findCities(data);
+    } catch (err) {
+      return {
+        candidates: [],
+        autoSelected: null,
+        reason: "api_unavailable",
+        error: err instanceof Error ? err.message : "Booking API грешка",
+      };
+    }
+
+    // Booking връща { data: [{ id, name, country, region, ... }, ...] }
+    const items = ((raw as { data?: unknown[] })?.data ?? []) as Array<{
+      id?: number;
+      name?: string;
+      country?: string;
+      region?: { name?: string } | string;
+    }>;
+    const candidates: CityCandidate[] = items
+      .filter((it) => typeof it.id === "number" && typeof it.name === "string")
+      .map((it) => ({
+        id: it.id as number,
+        name: it.name as string,
+        country: it.country,
+        region: typeof it.region === "string" ? it.region : it.region?.name,
+      }));
+
+    if (candidates.length === 0) {
+      return { candidates: [], autoSelected: null, reason: "no_match" };
+    }
+    if (candidates.length === 1) {
+      return { candidates, autoSelected: candidates[0], reason: "single_match" };
+    }
+    const target = normalizeName(data.name);
+    const exact = candidates.filter((c) => normalizeName(c.name) === target);
+    if (exact.length === 1) {
+      return { candidates, autoSelected: exact[0], reason: "exact_name_match" };
+    }
+    return { candidates, autoSelected: null, reason: "ambiguous" };
+  });
+
