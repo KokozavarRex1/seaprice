@@ -4,22 +4,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ==========================================================================
-   SeaPrice — Premium Booking Theme
-   Palette: deep navy dominant, single champagne-gold accent for ratings only.
-   Type:    Instrument Serif (display, italic taglines), Plus Jakarta Sans (UI),
-            IBM Plex Mono (prices / dates / booking numbers).
-   Signature: "boarding-pass" tour card with perforated dashed cut + side
-              circular notches. Used sparingly on primary tour cards only.
-   ========================================================================== */
-
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-2xl: calc(var(--radius) + 12px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -54,12 +44,10 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-serif: "Instrument Serif", "Fraunces", ui-serif, Georgia, serif;
-  --font-display: "Instrument Serif", "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
-  /* Aliases used across components — keep names stable */
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-teal: var(--teal);
@@ -75,750 +63,243 @@
 :root {
   --radius: 0.75rem;
 
-  /* ------ Core palette (locked, no additions) ------ */
-  --c-ink: #0a2647;            /* deep navy — text, dark surfaces, hero base */
-  --c-ink-2: #0d2c4e;          /* hero gradient end */
-  --c-ink-3: #071b34;          /* hero gradient start */
-  --c-primary: #145da0;        /* primary blue — buttons, links, focus */
-  --c-primary-hover: #114e88;
-  --c-primary-active: #0e4374;
-  --c-sky: #2e86de;            /* sky accent — hover, secondary accents, icons */
-  --c-sky-soft: #eaf2fb;       /* pale sky tint — alt sections, chips */
-  --c-sky-line: #cfe0f2;       /* derived hairline between navy and pale sky */
-  --c-bg: #f8fafd;             /* page background — cool near-white */
-  --c-gold: #c9a65b;           /* champagne gold — ratings / best-value ONLY */
-  --c-gold-soft: #f2e8cf;
+  /* PREMIUM SEA palette — white first, deep navy, aqua accents. Zero yellow. */
+  --ink:            oklch(0.24 0.06 258);   /* deep navy */
+  --ink-soft:       oklch(0.40 0.07 250);   /* twilight blue */
+  --teal:           oklch(0.56 0.13 225);   /* rich ocean blue (primary) */
+  --parchment:      oklch(1 0 0);           /* pure white */
+  --parchment-line: oklch(0.94 0.008 240);  /* hair line */
 
-  /* ------ Semantic aliases (legacy names preserved) ------ */
-  --ink: var(--c-ink);
-  --ink-soft: #26456b;
-  --teal: var(--c-primary);           /* legacy: "teal" now === primary blue */
-  --parchment: var(--c-bg);
-  --parchment-line: var(--c-sky-line);
-  --gold: var(--c-gold);
-  --gold-soft: var(--c-gold-soft);
+  /* Was "gold" — remapped to soft aqua so all existing classes look premium, not yellow */
+  --gold:           oklch(0.72 0.10 205);   /* aqua accent */
+  --gold-soft:      oklch(0.90 0.045 210);  /* pale aqua */
 
-  /* Kept for compatibility. Only used for destructive/error states — never decoratively. */
-  --coral: #b23a3a;
-  --coral-dark: #8a2a2a;
-  --coral-light: #f4dcdc;
+  --coral:          oklch(0.66 0.16 30);    /* warm coral (CTA) */
+  --coral-dark:     oklch(0.54 0.16 28);
+  --coral-light:    oklch(0.83 0.09 40);
 
-  /* Shadcn semantic tokens */
-  --background: var(--c-bg);
-  --foreground: var(--c-ink);
-  --card: #ffffff;
-  --card-foreground: var(--c-ink);
-  --popover: #ffffff;
-  --popover-foreground: var(--c-ink);
-  --primary: var(--c-primary);
-  --primary-foreground: #ffffff;
-  --secondary: var(--c-sky-soft);
-  --secondary-foreground: var(--c-ink);
-  --muted: var(--c-sky-soft);
-  --muted-foreground: #4b6a8c;
-  --accent: var(--c-sky-soft);
-  --accent-foreground: var(--c-ink);
-  --destructive: var(--coral);
-  --destructive-foreground: #ffffff;
-  --border: var(--c-sky-line);
-  --input: var(--c-sky-line);
-  --ring: var(--c-primary);
+  --sea-50:  oklch(0.98 0.012 220);
+  --sea-100: oklch(0.955 0.02 220);
+  --sea-200: oklch(0.90 0.035 220);
+  --sea-500: oklch(0.56 0.13 225);
+  --sea-700: oklch(0.40 0.11 240);
+  --sea-900: oklch(0.24 0.06 258);
 
-  --chart-1: #145da0;
-  --chart-2: #2e86de;
-  --chart-3: #0a2647;
-  --chart-4: #26456b;
-  --chart-5: #c9a65b;
+  --background:     var(--parchment);
+  --foreground:     var(--ink);
+  --card:           oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover:        oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary:        var(--teal);
+  --primary-foreground: oklch(1 0 0);
+  --secondary:      var(--sea-100);
+  --secondary-foreground: var(--ink);
+  --muted:          var(--sea-50);
+  --muted-foreground: oklch(0.50 0.03 240);
+  --accent:         var(--gold);
+  --accent-foreground: var(--ink);
+  --destructive:    var(--coral);
+  --destructive-foreground: oklch(1 0 0);
+  --border:         var(--parchment-line);
+  --input:          var(--parchment-line);
+  --ring:           var(--teal);
 
-  --sidebar: #ffffff;
-  --sidebar-foreground: var(--c-ink);
-  --sidebar-primary: var(--c-primary);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--c-sky-soft);
-  --sidebar-accent-foreground: var(--c-ink);
-  --sidebar-border: var(--c-sky-line);
-  --sidebar-ring: var(--c-primary);
+  --chart-1: oklch(0.56 0.13 225);
+  --chart-2: oklch(0.72 0.10 205);
+  --chart-3: oklch(0.66 0.16 30);
+  --chart-4: oklch(0.40 0.07 250);
+  --chart-5: oklch(0.83 0.09 40);
 
-  /* Signature gradient — deep, quiet navy. No neon, no shimmer. */
-  --gradient-sea: linear-gradient(160deg, #071b34 0%, #0d2c4e 100%);
-  --gradient-aqua: linear-gradient(180deg, #0a2647 0%, #145da0 100%);
-  --gradient-sunset: linear-gradient(135deg, #0a2647 0%, #145da0 60%, #2e86de 100%);
-  --gradient-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.78));
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--teal);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: var(--sea-100);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--parchment-line);
+  --sidebar-ring: var(--teal);
 
-  /* Shadows — cool navy tint, soft, professional. Never harsh. */
-  --shadow-xs: 0 1px 2px rgba(10, 38, 71, 0.06);
-  --shadow-sm: 0 2px 6px rgba(10, 38, 71, 0.07);
-  --shadow-md: 0 10px 24px -12px rgba(10, 38, 71, 0.18);
-  --shadow-lg: 0 24px 48px -20px rgba(10, 38, 71, 0.28);
-  --shadow-glow: 0 0 0 4px rgba(20, 93, 160, 0.14);
+  /* Premium gradients & shadows */
+  --gradient-sea: linear-gradient(135deg,
+    oklch(0.22 0.07 258) 0%,
+    oklch(0.32 0.10 250) 40%,
+    oklch(0.44 0.13 225) 100%);
+  --gradient-aqua: linear-gradient(135deg, oklch(0.66 0.13 215) 0%, oklch(0.78 0.09 200) 100%);
+  --gradient-sunset: linear-gradient(135deg, oklch(0.66 0.16 30), oklch(0.75 0.14 45));
+  --gradient-glass: linear-gradient(180deg,
+    oklch(1 0 0 / 0.85) 0%,
+    oklch(1 0 0 / 0.65) 100%);
+
+  --shadow-xs:   0 1px 2px oklch(0.24 0.06 258 / 0.05);
+  --shadow-sm:   0 2px 6px -1px oklch(0.24 0.06 258 / 0.08), 0 1px 2px oklch(0.24 0.06 258 / 0.05);
+  --shadow-md:   0 8px 20px -8px oklch(0.24 0.06 258 / 0.15), 0 3px 6px oklch(0.24 0.06 258 / 0.06);
+  --shadow-lg:   0 20px 48px -16px oklch(0.24 0.06 258 / 0.22), 0 8px 16px -8px oklch(0.24 0.06 258 / 0.10);
+  --shadow-glow: 0 0 0 1px oklch(0.56 0.13 225 / 0.15), 0 8px 30px -8px oklch(0.56 0.13 225 / 0.35);
 }
 
-/* ==========================================================================
-   Base
-   ========================================================================== */
-
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
+  * { border-color: var(--color-border); }
 
-  html {
-    -webkit-text-size-adjust: 100%;
-    scroll-behavior: smooth;
-  }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
   body {
-    background: var(--background);
-    color: var(--foreground);
+    background: var(--parchment);
+    color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     letter-spacing: -0.005em;
   }
 
-  main,
-  header,
-  section,
-  footer {
-    position: relative;
-    z-index: 1;
+  /* Ambient premium backdrop — very faint, mostly white */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1200px 700px at 8% -10%, oklch(0.72 0.10 205 / 0.08), transparent 60%),
+      radial-gradient(900px 500px at 100% 10%, oklch(0.56 0.13 225 / 0.06), transparent 60%),
+      radial-gradient(1100px 600px at 50% 120%, oklch(0.66 0.16 30 / 0.05), transparent 60%);
+    z-index: 0;
   }
 
-  h1,
-  h2,
-  h3 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    color: var(--ink);
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    overflow-wrap: anywhere;
-  }
+  main, header, section, footer { position: relative; z-index: 1; }
 
-  h1 {
-    font-size: clamp(2.75rem, 6vw, 5.25rem);
-  }
-  h2 {
-    font-size: clamp(2rem, 4vw, 3.25rem);
-  }
-  h3 {
-    font-size: clamp(1.375rem, 2.2vw, 1.75rem);
-    letter-spacing: -0.015em;
-  }
-
-  /* Reserved for hero taglines, section eyebrow lines */
-  .display-italic,
-  em.tagline,
-  .tagline {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 400;
-    color: var(--c-sky);
-  }
-
-  /* Prices, dates, booking codes — mono for that "serious booking" feel */
-  .num,
-  .price,
-  .date,
-  .booking-code {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
-  }
-
-  a {
-    color: var(--c-primary);
-    text-decoration: none;
-  }
-  a:hover {
-    color: var(--c-sky);
-  }
+  h1, h2, h3 { overflow-wrap: anywhere; letter-spacing: -0.02em; }
 }
 
-/* ==========================================================================
-   Layout containers
-   ========================================================================== */
-
-.container-narrow {
-  max-width: 68rem;
-  margin-inline: auto;
-  padding-inline: clamp(1rem, 3vw, 2rem);
-}
-
-/* Alternating section rhythm — no shadows, only background swap */
-.section {
-  padding-block: clamp(3rem, 7vw, 6rem);
-}
-.section-alt {
-  background: var(--c-sky-soft);
-}
-.section-ink {
-  background: var(--c-ink);
-  color: #eef4fb;
-}
-.section-ink h1,
-.section-ink h2,
-.section-ink h3 {
-  color: #ffffff;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--c-primary);
-}
-.eyebrow::before {
-  content: "";
-  width: 1.75rem;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
-}
-
-/* ==========================================================================
-   Navigation — transparent over hero, white on scroll
-   ========================================================================== */
-
-.nav-root {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 60;
-  transition:
-    background-color 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease,
-    color 0.25s ease;
-  background: transparent;
-  color: #ffffff;
-  border-bottom: 1px solid transparent;
-}
-.nav-root .nav-link {
-  color: rgba(255, 255, 255, 0.86);
-}
-.nav-root .nav-link:hover {
-  color: #ffffff;
-}
-.nav-root.is-scrolled {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: saturate(140%) blur(10px);
-  -webkit-backdrop-filter: saturate(140%) blur(10px);
-  border-bottom-color: var(--c-sky-line);
-  color: var(--c-ink);
-  box-shadow: var(--shadow-xs);
-}
-.nav-root.is-scrolled .nav-link {
-  color: var(--c-ink);
-}
-.nav-root.is-scrolled .nav-link:hover {
-  color: var(--c-primary);
-}
-.nav-link {
-  font-weight: 500;
-  font-size: 0.925rem;
-  letter-spacing: -0.005em;
-  transition: color 0.15s ease;
-}
-
-/* ==========================================================================
-   Hero — deep navy gradient, serif display, search card as focus
-   ========================================================================== */
+/* ==================== Premium building blocks ==================== */
 
 .sea-hero {
+  background: var(--gradient-sea);
   position: relative;
   overflow: hidden;
-  background: var(--gradient-sea);
-  color: #ffffff;
   isolation: isolate;
-  padding-block: clamp(6rem, 12vw, 10rem) clamp(4rem, 10vw, 8rem);
 }
 .sea-hero::before {
-  /* Extremely subtle radial glow — depth, not decoration */
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at 20% 0%,
-    rgba(46, 134, 222, 0.18),
-    transparent 55%
-  );
+  background:
+    radial-gradient(700px 300px at 12% 0%, oklch(0.72 0.10 205 / 0.35), transparent 60%),
+    radial-gradient(900px 400px at 88% 110%, oklch(0.66 0.16 30 / 0.15), transparent 60%);
   pointer-events: none;
-  z-index: 0;
 }
-.sea-hero > * {
-  position: relative;
-  z-index: 1;
+/* Subtle animated shimmer sweep across the hero */
+.sea-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg,
+    transparent 30%,
+    oklch(1 0 0 / 0.06) 48%,
+    oklch(1 0 0 / 0.12) 50%,
+    oklch(1 0 0 / 0.06) 52%,
+    transparent 70%);
+  transform: translateX(-100%);
+  animation: shimmer 9s ease-in-out 2s infinite;
+  pointer-events: none;
 }
-.sea-hero h1 {
-  color: #ffffff;
-  max-width: 20ch;
-}
-.sea-hero .tagline {
-  color: rgba(255, 255, 255, 0.78);
-  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
-}
-
-/* The search card floats over the hero — the visual anchor */
-.search-card {
-  background: #ffffff;
-  border-radius: calc(var(--radius) + 4px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow:
-    0 30px 60px -24px rgba(7, 27, 52, 0.55),
-    0 10px 24px -12px rgba(10, 38, 71, 0.35);
-  padding: 1rem;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-  align-items: stretch;
-}
-.search-card .field {
-  display: flex;
-  flex-direction: column;
-  padding: 0.625rem 0.875rem;
-  border-radius: var(--radius);
-  transition: background-color 0.15s ease;
-  min-width: 0;
-}
-.search-card .field + .field {
-  border-left: 1px solid var(--c-sky-line);
-}
-.search-card .field:hover {
-  background: var(--c-sky-soft);
-}
-.search-card .field-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-}
-.search-card .field-value {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--c-ink);
-  margin-top: 0.15rem;
-}
-.search-card .field-submit {
-  padding: 0;
-}
-@media (max-width: 900px) {
-  .search-card {
-    grid-template-columns: 1fr 1fr;
-  }
-  .search-card .field + .field {
-    border-left: none;
-  }
-}
-@media (max-width: 520px) {
-  .search-card {
-    grid-template-columns: 1fr;
-  }
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  55%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
 }
 
-/* ==========================================================================
-   Buttons
-   ========================================================================== */
-
-.btn-primary,
-.btn-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: -0.005em;
-  padding: 0.75rem 1.25rem;
-  border-radius: var(--radius);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    background-color 0.15s ease,
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    color 0.15s ease;
-  will-change: transform;
-}
-
-.btn-primary {
-  background: var(--c-primary);
-  color: #ffffff;
-  border-color: var(--c-primary);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, var(--shadow-xs);
-}
-.btn-primary:hover {
-  background: var(--c-primary-hover);
-  border-color: var(--c-primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-.btn-primary:active {
-  background: var(--c-primary-active);
-  transform: translateY(0);
-}
-
-.btn-cta {
-  background: transparent;
-  color: var(--c-primary);
-  border-color: var(--c-primary);
-}
-.btn-cta:hover {
-  background: var(--c-sky-soft);
-  color: var(--c-primary-hover);
-  border-color: var(--c-primary-hover);
-  transform: translateY(-1px);
-}
-.btn-cta:active {
-  transform: translateY(0);
-}
-
-/* On dark hero, the outline variant reverses */
-.sea-hero .btn-cta {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.45);
-}
-.sea-hero .btn-cta:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #ffffff;
-  color: #ffffff;
-}
-
-/* ==========================================================================
-   Cards
-   ========================================================================== */
-
+/* Card variants */
 .card-elev {
-  background: #ffffff;
-  border: 1px solid var(--c-sky-line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-}
-.card-elev:hover {
-  transform: translateY(-2px);
+  background: oklch(1 0 0);
+  border: 1px solid var(--parchment-line);
+  border-radius: 14px;
   box-shadow: var(--shadow-md);
-  border-color: #b8d1ea;
 }
-
 .card-flat {
-  background: #ffffff;
-  border: 1px solid var(--c-sky-line);
-  border-radius: var(--radius);
+  background: oklch(1 0 0);
+  border: 1px solid var(--parchment-line);
+  border-radius: 10px;
 }
-
 .glass {
   background: var(--gradient-glass);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-}
-
-/* Rating star + best-value badge — ONLY places gold appears */
-.rating {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  color: var(--c-ink);
-}
-.rating .star {
-  color: var(--c-gold);
-  font-size: 0.95em;
-}
-
-.badge-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.6rem;
-  border-radius: 999px;
-  background: var(--c-gold-soft);
-  color: #6f5320;
-  border: 1px solid rgba(201, 166, 91, 0.4);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.65rem;
-  border-radius: 999px;
-  background: var(--c-sky-soft);
-  color: var(--c-ink);
-  font-size: 0.78rem;
-  font-weight: 500;
-  border: 1px solid var(--c-sky-line);
-}
-
-/* ==========================================================================
-   Signature: Boarding-pass tour card
-   Perforated dashed line + side notches. Used sparingly on primary tour cards.
-   Structure:
-     .tour-pass
-       .tour-pass__media
-       .tour-pass__body   ← main info
-       .tour-pass__stub   ← price / rating stub (right side)
-   ========================================================================== */
-
-.tour-pass {
-  --notch: 14px;
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 200px;
-  background: #ffffff;
-  border: 1px solid var(--c-sky-line);
-  border-radius: var(--radius);
-  overflow: hidden;
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid oklch(1 0 0 / 0.6);
   box-shadow: var(--shadow-sm);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-.tour-pass:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
 }
 
-.tour-pass__media {
-  grid-column: 1 / -1;
-  position: relative;
-  aspect-ratio: 16 / 8;
-  background: var(--c-sky-soft);
-  overflow: hidden;
-}
-.tour-pass__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.tour-pass__media .badge-gold {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(6px);
-}
-
-.tour-pass__body {
-  padding: 1.15rem 1.35rem 1.35rem;
-  min-width: 0;
-}
-.tour-pass__title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  line-height: 1.15;
-  color: var(--c-ink);
-  margin-bottom: 0.35rem;
-}
-.tour-pass__meta {
-  color: var(--muted-foreground);
-  font-size: 0.875rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.75rem;
-}
-
-/* Right-side stub separated by dashed perforation + circular side notches */
-.tour-pass__stub {
-  position: relative;
-  padding: 1.15rem 1.35rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 0.5rem;
-  background: linear-gradient(180deg, #ffffff, #fbfdff);
-}
-.tour-pass__stub::before {
-  /* Perforated dashed cut between body and stub */
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 12px;
-  bottom: 12px;
-  width: 0;
-  border-left: 2px dashed var(--c-sky-line);
-}
-.tour-pass__stub::after {
-  /* Top notch — subtracts a half-circle from the top edge */
-  content: "";
-  position: absolute;
-  left: -8px;
-  top: -8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 999px;
-  background: var(--background);
-  box-shadow: inset 0 0 0 1px var(--c-sky-line);
-}
-.tour-pass__notch-bottom {
-  position: absolute;
-  left: -8px;
-  bottom: -8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 999px;
-  background: var(--background);
-  box-shadow: inset 0 0 0 1px var(--c-sky-line);
-}
-
-.tour-pass__price-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-  font-weight: 600;
-}
-.tour-pass__price {
-  font-family: var(--font-mono);
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--c-primary);
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.tour-pass__price-suffix {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--muted-foreground);
-}
-
-@media (min-width: 720px) {
-  .tour-pass {
-    grid-template-columns: 240px 1fr 200px;
-  }
-  .tour-pass__media {
-    grid-column: 1 / 2;
-    aspect-ratio: auto;
-    height: 100%;
-  }
-  .tour-pass__body {
-    grid-column: 2 / 3;
-  }
-  .tour-pass__stub {
-    grid-column: 3 / 4;
-  }
-}
-
-/* ==========================================================================
-   Tour detail page bits
-   ========================================================================== */
-
-.detail-hero {
-  position: relative;
-  aspect-ratio: 21 / 9;
-  border-radius: calc(var(--radius) + 4px);
-  overflow: hidden;
-  background: var(--c-ink);
-}
-.detail-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.detail-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(7, 27, 52, 0), rgba(7, 27, 52, 0.75));
-  display: flex;
-  align-items: flex-end;
-  padding: clamp(1.25rem, 3vw, 2.25rem);
-  color: #ffffff;
-}
-.detail-hero__overlay h1 {
-  color: #ffffff;
-  max-width: 22ch;
-}
-
-.detail-book {
-  position: sticky;
-  top: 6rem;
-  background: #ffffff;
-  border: 1px solid var(--c-sky-line);
-  border-radius: calc(var(--radius) + 2px);
-  padding: 1.25rem;
-  box-shadow: var(--shadow-md);
-}
-.detail-book .price-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--c-sky-line);
-  margin-bottom: 0.9rem;
-}
-
-/* ==========================================================================
-   Divider — thin line only, no wave
-   ========================================================================== */
-
+/* Section separator with faint wave */
 .wave-divider {
-  height: 1px;
-  background: var(--c-sky-line);
+  height: 24px;
+  background: linear-gradient(180deg, transparent, var(--sea-50));
 }
 
-/* ==========================================================================
-   Map pin (palm) — preserve visual, add subtle blue halo on hover
-   ========================================================================== */
+/* Buttons — premium interaction */
+.btn-primary {
+  background: var(--gradient-aqua);
+  color: oklch(1 0 0);
+  border: 1px solid oklch(0.56 0.13 225 / 0.35);
+  box-shadow: var(--shadow-glow);
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
 
+.btn-cta {
+  background: var(--gradient-sunset);
+  color: oklch(1 0 0);
+  border: 1px solid oklch(0.66 0.16 30 / 0.35);
+  box-shadow: 0 10px 30px -10px oklch(0.66 0.16 30 / 0.6);
+  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
+}
+.btn-cta:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn-cta:active { transform: translateY(0); }
+
+button, a { transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .15s ease; }
+
+/* Inputs */
+input, select, textarea {
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--teal) !important;
+  box-shadow: 0 0 0 3px oklch(0.56 0.13 225 / 0.18);
+}
+
+/* Fancy focus ring on interactive tiles */
+.focus-tile:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px oklch(0.56 0.13 225 / 0.25);
+}
+
+/* Reveal / entrance */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise-in { animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Float animation for pins */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* ==================== Palm-tree map pin ==================== */
 .palm-pin {
-  width: 36px;
+  width: 38px;
   height: 42px;
   display: block;
   position: relative;
-  filter: drop-shadow(0 2px 3px rgba(10, 38, 71, 0.35));
+  filter: drop-shadow(0 4px 6px oklch(0.24 0.06 258 / 0.35));
+  animation: float-y 4.5s ease-in-out infinite;
   cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    filter 0.2s ease;
-}
-.palm-pin::after {
-  /* Blue halo — appears on hover only */
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 2px;
-  width: 34px;
-  height: 10px;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: radial-gradient(
-    ellipse,
-    rgba(46, 134, 222, 0.55),
-    rgba(46, 134, 222, 0) 70%
-  );
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
+  transition: transform .18s ease, filter .18s ease;
 }
 .palm-pin:hover {
-  transform: translateY(-2px) scale(1.06);
-  filter: drop-shadow(0 6px 10px rgba(20, 93, 160, 0.35));
-}
-.palm-pin:hover::after {
-  opacity: 1;
+  transform: scale(1.18);
+  filter: drop-shadow(0 8px 12px oklch(0.24 0.06 258 / 0.5));
 }
 .palm-pin img {
   width: 100%;
@@ -828,188 +309,55 @@
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
-  position: relative;
-  z-index: 1;
 }
 
-/* ==========================================================================
-   Leaflet — quiet, on-brand
-   ========================================================================== */
 
-.leaflet-container {
-  background: var(--c-sky-soft) !important;
-  font-family: var(--font-sans) !important;
-}
+/* ==================== Leaflet polish ==================== */
+.leaflet-container { background: oklch(0.95 0.02 220) !important; font-family: var(--font-sans) !important; }
 .leaflet-popup-content-wrapper {
-  border-radius: calc(var(--radius)) !important;
-  background: #ffffff !important;
-  color: var(--c-ink) !important;
-  box-shadow: var(--shadow-md) !important;
-  border: 1px solid var(--c-sky-line) !important;
+  border-radius: 12px !important;
+  background: oklch(1 0 0) !important;
+  color: var(--ink) !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--parchment-line) !important;
 }
 .leaflet-popup-content {
   font-family: var(--font-sans) !important;
   font-size: 13px !important;
   font-weight: 500 !important;
-  margin: 12px 16px !important;
-  color: var(--c-ink) !important;
+  letter-spacing: 0 !important;
+  margin: 10px 14px !important;
+  color: var(--ink) !important;
 }
-.leaflet-popup-content strong {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 15px;
-  color: var(--c-ink);
-}
-.leaflet-popup-content .price {
-  color: var(--c-primary);
-}
-.leaflet-popup-tip {
-  background: #ffffff !important;
-  box-shadow: var(--shadow-sm) !important;
-}
+.leaflet-popup-tip { background: oklch(1 0 0) !important; box-shadow: var(--shadow-sm) !important; }
 .leaflet-control-zoom a {
-  background: #ffffff !important;
-  color: var(--c-ink) !important;
-  border: 1px solid var(--c-sky-line) !important;
-  box-shadow: var(--shadow-xs);
+  background: oklch(1 0 0) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--parchment-line) !important;
+  box-shadow: var(--shadow-sm);
 }
-.leaflet-control-zoom a:hover {
-  background: var(--c-sky-soft) !important;
-  color: var(--c-primary) !important;
-}
-.leaflet-control-attribution {
-  background: rgba(255, 255, 255, 0.75) !important;
-  color: var(--muted-foreground) !important;
-  font-size: 10px !important;
-}
+.leaflet-control-zoom a:hover { background: var(--sea-50) !important; }
 
-/* ==========================================================================
-   Inputs / focus
-   ========================================================================== */
-
-input,
-select,
-textarea {
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background-color 0.15s ease;
-}
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--c-primary) !important;
-  box-shadow: 0 0 0 3px rgba(20, 93, 160, 0.16);
-}
-.focus-tile:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(20, 93, 160, 0.22);
-}
-
-button,
-a {
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.15s ease;
-}
-
-/* ==========================================================================
-   Motion — restrained.
-   Reveal-on-scroll: single fade+lift.
-   No pulses, no shimmers, no infinite loops.
-   ========================================================================== */
-
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.rise-in {
-  opacity: 0;
-  animation: rise-in 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-}
-.rise-in.delay-1 {
-  animation-delay: 0.08s;
-}
-.rise-in.delay-2 {
-  animation-delay: 0.16s;
-}
-.rise-in.delay-3 {
-  animation-delay: 0.24s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-  .rise-in {
-    opacity: 1;
-  }
-}
-
-/* ==========================================================================
-   Scrollbar
-   ========================================================================== */
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #c2d5ea;
+  background: oklch(0.80 0.03 230);
   border-radius: 999px;
-  border: 2px solid var(--background);
+  border: 2px solid var(--parchment);
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--c-primary);
-}
+::-webkit-scrollbar-thumb:hover { background: var(--teal); }
 
 /* Range slider */
-input[type="range"] {
-  accent-color: var(--c-primary);
-}
+input[type="range"] { accent-color: var(--teal); }
 
-::selection {
-  background: rgba(20, 93, 160, 0.22);
-  color: var(--c-ink);
-}
+/* Selection */
+::selection { background: oklch(0.56 0.13 225 / 0.25); color: var(--ink); }
 
-/* ==========================================================================
-   Mobile refinements
-   ========================================================================== */
-
+/* Mobile refinements */
 @media (max-width: 767px) {
-  html {
-    font-size: 15.5px;
-  }
-  input,
-  select,
-  textarea {
-    font-size: 16px !important;
-  }
-  button,
-  a.button,
-  [role="button"] {
-    min-height: 44px;
-  }
-  .sea-hero {
-    padding-block: 6rem 3rem;
-  }
+  html { font-size: 15.5px; }
+  input, select, textarea { font-size: 16px !important; }
+  button, a.button, [role="button"] { min-height: 42px; }
+  .sea-hero::after { animation-duration: 12s; }
 }
