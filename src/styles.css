@@ -44,8 +44,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-serif: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --color-ink: var(--ink);
@@ -61,55 +61,54 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 
-  /* PREMIUM SEA palette — white first, deep navy, aqua accents. Zero yellow. */
-  --ink:            oklch(0.24 0.06 258);   /* deep navy */
-  --ink-soft:       oklch(0.40 0.07 250);   /* twilight blue */
-  --teal:           oklch(0.56 0.13 225);   /* rich ocean blue (primary) */
-  --parchment:      oklch(1 0 0);           /* pure white */
-  --parchment-line: oklch(0.94 0.008 240);  /* hair line */
+  /* MINIMAL палитра — почти монохромна, един спокоен accent, без декоративни градиенти. */
+  --ink: oklch(0.2 0.01 260); /* почти черен, лек студен нюанс */
+  --ink-soft: oklch(0.42 0.01 260); /* среден сив */
+  --teal: oklch(0.38 0.05 245); /* приглушено индиго — единствен accent (primary) */
+  --parchment: oklch(1 0 0); /* чисто бяло */
+  --parchment-line: oklch(0.91 0.002 260); /* тънка линия */
 
-  /* Was "gold" — remapped to soft aqua so all existing classes look premium, not yellow */
-  --gold:           oklch(0.72 0.10 205);   /* aqua accent */
-  --gold-soft:      oklch(0.90 0.045 210);  /* pale aqua */
+  --gold: oklch(0.38 0.05 245); /* съвпада с primary — без отделен "gold" акцент */
+  --gold-soft: oklch(0.95 0.004 260);
 
-  --coral:          oklch(0.66 0.16 30);    /* warm coral (CTA) */
-  --coral-dark:     oklch(0.54 0.16 28);
-  --coral-light:    oklch(0.83 0.09 40);
+  --coral: oklch(0.5 0.14 25); /* запазен само за грешки/предупреждения */
+  --coral-dark: oklch(0.42 0.14 25);
+  --coral-light: oklch(0.9 0.03 30);
 
-  --sea-50:  oklch(0.98 0.012 220);
-  --sea-100: oklch(0.955 0.02 220);
-  --sea-200: oklch(0.90 0.035 220);
-  --sea-500: oklch(0.56 0.13 225);
-  --sea-700: oklch(0.40 0.11 240);
-  --sea-900: oklch(0.24 0.06 258);
+  --sea-50: oklch(0.985 0.002 260);
+  --sea-100: oklch(0.965 0.004 260);
+  --sea-200: oklch(0.91 0.006 260);
+  --sea-500: oklch(0.55 0.03 250);
+  --sea-700: oklch(0.35 0.02 255);
+  --sea-900: oklch(0.2 0.01 260);
 
-  --background:     var(--parchment);
-  --foreground:     var(--ink);
-  --card:           oklch(1 0 0);
+  --background: var(--parchment);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
   --card-foreground: var(--ink);
-  --popover:        oklch(1 0 0);
+  --popover: oklch(1 0 0);
   --popover-foreground: var(--ink);
-  --primary:        var(--teal);
+  --primary: var(--teal);
   --primary-foreground: oklch(1 0 0);
-  --secondary:      var(--sea-100);
+  --secondary: var(--sea-100);
   --secondary-foreground: var(--ink);
-  --muted:          var(--sea-50);
-  --muted-foreground: oklch(0.50 0.03 240);
-  --accent:         var(--gold);
+  --muted: var(--sea-50);
+  --muted-foreground: oklch(0.48 0.01 260);
+  --accent: var(--sea-100);
   --accent-foreground: var(--ink);
-  --destructive:    var(--coral);
+  --destructive: var(--coral);
   --destructive-foreground: oklch(1 0 0);
-  --border:         var(--parchment-line);
-  --input:          var(--parchment-line);
-  --ring:           var(--teal);
+  --border: var(--parchment-line);
+  --input: var(--parchment-line);
+  --ring: var(--teal);
 
-  --chart-1: oklch(0.56 0.13 225);
-  --chart-2: oklch(0.72 0.10 205);
-  --chart-3: oklch(0.66 0.16 30);
-  --chart-4: oklch(0.40 0.07 250);
-  --chart-5: oklch(0.83 0.09 40);
+  --chart-1: oklch(0.38 0.05 245);
+  --chart-2: oklch(0.55 0.03 250);
+  --chart-3: oklch(0.5 0.14 25);
+  --chart-4: oklch(0.42 0.01 260);
+  --chart-5: oklch(0.7 0.02 250);
 
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: var(--ink);
@@ -120,28 +119,29 @@
   --sidebar-border: var(--parchment-line);
   --sidebar-ring: var(--teal);
 
-  /* Premium gradients & shadows */
-  --gradient-sea: linear-gradient(135deg,
-    oklch(0.22 0.07 258) 0%,
-    oklch(0.32 0.10 250) 40%,
-    oklch(0.44 0.13 225) 100%);
-  --gradient-aqua: linear-gradient(135deg, oklch(0.66 0.13 215) 0%, oklch(0.78 0.09 200) 100%);
-  --gradient-sunset: linear-gradient(135deg, oklch(0.66 0.16 30), oklch(0.75 0.14 45));
-  --gradient-glass: linear-gradient(180deg,
-    oklch(1 0 0 / 0.85) 0%,
-    oklch(1 0 0 / 0.65) 100%);
+  /* Без декоративни градиенти — плътни, тихи цветове */
+  --gradient-sea: var(--ink);
+  --gradient-aqua: var(--teal);
+  --gradient-sunset: var(--coral);
+  --gradient-glass: oklch(1 0 0);
 
-  --shadow-xs:   0 1px 2px oklch(0.24 0.06 258 / 0.05);
-  --shadow-sm:   0 2px 6px -1px oklch(0.24 0.06 258 / 0.08), 0 1px 2px oklch(0.24 0.06 258 / 0.05);
-  --shadow-md:   0 8px 20px -8px oklch(0.24 0.06 258 / 0.15), 0 3px 6px oklch(0.24 0.06 258 / 0.06);
-  --shadow-lg:   0 20px 48px -16px oklch(0.24 0.06 258 / 0.22), 0 8px 16px -8px oklch(0.24 0.06 258 / 0.10);
-  --shadow-glow: 0 0 0 1px oklch(0.56 0.13 225 / 0.15), 0 8px 30px -8px oklch(0.56 0.13 225 / 0.35);
+  /* Много фини сенки — почти плоски повърхности */
+  --shadow-xs: 0 1px 2px oklch(0.2 0.01 260 / 0.04);
+  --shadow-sm: 0 1px 3px oklch(0.2 0.01 260 / 0.06);
+  --shadow-md: 0 4px 10px -4px oklch(0.2 0.01 260 / 0.08);
+  --shadow-lg: 0 10px 24px -10px oklch(0.2 0.01 260 / 0.12);
+  --shadow-glow: 0 0 0 1px oklch(0.38 0.05 245 / 0.12);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
+  * {
+    border-color: var(--color-border);
+  }
 
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
 
   body {
     background: var(--parchment);
@@ -152,154 +152,134 @@
     letter-spacing: -0.005em;
   }
 
-  /* Ambient premium backdrop — very faint, mostly white */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(1200px 700px at 8% -10%, oklch(0.72 0.10 205 / 0.08), transparent 60%),
-      radial-gradient(900px 500px at 100% 10%, oklch(0.56 0.13 225 / 0.06), transparent 60%),
-      radial-gradient(1100px 600px at 50% 120%, oklch(0.66 0.16 30 / 0.05), transparent 60%);
-    z-index: 0;
+  /* Без ambient backdrop — чист бял фон */
+
+  main,
+  header,
+  section,
+  footer {
+    position: relative;
+    z-index: 1;
   }
 
-  main, header, section, footer { position: relative; z-index: 1; }
-
-  h1, h2, h3 { overflow-wrap: anywhere; letter-spacing: -0.02em; }
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: anywhere;
+    letter-spacing: -0.02em;
+  }
 }
 
-/* ==================== Premium building blocks ==================== */
+/* ==================== Минимални building blocks ==================== */
 
 .sea-hero {
-  background: var(--gradient-sea);
+  background: var(--ink);
   position: relative;
   overflow: hidden;
-  isolation: isolate;
 }
-.sea-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(700px 300px at 12% 0%, oklch(0.72 0.10 205 / 0.35), transparent 60%),
-    radial-gradient(900px 400px at 88% 110%, oklch(0.66 0.16 30 / 0.15), transparent 60%);
-  pointer-events: none;
-}
-/* Subtle animated shimmer sweep across the hero */
-.sea-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(115deg,
-    transparent 30%,
-    oklch(1 0 0 / 0.06) 48%,
-    oklch(1 0 0 / 0.12) 50%,
-    oklch(1 0 0 / 0.06) 52%,
-    transparent 70%);
-  transform: translateX(-100%);
-  animation: shimmer 9s ease-in-out 2s infinite;
-  pointer-events: none;
-}
-@keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  55%  { transform: translateX(100%); }
-  100% { transform: translateX(100%); }
-}
+/* Без декоративни ::before/::after, без shimmer анимация */
 
 /* Card variants */
 .card-elev {
   background: oklch(1 0 0);
   border: 1px solid var(--parchment-line);
-  border-radius: 14px;
-  box-shadow: var(--shadow-md);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
 }
 .card-flat {
   background: oklch(1 0 0);
   border: 1px solid var(--parchment-line);
-  border-radius: 10px;
+  border-radius: 8px;
 }
 .glass {
-  background: var(--gradient-glass);
-  backdrop-filter: blur(14px) saturate(1.15);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
-  border: 1px solid oklch(1 0 0 / 0.6);
+  background: oklch(1 0 0 / 0.9);
+  border: 1px solid var(--parchment-line);
   box-shadow: var(--shadow-sm);
 }
 
-/* Section separator with faint wave */
+/* Section separator — тънка линия вместо wave */
 .wave-divider {
-  height: 24px;
-  background: linear-gradient(180deg, transparent, var(--sea-50));
+  height: 1px;
+  background: var(--parchment-line);
 }
 
-/* Buttons — premium interaction */
+/* Buttons — тихи, без blur/glow, само лек hover */
 .btn-primary {
-  background: var(--gradient-aqua);
+  background: var(--teal);
   color: oklch(1 0 0);
-  border: 1px solid oklch(0.56 0.13 225 / 0.35);
-  box-shadow: var(--shadow-glow);
-  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+  border: 1px solid var(--teal);
+  box-shadow: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
-.btn-primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:hover {
+  background: oklch(0.32 0.05 245);
+}
+.btn-primary:active {
+  background: oklch(0.28 0.05 245);
+}
 
 .btn-cta {
-  background: var(--gradient-sunset);
+  background: var(--ink);
   color: oklch(1 0 0);
-  border: 1px solid oklch(0.66 0.16 30 / 0.35);
-  box-shadow: 0 10px 30px -10px oklch(0.66 0.16 30 / 0.6);
-  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
+  border: 1px solid var(--ink);
+  box-shadow: none;
+  transition: background-color 0.15s ease;
 }
-.btn-cta:hover { filter: brightness(1.05); transform: translateY(-1px); }
-.btn-cta:active { transform: translateY(0); }
+.btn-cta:hover {
+  background: oklch(0.28 0.01 260);
+}
+.btn-cta:active {
+  background: var(--ink);
+}
 
-button, a { transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .15s ease; }
+button,
+a {
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
 
 /* Inputs */
-input, select, textarea {
-  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+input,
+select,
+textarea {
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border-color: var(--teal) !important;
-  box-shadow: 0 0 0 3px oklch(0.56 0.13 225 / 0.18);
+  box-shadow: 0 0 0 2px oklch(0.38 0.05 245 / 0.15);
 }
 
-/* Fancy focus ring on interactive tiles */
 .focus-tile:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px oklch(0.56 0.13 225 / 0.25);
+  box-shadow: 0 0 0 2px oklch(0.38 0.05 245 / 0.2);
 }
 
-/* Reveal / entrance */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.rise-in { animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
-
-/* Float animation for pins */
-@keyframes float-y {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
+/* Без rise/float декоративни анимации — статични елементи за спокоен, професионален вид */
+.rise-in {
+  opacity: 1;
 }
 
-/* ==================== Palm-tree map pin ==================== */
+/* ==================== Map pin (опростен, без float анимация) ==================== */
 .palm-pin {
-  width: 38px;
-  height: 42px;
+  width: 34px;
+  height: 38px;
   display: block;
   position: relative;
-  filter: drop-shadow(0 4px 6px oklch(0.24 0.06 258 / 0.35));
-  animation: float-y 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 2px 3px oklch(0.2 0.01 260 / 0.25));
   cursor: pointer;
-  transition: transform .18s ease, filter .18s ease;
+  transition: transform 0.15s ease;
 }
 .palm-pin:hover {
-  transform: scale(1.18);
-  filter: drop-shadow(0 8px 12px oklch(0.24 0.06 258 / 0.5));
+  transform: scale(1.1);
 }
 .palm-pin img {
   width: 100%;
@@ -311,14 +291,16 @@ input:focus, select:focus, textarea:focus {
   pointer-events: none;
 }
 
-
-/* ==================== Leaflet polish ==================== */
-.leaflet-container { background: oklch(0.95 0.02 220) !important; font-family: var(--font-sans) !important; }
+/* ==================== Leaflet — чист, без сенчести преходи ==================== */
+.leaflet-container {
+  background: var(--sea-50) !important;
+  font-family: var(--font-sans) !important;
+}
 .leaflet-popup-content-wrapper {
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   background: oklch(1 0 0) !important;
   color: var(--ink) !important;
-  box-shadow: var(--shadow-lg) !important;
+  box-shadow: var(--shadow-md) !important;
   border: 1px solid var(--parchment-line) !important;
 }
 .leaflet-popup-content {
@@ -329,35 +311,61 @@ input:focus, select:focus, textarea:focus {
   margin: 10px 14px !important;
   color: var(--ink) !important;
 }
-.leaflet-popup-tip { background: oklch(1 0 0) !important; box-shadow: var(--shadow-sm) !important; }
+.leaflet-popup-tip {
+  background: oklch(1 0 0) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
 .leaflet-control-zoom a {
   background: oklch(1 0 0) !important;
   color: var(--ink) !important;
   border: 1px solid var(--parchment-line) !important;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-xs);
 }
-.leaflet-control-zoom a:hover { background: var(--sea-50) !important; }
+.leaflet-control-zoom a:hover {
+  background: var(--sea-50) !important;
+}
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.80 0.03 230);
+  background: oklch(0.85 0.005 260);
   border-radius: 999px;
   border: 2px solid var(--parchment);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--teal); }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-soft);
+}
 
 /* Range slider */
-input[type="range"] { accent-color: var(--teal); }
+input[type="range"] {
+  accent-color: var(--teal);
+}
 
 /* Selection */
-::selection { background: oklch(0.56 0.13 225 / 0.25); color: var(--ink); }
+::selection {
+  background: oklch(0.38 0.05 245 / 0.18);
+  color: var(--ink);
+}
 
 /* Mobile refinements */
 @media (max-width: 767px) {
-  html { font-size: 15.5px; }
-  input, select, textarea { font-size: 16px !important; }
-  button, a.button, [role="button"] { min-height: 42px; }
-  .sea-hero::after { animation-duration: 12s; }
+  html {
+    font-size: 15.5px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  button,
+  a.button,
+  [role="button"] {
+    min-height: 42px;
+  }
 }
