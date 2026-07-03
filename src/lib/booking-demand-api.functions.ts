@@ -1,4 +1,5 @@
 // Server functions обвиващи Booking Demand API.
+type JsonValue = string | number | boolean | null | JsonValue[] | { [k: string]: JsonValue };
 // Извикват се от компоненти чрез useServerFn или директно от loaders.
 
 import { createServerFn } from "@tanstack/react-start";
@@ -43,7 +44,7 @@ export const searchBookingAccommodations = createServerFn({ method: "POST" })
       currency: data.currency,
       extras: ["extra_charges", "products"],
     };
-    return (await searchAccommodations(body)) as Record<string, unknown>;
+    return (await searchAccommodations(body)) as JsonValue;
   });
 
 // -------- Accommodation details --------
@@ -57,7 +58,7 @@ export const getBookingAccommodationDetails = createServerFn({ method: "POST" })
       })
       .parse(input),
   )
-  .handler(async ({ data }) => (await getAccommodationDetails(data)) as Record<string, unknown>);
+  .handler(async ({ data }) => (await getAccommodationDetails(data)) as JsonValue);
 
 // -------- Cars --------
 
@@ -86,7 +87,7 @@ export const searchBookingCars = createServerFn({ method: "POST" })
       driver: { age: data.driverAge, country: data.driverCountry },
       currency: data.currency,
     };
-    return (await searchCars(body)) as Record<string, unknown>;
+    return (await searchCars(body)) as JsonValue;
   });
 
 // -------- Locations helper --------
@@ -95,4 +96,4 @@ export const findBookingCity = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
     z.object({ name: z.string().min(2), country: z.string().length(2).optional() }).parse(input),
   )
-  .handler(async ({ data }) => (await findCities(data)) as Record<string, unknown>);
+  .handler(async ({ data }) => (await findCities(data)) as JsonValue);
