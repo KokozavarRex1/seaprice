@@ -263,7 +263,7 @@ function Index() {
           <div className="hidden sm:flex gap-6 font-mono text-[11.5px] text-parchment/70 tracking-wide">
             <span>Курорти: <b className="text-gold-soft font-medium">9</b></span>
             <span>Държави: <b className="text-gold-soft font-medium">3</b></span>
-            <span>Обновено: <b className="text-gold-soft font-medium">03.07.2026</b></span>
+            <span>Обновено: <b className="text-gold-soft font-medium">{today.toLocaleDateString("bg-BG", { day: "2-digit", month: "2-digit", year: "numeric" })}</b></span>
           </div>
           <div className="flex sm:hidden font-mono text-[10px] text-parchment/70 tracking-wide items-center">
             <span className="px-2 py-1 rounded-full border border-gold/40 bg-ink/30"><b className="text-gold-soft">9</b> курорта</span>
