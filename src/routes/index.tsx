@@ -449,7 +449,7 @@ function ResortPanel({
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-0.5 px-6 sm:px-8 border-b border-parchment-line bg-[#F5EFDF]">
+      <div className="flex flex-wrap gap-0.5 px-6 sm:px-8 border-b border-parchment-line bg-[oklch(0.97_0.015_220)]">
         {tabs.map((t) => (
           <button
             key={t.key}
