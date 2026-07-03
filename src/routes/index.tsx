@@ -91,7 +91,7 @@ function Index() {
       const pinIcon = () =>
         L.divIcon({
           className: "",
-          html: `<div class="palm-pin"><img src="${palmAsset.url}" alt="" draggable="false"/></div>`,
+          html: `<div class="palm-pin"><img src="${palm2Asset.url}" alt="" draggable="false"/></div>`,
           iconSize: [38, 42],
           iconAnchor: [19, 40],
           popupAnchor: [0, -36],
