@@ -574,23 +574,24 @@ function ResortPanel({
               </div>
             )}
           </div>
-        ) : (
+        ) : activeTab === "restaurants" ? (
           <div>
-            {(resort[activeTab as keyof typeof resort] as { name: string; price: number; meta: string }[]).map(
-              (item, i) => (
-                <div key={i} className="flex justify-between items-center py-3.5 border-b border-parchment-line last:border-b-0">
-                  <div>
-                    <div className="font-medium text-[14.5px]">{item.name}</div>
-                    <div className="text-[12px] text-muted-foreground mt-0.5">{item.meta}</div>
-                  </div>
-                  <div className="font-mono text-base font-medium text-ink whitespace-nowrap pl-3.5">
-                    {fmt(item.price)}<span className="text-[11px] text-muted-foreground ml-0.5">€</span>
-                  </div>
+            <div className="font-mono text-[10.5px] text-muted-foreground pt-3 pb-2 leading-relaxed">
+              Средни цени на човек за едно основно ястие + напитка. По-долу в калкулатора може да разпределите дни за всяко ниво.
+            </div>
+            {(Object.keys(resort.dining) as (keyof DiningTiers)[]).map((tier) => (
+              <div key={tier} className="flex justify-between items-start py-3.5 border-b border-parchment-line last:border-b-0">
+                <div>
+                  <div className="font-medium text-[14.5px]">{diningTierLabels[tier]}</div>
+                  <div className="text-[12px] text-muted-foreground mt-0.5">{diningTierDescriptions[tier]}</div>
                 </div>
-              )
-            )}
+                <div className="font-mono text-base font-medium text-ink whitespace-nowrap pl-3.5 pt-1">
+                  {fmt(resort.dining[tier])}<span className="text-[11px] text-muted-foreground ml-0.5">€/чов.</span>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
+        ) : null}
       </div>
 
       {/* Calculator */}
