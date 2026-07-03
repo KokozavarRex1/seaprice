@@ -95,6 +95,24 @@ export const resorts: Resort[] = [
           "https://cf.bstatic.com/xdata/images/hotel/max1024x768/150382873.jpg",
         ],
       },
+      {
+        name: "Imperial Palace Hotel",
+        price: 95,
+        meta: "4★ · закуска включена · на плажа",
+        board: "breakfast",
+        stars: 4,
+        bookingUrl:
+          "https://www.booking.com/hotel/bg/victoria-palace-sunny-beach.bg.html?aid=2311236&label=bg-bg-booking-desktop-bU08anLY8k2xF1ChP%2Aw6RAS652796015184%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-65526620%3Alp1001462%3Ali%3Adec%3Adm-Share-Eipho7%401783060290-Share-BvGdX8u%401783060367&sid=5773d5064d3a36c86d5ec231b21959af&dest_id=900039405&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1783060482&srpvid=7ab62e0a85720111&type=total&ucfs=1&",
+        description:
+          "Imperial Palace Hotel се намира само на 30 м от плажа в Слънчев бряг и предлага релакс зона с масажи, сауна и турска баня. Всички стаи са с климатик, кабелна телевизия и балкон, като повечето разкриват гледка към Черно море. Комплексът разполага с открит басейн с безплатни шезлонги и чадъри, ресторант с национална и международна кухня и 5 бара. Старият град на Несебър е на около 7 км.",
+        images: [
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816844.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816853.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816860.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816869.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213843516.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/150382873.jpg",
+      }
     ],
     taxi: [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
