@@ -834,29 +834,58 @@ function ResortPanel({
             </>
             )}
           </div>
-          <div>
-            <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Излизания на ресторант на ден
-            </label>
-            <input
-              type="number"
-              min={0}
-              max={3}
-              value={calcExtraMeals}
-              onChange={(e) => setCalcExtraMeals(parseFloat(e.target.value) || 0)}
-              className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 focus:outline-none focus:border-gold"
-            />
-          </div>
-          <div>
-            <label className="block font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground mb-1">
-              Ресторант / човек (фиксирана)
-            </label>
-            <div className="w-full font-sans text-sm text-ink bg-parchment border border-parchment-line px-2.5 py-2 flex items-center justify-between">
-              <span>{fmt(resort.avgMealEUR)}€</span>
-              <span className="font-mono text-[10.5px] tracking-wider uppercase text-muted-foreground">
-                фиксирана
+          <div className="sm:col-span-2">
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="font-mono text-[10.5px] tracking-wide uppercase text-muted-foreground">
+                Ресторанти — колко дни на всяко ниво (на човек)
+              </label>
+              <span className={`font-mono text-[10.5px] tracking-wider uppercase ${mealDaysOverflow ? "text-coral-dark" : "text-muted-foreground"}`}>
+                общо {mealDays.fastFood + mealDays.midRange + mealDays.fineDining} / {calcNights} дни
               </span>
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {(Object.keys(resort.dining) as (keyof DiningTiers)[]).map((tier) => (
+                <div key={tier} className="border border-parchment-line bg-parchment p-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium text-[12.5px] text-ink">{diningTierLabels[tier]}</div>
+                    <div className="font-mono text-[11px] text-teal">{fmt(resort.dining[tier])}€/чов.</div>
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-2">
+                    <button
+                      type="button"
+                      onClick={() => setMealDays((p) => ({ ...p, [tier]: Math.max(0, p[tier] - 1) }))}
+                      className="w-7 h-7 border border-parchment-line font-mono text-sm hover:border-gold cursor-pointer"
+                      aria-label="намали"
+                    >−</button>
+                    <input
+                      type="number"
+                      min={0}
+                      max={calcNights}
+                      value={mealDays[tier]}
+                      onChange={(e) => {
+                        const v = Math.max(0, Math.min(calcNights, parseInt(e.target.value) || 0));
+                        setMealDays((p) => ({ ...p, [tier]: v }));
+                      }}
+                      className="flex-1 min-w-0 text-center font-sans text-sm text-ink bg-parchment border border-parchment-line px-1 py-1 focus:outline-none focus:border-gold"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setMealDays((p) => ({ ...p, [tier]: Math.min(calcNights, p[tier] + 1) }))}
+                      className="w-7 h-7 border border-parchment-line font-mono text-sm hover:border-gold cursor-pointer"
+                      aria-label="увеличи"
+                    >+</button>
+                  </div>
+                  <div className="font-mono text-[10px] text-muted-foreground mt-1.5">
+                    = {fmt(mealDays[tier] * resort.dining[tier])}€ / чов.
+                  </div>
+                </div>
+              ))}
+            </div>
+            {mealDaysOverflow && (
+              <div className="mt-1.5 font-mono text-[10.5px] text-coral-dark">
+                Сумата на дните надвишава {calcNights} нощувки — калкулаторът пак ще смята, но проверете разпределението.
+              </div>
+            )}
           </div>
         </div>
 
@@ -864,8 +893,7 @@ function ResortPanel({
           <div className="mt-2.5 p-2.5 bg-parchment border border-parchment-line border-l-[3px] border-l-gold text-[12.5px] text-ink-soft">
             <b>{boardLabels[hotel.board] || "Без данни за хранене"}</b>
             <br />
-            Хотелът покрива {covered} от 3 хранения на ден. Останалите{" "}
-            {Math.max(0, 3 - covered)} по подразбиране са сметнати като излизане навън — може да промените числото по-горе.
+            Хотелът покрива {covered} от 3 хранения на ден. Ресторантите отгоре са допълнителни излизания навън.
           </div>
         )}
 
