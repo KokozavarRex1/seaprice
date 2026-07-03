@@ -259,8 +259,9 @@ input:focus, select:focus, textarea:focus {
     min-height: 40px;
   }
 
-  /* Tighter section paddings */
-  .max-w-\[1280px\] { padding-left: 0 !important; padding-right: 0 !important; }
+  /* Ensure fluid text wrapping on narrow screens */
+  h1, h2, h3 { overflow-wrap: anywhere; }
+
 }
 
 /* Nice range slider tint */
