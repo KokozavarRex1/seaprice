@@ -286,7 +286,7 @@ function Index() {
         </div>
 
         {/* Panel */}
-        <div className="overflow-y-auto max-h-[680px] bg-parchment">
+        <div className="overflow-y-auto lg:max-h-[680px] bg-parchment">
           {!currentResort ? (
             <div className="px-8 sm:px-10 py-16 text-center">
               <div className="font-mono text-[11px] tracking-[1.8px] uppercase text-coral-dark font-medium">
