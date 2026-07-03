@@ -35,7 +35,7 @@ export function loadBookingCredentials(): BookingCredentials {
 
 export async function bookingRequest<T = unknown>(
   path: string,
-  body: Record<string, unknown>,
+  body: unknown,
   creds?: BookingCredentials,
 ): Promise<T> {
   const c = creds ?? loadBookingCredentials();
