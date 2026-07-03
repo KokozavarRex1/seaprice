@@ -17,6 +17,7 @@ import {
 import { AIPlanner } from "@/components/AIPlanner";
 import { getBookingRooms, type BookingRoomsResult } from "@/lib/booking-price.functions";
 import palm2Asset from "@/assets/palm2.png.asset.json";
+import logoAsset from "@/assets/seaprice-logo.png.asset.json";
 
 
 export const Route = createFileRoute("/")({
