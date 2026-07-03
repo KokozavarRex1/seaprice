@@ -50,6 +50,13 @@ function Index() {
   const [manualPriceMode, setManualPriceMode] = useState(false);
   const [manualPriceTotal, setManualPriceTotal] = useState<string>("");
 
+  // Дни на ресторант по нива (на човек, за целия престой)
+  const [mealDays, setMealDays] = useState<Record<keyof DiningTiers, number>>({
+    fastFood: 2,
+    midRange: 2,
+    fineDining: 0,
+  });
+
   const calcNights = Math.max(
     1,
     Math.round(
