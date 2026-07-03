@@ -326,8 +326,9 @@ function Index() {
               setCalcHotelIdx={setCalcHotelIdx}
               calcPeople={calcPeople}
               setCalcPeople={setCalcPeople}
-              calcExtraMeals={calcExtraMeals}
-              setCalcExtraMeals={setCalcExtraMeals}
+              mealDays={mealDays}
+              setMealDays={setMealDays}
+              mealDaysOverflow={mealDaysOverflow}
               showResult={showResult}
               budget={budget}
               onCalc={handleCalc}
