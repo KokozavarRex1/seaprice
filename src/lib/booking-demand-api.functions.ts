@@ -43,7 +43,7 @@ export const searchBookingAccommodations = createServerFn({ method: "POST" })
       currency: data.currency,
       extras: ["extra_charges", "products"],
     };
-    return searchAccommodations(body);
+    return (await searchAccommodations(body)) as Record<string, unknown>;
   });
 
 // -------- Accommodation details --------
@@ -57,7 +57,7 @@ export const getBookingAccommodationDetails = createServerFn({ method: "POST" })
       })
       .parse(input),
   )
-  .handler(async ({ data }) => getAccommodationDetails(data));
+  .handler(async ({ data }) => (await getAccommodationDetails(data)) as Record<string, unknown>);
 
 // -------- Cars --------
 
@@ -86,7 +86,7 @@ export const searchBookingCars = createServerFn({ method: "POST" })
       driver: { age: data.driverAge, country: data.driverCountry },
       currency: data.currency,
     };
-    return searchCars(body);
+    return (await searchCars(body)) as Record<string, unknown>;
   });
 
 // -------- Locations helper --------
@@ -95,4 +95,4 @@ export const findBookingCity = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
     z.object({ name: z.string().min(2), country: z.string().length(2).optional() }).parse(input),
   )
-  .handler(async ({ data }) => findCities(data));
+  .handler(async ({ data }) => (await findCities(data)) as Record<string, unknown>);
