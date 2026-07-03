@@ -43,7 +43,7 @@ function Index() {
   const [calcCheckout, setCalcCheckout] = useState(defaultCheckout);
   const [calcHotelIdx, setCalcHotelIdx] = useState(0);
   const [calcPeople, setCalcPeople] = useState(2);
-  const [calcExtraMeals, setCalcExtraMeals] = useState(2);
+  
   const [roomsResult, setRoomsResult] = useState<BookingRoomsResult | null>(null);
   const [selectedRoomIdx, setSelectedRoomIdx] = useState<number>(0);
   const [checkingPrice, setCheckingPrice] = useState(false);
