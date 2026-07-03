@@ -76,6 +76,24 @@ export const resorts: Resort[] = [
           "https://cf.bstatic.com/xdata/images/hotel/max1024x768/316864570.jpg?k=340a9318158d2dded4307a53e23803c44249596c1de2cbd88a7892cf628a7b73&o=",
         ],
       },
+      {
+        name: "Victoria Palace Hotel",
+        price: 95,
+        meta: "4★ · закуска включена · на плажа",
+        board: "breakfast",
+        stars: 4,
+        bookingUrl: "https://www.booking.com/hotel/bg/victoria-palace-sunny-beach.html",
+        description:
+          "Victoria Palace Hotel се намира само на 30 м от плажа в Слънчев бряг и предлага релакс зона с масажи, сауна и турска баня. Всички стаи са с климатик, кабелна телевизия и балкон, като повечето разкриват гледка към Черно море. Комплексът разполага с открит басейн с безплатни шезлонги и чадъри, ресторант с национална и международна кухня и 5 бара. Старият град на Несебър е на около 7 км.",
+        images: [
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816844.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816853.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816860.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213816869.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/213843516.jpg",
+          "https://cf.bstatic.com/xdata/images/hotel/max1024x768/150382873.jpg",
+        ],
+      },
     ],
     taxi: [
       { name: "Старт", price: 2.5, meta: "такса пуск" },
