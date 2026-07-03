@@ -5,11 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-2xl: calc(var(--radius) + 12px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -48,6 +48,7 @@
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
+  /* Semantic tokens (remapped to Sea / Relax palette) */
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-teal: var(--teal);
@@ -57,52 +58,65 @@
   --color-gold-soft: var(--gold-soft);
   --color-coral: var(--coral);
   --color-coral-dark: var(--coral-dark);
+  --color-coral-light: var(--coral-light);
 }
 
 :root {
-  --radius: 0.125rem;
-  --background: oklch(0.977 0.013 86.9);
-  --foreground: oklch(0.266 0.033 208.3);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.266 0.033 208.3);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.266 0.033 208.3);
-  --primary: oklch(0.432 0.067 192.2);
-  --primary-foreground: oklch(0.977 0.013 86.9);
-  --secondary: oklch(0.905 0.028 88.8);
-  --secondary-foreground: oklch(0.266 0.033 208.3);
-  --muted: oklch(0.905 0.028 88.8);
-  --muted-foreground: oklch(0.567 0.017 186.5);
-  --accent: oklch(0.797 0.092 83.9);
-  --accent-foreground: oklch(0.266 0.033 208.3);
-  --destructive: oklch(0.609 0.161 34.7);
-  --destructive-foreground: oklch(0.977 0.013 86.9);
-  --border: oklch(0.905 0.028 88.8);
-  --input: oklch(0.905 0.028 88.8);
-  --ring: oklch(0.664 0.109 76.8);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --radius: 0.5rem;
 
-  --ink: oklch(0.266 0.033 208.3);
-  --ink-soft: oklch(0.340 0.040 205.6);
-  --teal: oklch(0.432 0.067 192.2);
-  --parchment: oklch(0.977 0.013 86.9);
-  --parchment-line: oklch(0.905 0.028 88.8);
-  --gold: oklch(0.664 0.109 76.8);
-  --gold-soft: oklch(0.797 0.092 83.9);
-  --coral: oklch(0.609 0.161 34.7);
-  --coral-dark: oklch(0.510 0.144 34.3);
+  /* SEA / RELAX palette — deep ocean, foam, sunset coral */
+  --ink:            oklch(0.28 0.07 245);   /* deep ocean navy */
+  --ink-soft:       oklch(0.42 0.08 235);   /* twilight blue */
+  --teal:           oklch(0.58 0.11 220);   /* sea blue primary */
+  --parchment:      oklch(0.985 0.012 220); /* sea foam */
+  --parchment-line: oklch(0.90 0.028 220);  /* mist */
+  --gold:           oklch(0.72 0.13 210);   /* sky accent */
+  --gold-soft:      oklch(0.86 0.07 210);   /* pale sky */
+  --coral:          oklch(0.68 0.16 35);    /* sunset coral (CTA) */
+  --coral-dark:     oklch(0.56 0.16 32);    /* deep sunset */
+  --coral-light:    oklch(0.82 0.10 40);    /* soft sunset glow */
+
+  --background:     var(--parchment);
+  --foreground:     var(--ink);
+  --card:           oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover:        oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary:        var(--teal);
+  --primary-foreground: var(--parchment);
+  --secondary:      var(--gold-soft);
+  --secondary-foreground: var(--ink);
+  --muted:          oklch(0.94 0.02 220);
+  --muted-foreground: oklch(0.50 0.04 230);
+  --accent:         var(--gold);
+  --accent-foreground: var(--ink);
+  --destructive:    var(--coral);
+  --destructive-foreground: var(--parchment);
+  --border:         var(--parchment-line);
+  --input:          var(--parchment-line);
+  --ring:           var(--teal);
+
+  --chart-1: oklch(0.58 0.11 220);
+  --chart-2: oklch(0.72 0.13 210);
+  --chart-3: oklch(0.68 0.16 35);
+  --chart-4: oklch(0.42 0.08 235);
+  --chart-5: oklch(0.82 0.10 40);
+
+  --sidebar: var(--parchment);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--teal);
+  --sidebar-primary-foreground: var(--parchment);
+  --sidebar-accent: var(--gold-soft);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--parchment-line);
+  --sidebar-ring: var(--teal);
+
+  /* Custom gradients & shadows */
+  --gradient-sea: linear-gradient(135deg, oklch(0.28 0.07 245) 0%, oklch(0.38 0.09 225) 55%, oklch(0.52 0.11 210) 100%);
+  --gradient-horizon: linear-gradient(180deg, oklch(0.985 0.012 220) 0%, oklch(0.94 0.03 215) 100%);
+  --gradient-sunset: linear-gradient(135deg, oklch(0.68 0.16 35), oklch(0.78 0.13 55));
+  --shadow-soft: 0 1px 2px oklch(0.28 0.07 245 / 0.06), 0 8px 24px -12px oklch(0.28 0.07 245 / 0.18);
+  --shadow-elev: 0 4px 12px -4px oklch(0.28 0.07 245 / 0.18), 0 24px 48px -18px oklch(0.28 0.07 245 / 0.25);
 }
 
 @layer base {
@@ -110,61 +124,146 @@
     border-color: var(--color-border);
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-horizon) fixed;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle wave texture behind everything */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1200px 600px at 10% -10%, oklch(0.72 0.13 210 / 0.10), transparent 60%),
+      radial-gradient(900px 500px at 100% 110%, oklch(0.58 0.11 220 / 0.08), transparent 60%);
+    z-index: 0;
+  }
+
+  main, header, section, footer {
+    position: relative;
+    z-index: 1;
   }
 }
 
-/* App-specific styles */
+/* ================== Sea-themed reusable bits ================== */
+
+/* Deep ocean gradient — apply on hero/header */
+.sea-hero {
+  background: var(--gradient-sea);
+  position: relative;
+  overflow: hidden;
+}
+.sea-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(600px 260px at 15% 0%, oklch(0.72 0.13 210 / 0.35), transparent 60%),
+    radial-gradient(800px 300px at 85% 100%, oklch(0.68 0.16 35 / 0.18), transparent 60%);
+  pointer-events: none;
+}
+
+/* Elevated card look for panels */
+.card-elev {
+  background: color-mix(in oklab, white 88%, var(--parchment));
+  border: 1px solid var(--parchment-line);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: saturate(1.05);
+}
+
+/* Frosted glass for overlays */
+.glass {
+  background: color-mix(in oklab, white 72%, transparent);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border: 1px solid color-mix(in oklab, white 40%, var(--parchment-line));
+}
+
+/* CTA polish */
+button, a {
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+
+/* Inputs get a soft focus ring */
+input:focus, select:focus, textarea:focus {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--teal) 25%, transparent);
+}
+
+/* Map pin — sea-themed compass */
 .compass-pin {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: 2px solid var(--gold);
   border-radius: 50%;
   background: var(--ink);
   position: relative;
+  box-shadow: 0 0 0 3px oklch(0.28 0.07 245 / 0.25), 0 4px 10px oklch(0.28 0.07 245 / 0.4);
 }
-
 .compass-pin::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   background: var(--coral);
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px var(--coral);
 }
 
+/* Leaflet popup restyle */
 .leaflet-popup-content-wrapper {
-  border-radius: 2px !important;
+  border-radius: 10px !important;
   background: var(--ink) !important;
   color: var(--parchment) !important;
+  box-shadow: var(--shadow-elev) !important;
 }
-
 .leaflet-popup-content {
   font-family: var(--font-mono) !important;
   font-size: 12px !important;
   letter-spacing: 0.3px !important;
-  margin: 8px 12px !important;
+  margin: 10px 14px !important;
 }
+.leaflet-popup-tip { background: var(--ink) !important; }
 
-.leaflet-popup-tip {
-  background: var(--ink) !important;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--parchment);
-}
-
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
 ::-webkit-scrollbar-thumb {
-  background: var(--parchment-line);
+  background: linear-gradient(var(--gold-soft), var(--teal));
+  border-radius: 999px;
+  border: 2px solid var(--parchment);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--teal); }
+
+/* ==================  Mobile optimizations  ================== */
+@media (max-width: 767px) {
+  html { font-size: 15px; }
+
+  input, select, textarea {
+    font-size: 16px !important; /* prevent iOS zoom on focus */
+  }
+
+  /* Wider tap targets on mobile */
+  button, a.button, [role="button"] {
+    min-height: 40px;
+  }
+
+  /* Tighter section paddings */
+  .max-w-\[1280px\] { padding-left: 0 !important; padding-right: 0 !important; }
+}
+
+/* Nice range slider tint */
+input[type="range"] {
+  accent-color: var(--teal);
 }
