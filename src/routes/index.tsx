@@ -83,23 +83,48 @@ function Index() {
 
       const tilePane = map.getPane("tilePane");
       if (tilePane) {
-        tilePane.style.filter = "grayscale(0.35) sepia(0.15) brightness(0.9) contrast(1.05)";
+        tilePane.style.filter = "saturate(0.85) brightness(1.02) contrast(1.03)";
       }
+
+      const palmSvg = `
+<svg viewBox="0 0 34 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="trunk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B5A2B"/>
+      <stop offset="100%" stop-color="#5C3A1E"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4CAF50"/>
+      <stop offset="60%" stop-color="#2E7D32"/>
+      <stop offset="100%" stop-color="#1B5E20"/>
+    </linearGradient>
+    <radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#0B2942" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0B2942" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="17" cy="40" rx="8" ry="2" fill="url(#shadow)"/>
+  <path d="M16.2 40 C16 32 15.6 22 16.4 14 L17.6 14 C18.4 22 18 32 17.8 40 Z" fill="url(#trunk)"/>
+  <path d="M17 14 C11 12 6 9 3 5 C7 6 12 8 15 11 C13 8 11 5 8 3 C12 4 15 7 17 11 C19 7 22 4 26 3 C23 5 21 8 19 11 C22 8 27 6 31 5 C28 9 23 12 17 14 Z" fill="url(#leaf)"/>
+  <circle cx="17" cy="13.5" r="1.6" fill="#8B5A2B"/>
+</svg>`.trim();
 
       const pinIcon = () =>
         L.divIcon({
           className: "",
-          html: '<div class="compass-pin"></div>',
-          iconSize: [16, 16],
-          iconAnchor: [8, 8],
+          html: `<div class="palm-pin">${palmSvg}</div>`,
+          iconSize: [34, 42],
+          iconAnchor: [17, 40],
+          popupAnchor: [0, -36],
         });
 
       resorts.forEach((r) => {
         const marker = L.marker([r.lat, r.lng], { icon: pinIcon() }).addTo(map);
-        marker.bindTooltip(r.name, { direction: "top", offset: [0, -10] });
+        marker.bindTooltip(r.name, { direction: "top", offset: [0, -32] });
         marker.on("click", () => setSelectedId(r.id));
         markersRef.current[r.id] = marker;
       });
+
 
       mapRef.current = map;
       setMapReady(true);
